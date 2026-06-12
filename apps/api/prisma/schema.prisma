@@ -1,0 +1,85 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  passwordHash String
+  refreshToken String?
+  wallet       Wallet?
+  transactions Transaction[]
+  createdAt    DateTime      @default(now())
+}
+
+model Wallet {
+  id       String          @id @default(cuid())
+  userId   String          @unique
+  user     User            @relation(fields: [userId], references: [id])
+  balances WalletBalance[]
+}
+
+model WalletBalance {
+  id            String        @id @default(cuid())
+  walletId      String
+  wallet        Wallet        @relation(fields: [walletId], references: [id])
+  token         TokenSymbol
+  amount        Decimal       @default(0) @db.Decimal(36, 18)
+  ledgerEntries LedgerEntry[]
+
+  @@unique([walletId, token])
+}
+
+model LedgerEntry {
+  id              String          @id @default(cuid())
+  walletBalanceId String
+  walletBalance   WalletBalance   @relation(fields: [walletBalanceId], references: [id])
+  type            LedgerEntryType
+  delta           Decimal         @db.Decimal(36, 18)
+  balanceBefore   Decimal         @db.Decimal(36, 18)
+  balanceAfter    Decimal         @db.Decimal(36, 18)
+  transactionId   String?
+  transaction     Transaction?    @relation(fields: [transactionId], references: [id])
+  createdAt       DateTime        @default(now())
+}
+
+model Transaction {
+  id             String          @id @default(cuid())
+  userId         String
+  user           User            @relation(fields: [userId], references: [id])
+  type           TransactionType
+  fromToken      TokenSymbol?
+  toToken        TokenSymbol?
+  fromAmount     Decimal?        @db.Decimal(36, 18)
+  toAmount       Decimal?        @db.Decimal(36, 18)
+  feeAmount      Decimal?        @db.Decimal(36, 18)
+  rate           Decimal?        @db.Decimal(36, 18)
+  idempotencyKey String?         @unique
+  ledgerEntries  LedgerEntry[]
+  createdAt      DateTime        @default(now())
+}
+
+enum TokenSymbol {
+  BRL
+  BTC
+  ETH
+}
+
+enum LedgerEntryType {
+  DEPOSIT
+  SWAP_IN
+  SWAP_OUT
+  SWAP_FEE
+  WITHDRAWAL
+}
+
+enum TransactionType {
+  DEPOSIT
+  SWAP
+  WITHDRAWAL
+}

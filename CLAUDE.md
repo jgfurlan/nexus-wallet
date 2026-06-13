@@ -14,6 +14,7 @@ Before ANY action, verify context against these sources in order:
 | Code Standards & RLVR | `docs/guidelines/code-standards.md` |
 | Current Roadmap | `docs/guidelines/progress-tracker.md` |
 | UX/UI Principles | `docs/guidelines/ui-context.md` |
+| Architectural Decisions (ADR) | `docs/decisions/README.md` |
 
 ## Operational Mandates
 

@@ -6,6 +6,7 @@ import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fast
 import { healthRoutes } from './modules/health/health.routes';
 import { authRoutes } from './modules/auth/auth.routes';
 import { walletRoutes } from './modules/wallet/wallet.routes';
+import { ledgerRoutes } from './modules/ledger/ledger.routes';
 
 export const buildApp = () => {
   const app = Fastify({
@@ -48,6 +49,7 @@ export const buildApp = () => {
   app.register(healthRoutes);
   app.register(authRoutes);
   app.register(walletRoutes);
+  app.register(ledgerRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {

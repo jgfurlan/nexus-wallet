@@ -5,6 +5,7 @@ import fastifyJwt from '@fastify/jwt';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { healthRoutes } from './modules/health/health.routes';
 import { authRoutes } from './modules/auth/auth.routes';
+import { walletRoutes } from './modules/wallet/wallet.routes';
 
 export const buildApp = () => {
   const app = Fastify({
@@ -46,6 +47,7 @@ export const buildApp = () => {
   // Register modules
   app.register(healthRoutes);
   app.register(authRoutes);
+  app.register(walletRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {

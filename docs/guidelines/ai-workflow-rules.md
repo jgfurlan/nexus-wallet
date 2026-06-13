@@ -68,17 +68,26 @@ Once both files are approved, the agent implements exactly what is written — n
 
 ---
 
-## Linear-GitHub Synchronization
+## Linear-GitHub Synchronization & Issue Workflow
 
-Linear = source of truth for **project state**.
-GitHub = source of truth for **code**.
+Linear/GitHub Issues = source of truth for **project state & requirements**.
+GitHub PRs = source of truth for **code**.
 
-| Event | Action |
-|-------|--------|
-| Starting work | Branch from `main` as `NXS-<id>-<slug>`; move issue to **In Progress** |
-| Opening PR | Move to **In Review**; paste PR URL in Linear comment |
-| PR merged | Move to **Done**; run `graphify update .` |
-| Milestone complete | Write a Linear project update |
+### Branch Naming Convention
+Every issue must be resolved in a branch prefixed with `spec/`:
+`spec/NXS-<id>-<slug>` (e.g., `spec/NXS-2-auth-jwt`)
+
+### GitHub Labels & Issue State Machine
+We use GitHub Labels to track issue state:
+- **`in-spec`**: The issue's product and technical specifications are being drafted/refined in `docs/specs/NXS-<id>-<slug>/`.
+- **`ready-to-implement`**: Specifications are complete and approved by the user. Ready for code implementation.
+- **`in-progress`**: The branch code is actively being implemented and tests are being written.
+- **`in-review`**: Code implementation is complete. PR has been opened and checks are running.
+- **`done`**: PR successfully merged and verified.
+
+> [!IMPORTANT]
+> **VERIFICATION GATE REQUIREMENT:**
+> Do NOT merge any pull request until the code is fully implemented, verified locally (via lint, typecheck, and tests), and has successfully passed all automated GitHub Actions CI/CD checks.
 
 **Commit format:** `<type>: [NXS-<id>] <imperative description>`
 

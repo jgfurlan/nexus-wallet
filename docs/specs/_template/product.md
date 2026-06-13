@@ -1,6 +1,6 @@
 # Product Spec: [Feature Name]
 
-**Issue:** NXS-[id] — [Link to Linear Issue]
+**Issue:** NXS-[id] — [Link to GitHub Issue]
 **Figma/Design:** [Link if applicable, or N/A]
 
 ---

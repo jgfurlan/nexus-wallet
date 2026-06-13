@@ -60,7 +60,7 @@ These four signals define what "good code" means in this project. Agents use the
 |--------|--------------|
 | **Correctness** | Does the implementation satisfy every invariant in `product.md`? Do all tests pass? |
 | **Legibility** | Are all exported functions prefixed? No `any`? No magic strings? Types inferred from Zod? |
-| **Auditability** | Is there a `LedgerEntry` for every balance change? Does the commit message include the Linear issue ID? |
+| **Auditability** | Is there a `LedgerEntry` for every balance change? Does the commit message include the GitHub issue ID? |
 | **Safety** | Are auth guards in place? Is the idempotency key validated before crediting? Are secrets in `.env`, never hardcoded? |
 
 ## Linting & Formatting

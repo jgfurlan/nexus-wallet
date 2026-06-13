@@ -23,10 +23,10 @@ No code changes without an **Atomic Feature Spec** in `docs/specs/`. Format: `do
 
 **Scope rule:** A change requires a formal spec if it touches a module boundary, a DB schema, an API contract, or business logic. Typos, comment fixes, and formatting do NOT require a spec.
 
-### 2. GitHub-Linear Sync (Professional Observability)
+### 2. GitHub Issue Workflow (Professional Observability)
 - **Branch naming:** `spec/NXS-<id>-<short-description>` (e.g., `spec/NXS-2-auth-jwt`)
 - **Commit format:** `<type>: [NXS-<id>] <description>` (e.g., `feat: [NXS-2] implement JWT refresh token rotation`)
-- **State machine & Labels:**
+- **State machine & Labels (GitHub Issues):**
   - `in-spec`: drafting product.md and tech.md specifications.
   - `ready-to-implement`: specifications approved, ready for coding.
   - `in-progress`: coding in progress.
@@ -45,7 +45,7 @@ Every completed task is scored on four axes. A task is only "Done" when all four
 |--------|------------|
 | **Correctness** | All tests pass; invariants from `product.md` are satisfied |
 | **Legibility** | New code follows `module_action` naming; no `any`; no magic strings |
-| **Auditability** | Linear issue updated; commit message includes issue ID; ledger entries consistent |
+| **Auditability** | GitHub issue updated; commit message includes issue ID; ledger entries consistent |
 | **Safety** | No exposed secrets; auth middleware on all protected routes; idempotency keys honored |
 
 ### 5. Verification Gate

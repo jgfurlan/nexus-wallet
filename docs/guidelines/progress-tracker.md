@@ -4,21 +4,21 @@
 **Phase 1: Foundation**
 
 ## Active Implementation
-- **Current Task:** None (NXS-3 merged, waiting for next instruction)
-- **Status:** Done
-- **Branch:** —
+- **Current Task:** NXS-5 — Deposit webhook (idempotency, credit, error handling)
+- **Status:** In Spec
+- **Branch:** `spec/NXS-5-deposit-webhook`
 
 ---
 
-## Feature Queue (Linear Issues)
+## Feature Queue (GitHub Issues)
 
 | ID | Feature | Status | Branch |
 |----|---------|--------|--------|
 | NXS-1 | Project scaffold (monorepo + Fastify + Prisma + DB schema) | ✅ Done | `NXS-1-project-scaffold` |
 | NXS-2 | Auth module (register, login, JWT, refresh token) | ✅ Done | `spec/NXS-2-auth-jwt` |
 | NXS-3 | Wallet module (auto-create on register, get balances) | ✅ Done | `spec/NXS-3-wallet-balances` |
-| NXS-4 | Ledger module (append-only entries, audit endpoint) | 🔲 Todo | — |
-| NXS-5 | Deposit webhook (idempotency, credit, error handling) | 🔲 Todo | — |
+| NXS-4 | Ledger module (append-only entries, audit endpoint) | ✅ Done | `spec/NXS-4-ledger-audit` |
+| NXS-5 | Deposit webhook (idempotency, credit, error handling) | ⏳ In Spec | `spec/NXS-5-deposit-webhook` |
 | NXS-6 | Swap module (quote endpoint + execute endpoint) | 🔲 Todo | — |
 | NXS-7 | Withdrawal module | 🔲 Todo | — |
 | NXS-8 | Transaction history endpoint (paginated) | 🔲 Todo | — |
@@ -33,6 +33,7 @@
 - **NXS-1**: Project scaffold (monorepo + Fastify + Prisma + DB schema) - 2026-06-12
 - **NXS-2**: Auth module (register, login, JWT, refresh token) - 2026-06-13
 - **NXS-3**: Wallet module (auto-create on register, get balances) - 2026-06-13
+- **NXS-4**: Ledger module (append-only entries, audit endpoint) - 2026-06-13
 
 ---
 

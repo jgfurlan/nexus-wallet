@@ -76,6 +76,9 @@ jobs:
       - name: 📥 Install Dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: ⚙️ Generate Prisma Client
+        run: pnpm --filter api exec prisma generate
+
       - name: ⚙️ Run Typecheck
         run: pnpm typecheck
 
@@ -125,6 +128,9 @@ jobs:
 
       - name: 📥 Install Dependencies
         run: pnpm install --frozen-lockfile
+
+      - name: ⚙️ Generate Prisma Client
+        run: pnpm --filter api exec prisma generate
 
       - name: 🚀 Run Prisma Migrations
         run: pnpm --filter api exec prisma migrate deploy

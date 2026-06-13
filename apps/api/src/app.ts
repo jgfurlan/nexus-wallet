@@ -1,8 +1,10 @@
 import Fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import fastifyJwt from '@fastify/jwt';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { healthRoutes } from './modules/health/health.routes';
+import { authRoutes } from './modules/auth/auth.routes';
 
 export const buildApp = () => {
   const app = Fastify({
@@ -21,6 +23,11 @@ export const buildApp = () => {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
+  // Register JWT plugin
+  app.register(fastifyJwt, {
+    secret: process.env.JWT_SECRET || 'nexus_super_secret_key_1234567890_change_me_in_prod',
+  });
+
   app.register(swagger, {
     openapi: {
       info: {
@@ -38,6 +45,7 @@ export const buildApp = () => {
 
   // Register modules
   app.register(healthRoutes);
+  app.register(authRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {
@@ -45,7 +53,7 @@ export const buildApp = () => {
 
     if (error.statusCode) {
       return reply.status(error.statusCode).send({
-        error: error.name,
+        error: error.code || error.name,
         message: error.message,
       });
     }

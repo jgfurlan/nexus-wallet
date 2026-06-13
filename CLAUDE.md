@@ -23,13 +23,15 @@ No code changes without an **Atomic Feature Spec** in `docs/specs/`. Format: `do
 
 **Scope rule:** A change requires a formal spec if it touches a module boundary, a DB schema, an API contract, or business logic. Typos, comment fixes, and formatting do NOT require a spec.
 
-### 2. Linear-GitHub Sync (Professional Observability)
-- **Branch naming:** `NXS-<id>-<short-description>` (e.g., `NXS-3-feat-auth-jwt`)
-- **Commit format:** `<type>: [NXS-<id>] <description>` (e.g., `feat: [NXS-3] implement JWT refresh token rotation`)
-- **State machine:**
-  - Research complete → move to **In Progress**
-  - PR opened → move to **In Review**, paste PR URL into Linear comment
-  - PR merged + verification passed → move to **Done**
+### 2. GitHub-Linear Sync (Professional Observability)
+- **Branch naming:** `spec/NXS-<id>-<short-description>` (e.g., `spec/NXS-2-auth-jwt`)
+- **Commit format:** `<type>: [NXS-<id>] <description>` (e.g., `feat: [NXS-2] implement JWT refresh token rotation`)
+- **State machine & Labels:**
+  - `in-spec`: drafting product.md and tech.md specifications.
+  - `ready-to-implement`: specifications approved, ready for coding.
+  - `in-progress`: coding in progress.
+  - `in-review`: PR opened, waiting for CI/CD checks. NEVER merge a PR without code fully implemented, tested locally, and passing all CI/CD pipelines.
+  - `done`: PR merged and verification passed.
 
 ### 3. Context Efficiency
 - Prefer `grep_search` and `glob` over full `read_file` scans.

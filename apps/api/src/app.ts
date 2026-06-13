@@ -7,6 +7,7 @@ import { healthRoutes } from './modules/health/health.routes';
 import { authRoutes } from './modules/auth/auth.routes';
 import { walletRoutes } from './modules/wallet/wallet.routes';
 import { ledgerRoutes } from './modules/ledger/ledger.routes';
+import { depositRoutes } from './modules/webhook/deposit.routes';
 
 export const buildApp = () => {
   const app = Fastify({
@@ -50,6 +51,7 @@ export const buildApp = () => {
   app.register(authRoutes);
   app.register(walletRoutes);
   app.register(ledgerRoutes);
+  app.register(depositRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {

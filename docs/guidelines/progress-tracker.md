@@ -5,7 +5,7 @@
 
 ## Active Implementation
 - **Current Task:** NXS-5 — Deposit webhook (idempotency, credit, error handling)
-- **Status:** In Spec
+- **Status:** In Review
 - **Branch:** `spec/NXS-5-deposit-webhook`
 
 ---
@@ -18,7 +18,7 @@
 | NXS-2 | Auth module (register, login, JWT, refresh token) | ✅ Done | `spec/NXS-2-auth-jwt` |
 | NXS-3 | Wallet module (auto-create on register, get balances) | ✅ Done | `spec/NXS-3-wallet-balances` |
 | NXS-4 | Ledger module (append-only entries, audit endpoint) | ✅ Done | `spec/NXS-4-ledger-audit` |
-| NXS-5 | Deposit webhook (idempotency, credit, error handling) | ⏳ In Spec | `spec/NXS-5-deposit-webhook` |
+| NXS-5 | Deposit webhook (idempotency, credit, error handling) | ⏳ In Review | `spec/NXS-5-deposit-webhook` |
 | NXS-6 | Swap module (quote endpoint + execute endpoint) | 🔲 Todo | — |
 | NXS-7 | Withdrawal module | 🔲 Todo | — |
 | NXS-8 | Transaction history endpoint (paginated) | 🔲 Todo | — |

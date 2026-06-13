@@ -25,6 +25,7 @@ No code changes without an **Atomic Feature Spec** in `docs/specs/`. Format: `do
 
 ### 2. GitHub Issue Workflow (Professional Observability)
 - **Branch naming:** `spec/NXS-<id>-<short-description>` (e.g., `spec/NXS-2-auth-jwt`)
+- **PR Title & Linking:** All PRs must be linked to their corresponding Issue (e.g. by adding `Closes #<id>` in the description) and must end with `Closes #<id>` in the PR title (e.g., `spec: [NXS-5] Deposit Webhook Closes #5`).
 - **Commit format:** `<type>: [NXS-<id>] <description>` (e.g., `feat: [NXS-2] implement JWT refresh token rotation`)
 - **State machine & Labels (GitHub Issues):**
   - `in-spec`: drafting product.md and tech.md specifications.

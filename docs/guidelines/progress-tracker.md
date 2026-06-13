@@ -4,9 +4,9 @@
 **Phase 1: Foundation**
 
 ## Active Implementation
-- **Current Task:** NXS-5 — Deposit webhook (idempotency, credit, error handling)
-- **Status:** In Review
-- **Branch:** `spec/NXS-5-deposit-webhook`
+- **Current Task:** NXS-6 — Swap module (quote endpoint + execute endpoint)
+- **Status:** In Spec
+- **Branch:** `spec/NXS-6-swap-module`
 
 ---
 
@@ -18,8 +18,8 @@
 | NXS-2 | Auth module (register, login, JWT, refresh token) | ✅ Done | `spec/NXS-2-auth-jwt` |
 | NXS-3 | Wallet module (auto-create on register, get balances) | ✅ Done | `spec/NXS-3-wallet-balances` |
 | NXS-4 | Ledger module (append-only entries, audit endpoint) | ✅ Done | `spec/NXS-4-ledger-audit` |
-| NXS-5 | Deposit webhook (idempotency, credit, error handling) | ⏳ In Review | `spec/NXS-5-deposit-webhook` |
-| NXS-6 | Swap module (quote endpoint + execute endpoint) | 🔲 Todo | — |
+| NXS-5 | Deposit webhook (idempotency, credit, error handling) | ✅ Done | `spec/NXS-5-deposit-webhook` |
+| NXS-6 | Swap module (quote endpoint + execute endpoint) | ⏳ In Spec | `spec/NXS-6-swap-module` |
 | NXS-7 | Withdrawal module | 🔲 Todo | — |
 | NXS-8 | Transaction history endpoint (paginated) | 🔲 Todo | — |
 | NXS-9 | Redis cache for CoinGecko quotes (30s TTL) | 🔲 Todo | — |
@@ -34,6 +34,7 @@
 - **NXS-2**: Auth module (register, login, JWT, refresh token) - 2026-06-13
 - **NXS-3**: Wallet module (auto-create on register, get balances) - 2026-06-13
 - **NXS-4**: Ledger module (append-only entries, audit endpoint) - 2026-06-13
+- **NXS-5**: Deposit webhook (idempotency, credit, error handling) - 2026-06-13
 
 ---
 

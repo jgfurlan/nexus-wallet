@@ -110,6 +110,11 @@ GitHub PRs = source of truth for **code**.
 Every issue must be resolved in a branch prefixed with `spec/`:
 `spec/NXS-<id>-<slug>` (e.g., `spec/NXS-2-auth-jwt`)
 
+### PR Naming & Issue Linking Convention
+Whenever a Pull Request is created:
+1. It **must be linked** to the corresponding GitHub issue. This is done by adding a close keyword like `Closes #<id>` or `Resolves #<id>` in the PR description/body.
+2. The title of the PR **must end** with `Closes #<id>` (e.g., `spec: [NXS-5] Deposit Webhook Closes #5`).
+
 ### GitHub Labels & Issue State Machine
 We use GitHub Labels to track issue/PR state:
 - **`in-spec`**: Product and tech specs are being drafted in `docs/specs/NXS-<id>-<slug>/`.

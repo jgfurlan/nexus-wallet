@@ -4,9 +4,9 @@
 **Phase 1: Foundation**
 
 ## Active Implementation
-- **Current Task:** NXS-2 — Auth module (register, login, JWT, refresh token)
-- **Status:** In Review
-- **Branch:** `spec/NXS-2-auth-jwt`
+- **Current Task:** None (NXS-2 merged, waiting for next instruction)
+- **Status:** Done
+- **Branch:** —
 
 ---
 
@@ -15,7 +15,7 @@
 | ID | Feature | Status | Branch |
 |----|---------|--------|--------|
 | NXS-1 | Project scaffold (monorepo + Fastify + Prisma + DB schema) | ✅ Done | `NXS-1-project-scaffold` |
-| NXS-2 | Auth module (register, login, JWT, refresh token) | ⏳ In Review | `spec/NXS-2-auth-jwt` |
+| NXS-2 | Auth module (register, login, JWT, refresh token) | ✅ Done | `spec/NXS-2-auth-jwt` |
 | NXS-3 | Wallet module (auto-create on register, get balances) | 🔲 Todo | — |
 | NXS-4 | Ledger module (append-only entries, audit endpoint) | 🔲 Todo | — |
 | NXS-5 | Deposit webhook (idempotency, credit, error handling) | 🔲 Todo | — |
@@ -31,6 +31,7 @@
 
 ## Completed Features
 - **NXS-1**: Project scaffold (monorepo + Fastify + Prisma + DB schema) - 2026-06-12
+- **NXS-2**: Auth module (register, login, JWT, refresh token) - 2026-06-13
 
 ---
 

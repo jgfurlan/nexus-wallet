@@ -19,7 +19,7 @@
 | NXS-3 | Módulo de Wallet (auto-criação no registro, busca de saldos) | ✅ Concluído | `spec/NXS-3-wallet-balances` |
 | NXS-4 | Módulo de Ledger (entradas append-only, endpoint de auditoria) | ✅ Concluído | `spec/NXS-4-ledger-audit` |
 | NXS-5 | Webhook de Depósito (idempotência, crédito, tratamento de erro) | ✅ Concluído | `spec/NXS-5-deposit-webhook` |
-| NXS-6 | Módulo de Swap (endpoint de cotação + execução) | ⏳ Em Revisão (PR) | `spec/NXS-6-swap-module` |
+| NXS-6 | Módulo de Swap (endpoint de cotação + execução) | ✅ Concluído | `spec/NXS-6-swap-module` |
 | NXS-7 | Módulo de Saque (Withdrawal) | ⏳ Em Revisão (PR) | `spec/NXS-7-withdrawal` |
 | NXS-8 | Endpoint de histórico de transações (paginado) | 🚀 Implementando | `spec/NXS-8-history` |
 | NXS-9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
@@ -36,7 +36,6 @@
 - **NXS-4**: Módulo de Ledger (entradas append-only, endpoint de auditoria) - 2026-06-13
 - **NXS-5**: Webhook de Depósito (idempotência, crédito, tratamento de erro) - 2026-06-13
 - **NXS-6**: Módulo de Swap (endpoint de cotação + execução) - 2026-06-14
-- **NXS-7**: Módulo de Saque (Withdrawal) - 2026-06-14
 - **NXS-9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 
 ---
@@ -55,7 +54,7 @@
 ---
 
 ## Ponto de Restauração de Sessão
-Agentes retomando o trabalho devem:
+Agentes retomar o trabalho devem:
 1. Ler este arquivo para identificar a tarefa ativa.
 2. Executar `graphify query "active implementation"` para contexto total.
 3. Ler `docs/specs/NXS-<active-id>/` antes de tocar em qualquer arquivo.

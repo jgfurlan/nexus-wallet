@@ -66,7 +66,6 @@ export const WithdrawalInputSchema = z.discriminatedUnion('token', [
     externalId: z.string().uuid(),
   }),
 ]);
-```
 
 // Nova rota
 POST /wallet/withdraw

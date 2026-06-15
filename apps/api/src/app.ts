@@ -8,6 +8,20 @@ import { authRoutes } from './modules/auth/auth.routes';
 import { walletRoutes } from './modules/wallet/wallet.routes';
 import { ledgerRoutes } from './modules/ledger/ledger.routes';
 import { depositRoutes } from './modules/webhook/deposit.routes';
+import { swapRoutes } from './modules/swap/swap.routes';
+
+declare module '@fastify/jwt' {
+  interface FastifyJWT {
+    payload: {
+      sub: string;
+      email?: string;
+      signup?: boolean;
+      type?: string;
+      jti?: string;
+    };
+    user: { sub: string; email: string };
+  }
+}
 
 export const buildApp = () => {
   const app = Fastify({
@@ -52,6 +66,7 @@ export const buildApp = () => {
   app.register(walletRoutes);
   app.register(ledgerRoutes);
   app.register(depositRoutes);
+  app.register(swapRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {

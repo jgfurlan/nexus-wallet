@@ -4,9 +4,9 @@
 **Phase 1: Foundation**
 
 ## Active Implementation
-- **Current Task:** NXS-6 — Swap module (quote endpoint + execute endpoint)
-- **Status:** In Spec
-- **Branch:** `spec/NXS-6-swap-module`
+- **Current Task:** NXS-7 — Withdrawal module
+- **Status:** Todo
+- **Branch:** —
 
 ---
 
@@ -19,10 +19,10 @@
 | NXS-3 | Wallet module (auto-create on register, get balances) | ✅ Done | `spec/NXS-3-wallet-balances` |
 | NXS-4 | Ledger module (append-only entries, audit endpoint) | ✅ Done | `spec/NXS-4-ledger-audit` |
 | NXS-5 | Deposit webhook (idempotency, credit, error handling) | ✅ Done | `spec/NXS-5-deposit-webhook` |
-| NXS-6 | Swap module (quote endpoint + execute endpoint) | ⏳ In Spec | `spec/NXS-6-swap-module` |
+| NXS-6 | Swap module (quote endpoint + execute endpoint) | ✅ Done | `spec/NXS-6-swap-module` |
 | NXS-7 | Withdrawal module | 🔲 Todo | — |
 | NXS-8 | Transaction history endpoint (paginated) | 🔲 Todo | — |
-| NXS-9 | Redis cache for CoinGecko quotes (30s TTL) | 🔲 Todo | — |
+| NXS-9 | Redis cache for CoinGecko quotes (30s TTL) | ✅ Done | — |
 | NXS-10 | React frontend (dashboard, swap form, history) | 🔲 Todo | — |
 | NXS-11 | Deploy: Railway (API) + Vercel (web) | 🔲 Todo | — |
 | NXS-12 | README + technical decisions doc | 🔲 Todo | — |
@@ -35,6 +35,8 @@
 - **NXS-3**: Wallet module (auto-create on register, get balances) - 2026-06-13
 - **NXS-4**: Ledger module (append-only entries, audit endpoint) - 2026-06-13
 - **NXS-5**: Deposit webhook (idempotency, credit, error handling) - 2026-06-13
+- **NXS-6**: Swap module (quote endpoint + execute endpoint) - 2026-06-14
+- **NXS-9**: Redis cache for CoinGecko quotes (30s TTL) - 2026-06-14
 
 ---
 

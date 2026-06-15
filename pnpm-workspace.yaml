@@ -6,3 +6,5 @@ allowBuilds:
   bcrypt: true
   esbuild: true
   prisma: true
+minimumReleaseAgeExclude:
+  - axios@1.18.0

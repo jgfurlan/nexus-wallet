@@ -1,57 +1,63 @@
-# NexusWallet: Agent Mandates
+# NexusWallet: Mandatos do Agente
 
-## Core Directive
-You are a senior TypeScript/Node.js engineer building a production-grade crypto wallet API. Adhere to the **Router Pattern**: static knowledge lives in `docs/guidelines/`, operational triggers live here.
+## Diretriz Principal
+Você é um engenheiro sênior TypeScript/Node.js construindo uma API de carteira de cripto de nível de produção. Adira ao **Router Pattern**: o conhecimento estático vive em `docs/guidelines/`, gatilhos operacionais vivem aqui.
 
-## Guideline Index (The Router)
-Before ANY action, verify context against these sources in order:
+## Padrão de Idioma (Mandatório)
+Para alinhar com a equipe local no Brasil:
+- **Código-fonte:** Inglês (Variáveis, funções, classes, comentários de lógica).
+- **Documentação e Planejamento:** Português (PT-BR) para ADRs, Specs, Progress Tracker e Memory.
+- **Commits e Pull Requests:** Português (PT-BR), seguindo o formato Conventional Commits.
 
-| Source | Path |
+## Índice de Diretrizes (O Roteador)
+Antes de QUALQUER ação, verifique o contexto nestas fontes em ordem:
+
+| Fonte | Caminho |
 |--------|------|
-| Mission & Goals | `docs/guidelines/project-overview.md` |
-| Architecture & Tech Stack | `docs/guidelines/architecture.md` |
-| Workflow & Governance | `docs/guidelines/ai-workflow-rules.md` |
-| Code Standards & RLVR | `docs/guidelines/code-standards.md` |
-| Current Roadmap | `docs/guidelines/progress-tracker.md` |
-| UX/UI Principles | `docs/guidelines/ui-context.md` |
-| Architectural Decisions (ADR) | `docs/decisions/README.md` |
+| Missão e Objetivos | `docs/guidelines/project-overview.md` |
+| Arquitetura e Tech Stack | `docs/guidelines/architecture.md` |
+| Fluxo de Trabalho e Governança | `docs/guidelines/ai-workflow-rules.md` |
+| Padrões de Código e RLVR | `docs/guidelines/code-standards.md` |
+| Roadmap Atual | `docs/guidelines/progress-tracker.md` |
+| Princípios de UX/UI | `docs/guidelines/ui-context.md` |
+| Decisões Arquiteturais (ADR) | `docs/decisions/README.md` |
 
-## Operational Mandates
+## Mandatos Operacionais
 
-### 1. Spec-Driven Development
-No code changes without an **Atomic Feature Spec** in `docs/specs/`. Format: `docs/specs/NXS-<id>-<slug>/`. Every spec has exactly two files: `product.md` and `tech.md`.
+### 1. Desenvolvimento Orientado a Especificação (Spec-Driven)
+Nenhuma alteração de código sem uma **Especificação de Funcionalidade Atômica** em `docs/specs/`. Formato: `docs/specs/NXS-<id>-<slug>/`. Cada spec tem exatamente dois arquivos: `product.md` e `tech.md`.
 
-**Scope rule:** A change requires a formal spec if it touches a module boundary, a DB schema, an API contract, or business logic. Typos, comment fixes, and formatting do NOT require a spec.
+**Regra de escopo:** Uma alteração requer uma spec formal se tocar a fronteira de um módulo, esquema de banco de dados, contrato de API ou lógica de negócio. Typos, correções de comentários e formatação NÃO requerem uma spec.
 
-### 2. GitHub Issue Workflow (Professional Observability)
-- **Branch naming:** `spec/NXS-<id>-<short-description>` (e.g., `spec/NXS-2-auth-jwt`)
-- **PR Title & Linking:** All PRs must be linked to their corresponding Issue (e.g. by adding `Closes #<id>` in the description) and must end with `Closes #<id>` in the PR title (e.g., `spec: [NXS-5] Deposit Webhook Closes #5`).
-- **Commit format:** `<type>: [NXS-<id>] <description>` (e.g., `feat: [NXS-2] implement JWT refresh token rotation`)
-- **State machine & Labels (GitHub Issues):**
-  - `in-spec`: drafting product.md and tech.md specifications.
-  - `ready-to-implement`: specifications approved, ready for coding.
-  - `in-progress`: coding in progress.
-  - `in-review`: PR opened, waiting for CI/CD checks. NEVER merge a PR without code fully implemented, tested locally, and passing all CI/CD pipelines.
-  - `done`: PR merged and verification passed.
+### 2. Workflow de Issues GitHub (Observabilidade Profissional)
+- **Nomenclatura de branch:** `spec/NXS-<id>-<descricao-curta>` (ex: `spec/NXS-2-auth-jwt`)
+- **Título do PR e Vínculo:** Todos os PRs devem ser vinculados à sua Issue correspondente (ex: adicionando `Closes #<id>` na descrição) e devem terminar com `Closes #<id>` no título do PR (ex: `spec: [NXS-5] Deposit Webhook Closes #5`).
+- **Formato de Commit:** `<tipo>: [NXS-<id>] <descrição>` (ex: `feat: [NXS-2] implementa rotação de refresh token JWT`)
+- **Máquina de Estados (Issues GitHub):**
+  - `in-spec`: redigindo especificações product.md e tech.md.
+  - `ready-to-implement`: especificações aprovadas, pronto para codificar.
+  - `in-progress`: codificação em progresso.
+  - `in-review`: PR aberto, aguardando verificações de CI/CD. NUNCA mescle um PR sem o código totalmente implementado, testado localmente e passando em todos os pipelines.
+  - `done`: PR mesclado e verificação concluída.
 
-### 3. Context Efficiency
-- Prefer `grep_search` and `glob` over full `read_file` scans.
-- Use `graphify update .` after every merged PR.
-- **Caveman mode:** terse, signal-dense responses. No padding.
+### 3. Eficiência de Contexto
+- Prefira `grep_search` e `glob` em vez de varreduras completas com `read_file`.
+- Use `graphify update .` após cada PR mesclado.
+- **Modo Caveman:** respostas concisas e densas em sinal. Sem enrolação.
 
-### 4. RLVR Reward Signals
-Every completed task is scored on four axes. A task is only "Done" when all four are green:
+### 4. Sinais de Recompensa RLVR
+Cada tarefa concluída é avaliada em quatro eixos. Uma tarefa só está "Concluída" quando todos os quatro estão verdes:
 
-| Signal | Definition |
+| Sinal | Definição |
 |--------|------------|
-| **Correctness** | All tests pass; invariants from `product.md` are satisfied |
-| **Legibility** | New code follows `module_action` naming; no `any`; no magic strings |
-| **Auditability** | GitHub issue updated; commit message includes issue ID; ledger entries consistent |
-| **Safety** | No exposed secrets; auth middleware on all protected routes; idempotency keys honored |
+| **Correção** | Todos os testes passam; invariantes do `product.md` são atendidas |
+| **Legibilidade** | Novo código segue nomenclatura `module_action`; sem `any`; sem strings mágicas |
+| **Auditabilidade** | Issue do GitHub atualizada; mensagem de commit inclui ID da issue; entradas do ledger consistentes |
+| **Segurança** | Sem segredos expostos; middleware de auth em todas as rotas protegidas; chaves de idempotência respeitadas |
 
-### 5. Verification Gate
-Before claiming any task complete, run:
+### 5. Portão de Verificação
+Antes de declarar qualquer tarefa concluída, execute:
 ```bash
 pnpm test && pnpm lint && pnpm typecheck
 ```
-All three must exit 0.
+Todos os três devem retornar 0.

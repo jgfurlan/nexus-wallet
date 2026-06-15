@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** NXS-8 — Histórico de transações (paginado)
-- **Status:** 🚀 Implementando
-- **Branch:** `spec/NXS-8-history`
+- **Tarefa Atual:** NXS-10 — Frontend React (dashboard, formulário swap, histórico)
+- **Status:** ⏳ Planejamento (In Spec)
+- **Branch:** —
 
 ---
 
@@ -21,9 +21,9 @@
 | NXS-5 | Webhook de Depósito (idempotência, crédito, tratamento de erro) | ✅ Concluído | `spec/NXS-5-deposit-webhook` |
 | NXS-6 | Módulo de Swap (endpoint de cotação + execução) | ✅ Concluído | `spec/NXS-6-swap-module` |
 | NXS-7 | Módulo de Saque (Withdrawal) | ✅ Concluído | `spec/NXS-7-withdrawal` |
-| NXS-8 | Endpoint de histórico de transações (paginado) | ⏳ Em Revisão (PR) | `spec/NXS-8-history` |
+| NXS-8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/NXS-8-history` |
 | NXS-9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
-| NXS-10 | Frontend React (dashboard, formulário swap, histórico) | 🔲 Todo | — |
+| NXS-10 | Frontend React (dashboard, formulário swap, histórico) | ⏳ Planejamento | — |
 | NXS-11 | Deploy: Railway (API) + Vercel (web) | 🔲 Todo | — |
 | NXS-12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
 
@@ -37,6 +37,7 @@
 - **NXS-5**: Webhook de Depósito (idempotência, crédito, tratamento de erro) - 2026-06-13
 - **NXS-6**: Módulo de Swap (endpoint de cotação + execução) - 2026-06-14
 - **NXS-7**: Módulo de Saque (Withdrawal) - 2026-06-14
+- **NXS-8**: Endpoint de histórico de transações (paginado) - 2026-06-14
 - **NXS-9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 
 ---

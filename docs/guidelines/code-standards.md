@@ -1,96 +1,96 @@
-# Code Standards: Agent-Legibility & Compliance
+# Padrões de Código: Legibilidade e Conformidade
 
-## Agent-Legibility (Mandatory)
-The LLM is the primary consumer of this codebase. Optimize for searchability and deterministic discovery.
+## Legibilidade para Agentes (Mandatório)
+O LLM é o consumidor primário deste código. Otimize para busca e descoberta determinística.
 
-### 1. Global Uniqueness — `module_action` Naming
-Prefix every exported function with its module name to eliminate search ambiguity.
+### 1. Unicidade Global — Nomenclatura `module_action`
+Prefixe toda função exportada com o nome do seu módulo para eliminar ambiguidade na busca.
 
 ```typescript
-// ✅ Correct
+// ✅ Correto
 export async function auth_register_user(dto: RegisterDto) { ... }
 export async function wallet_get_balances(userId: string) { ... }
 export async function ledger_append_entry(payload: LedgerEntryPayload) { ... }
 export async function swap_quote(from: TokenSymbol, to: TokenSymbol, amount: Decimal) { ... }
 
-// ❌ Wrong — ambiguous, unsearchable
+// ❌ Errado — ambíguo, difícil de buscar
 export async function register(dto: RegisterDto) { ... }
 export async function getBalances(userId: string) { ... }
 ```
 
-### 2. Explicit Error Paths
-No bare catch-alls. Every `try/catch` must catch a typed error and return a meaningful Fastify error reply.
+### 2. Caminhos de Erro Explícitos
+Sem `catch-alls` genéricos. Todo `try/catch` deve capturar um erro tipado e retornar uma resposta de erro significativa do Fastify.
 
 ```typescript
-// ✅ Correct
+// ✅ Correto
 try {
   const user = await prisma.user.findUniqueOrThrow({ where: { id } });
 } catch (e) {
   if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
-    throw fastify.httpErrors.notFound('User not found');
+    throw fastify.httpErrors.notFound('Usuário não encontrado');
   }
-  throw e; // re-throw unknown errors — never swallow them
+  throw e; // re-lança erros desconhecidos — nunca silencie erros
 }
 
-// ❌ Wrong
+// ❌ Errado
 try { ... } catch (e) { return null; }
 ```
 
-### 3. No Magic Strings
-Use enums or const maps for every status, token, or config key.
+### 3. Sem "Magic Strings"
+Use enums ou mapas de constantes para cada status, token ou chave de configuração.
 
 ```typescript
-// ✅ Correct — TokenSymbol and LedgerEntryType are Prisma enums, import and reuse them
+// ✅ Correto — TokenSymbol e LedgerEntryType são enums do Prisma, importe e reuse-os
 import { TokenSymbol, LedgerEntryType } from '@prisma/client';
 
-// ❌ Wrong
+// ❌ Errado
 if (entry.type === 'SWAP_FEE') { ... }
 ```
 
-## Type Compliance
-- `any` is **strictly prohibited**. ESLint rule `@typescript-eslint/no-explicit-any` is set to `error`.
-- Use Zod schemas for all request validation; infer TypeScript types from Zod: `type RegisterDto = z.infer<typeof RegisterSchema>`.
-- Use `Decimal` from `decimal.js` for all monetary arithmetic. Never use `number` or `parseFloat` on amounts.
-- All Fastify route handlers must declare `Request` and `Reply` generics.
+## Conformidade de Tipos
+- `any` é **estritamente proibido**. A regra ESLint `@typescript-eslint/no-explicit-any` está definida como `error`.
+- Use schemas Zod para toda validação de request; infira tipos TypeScript do Zod: `type RegisterDto = z.infer<typeof RegisterSchema>`.
+- Use `Decimal` de `decimal.js` para toda aritmética monetária. Nunca use `number` ou `parseFloat` em valores financeiros.
+- Todos os handlers de rota Fastify devem declarar os genéricos `Request` e `Reply`.
 
-## RLVR Reward Signals
-These four signals define what "good code" means in this project. Agents use them for self-evaluation before submitting any change:
+## Sinais de Recompensa RLVR
+Estes quatro sinais definem o que é "código bom" neste projeto. Agentes usam estes sinais para auto-avaliação antes de submeter qualquer mudança:
 
-| Signal | What to Check |
+| Sinal | O que verificar |
 |--------|--------------|
-| **Correctness** | Does the implementation satisfy every invariant in `product.md`? Do all tests pass? |
-| **Legibility** | Are all exported functions prefixed? No `any`? No magic strings? Types inferred from Zod? |
-| **Auditability** | Is there a `LedgerEntry` for every balance change? Does the commit message include the GitHub issue ID? |
-| **Safety** | Are auth guards in place? Is the idempotency key validated before crediting? Are secrets in `.env`, never hardcoded? |
+| **Correção** | A implementação satisfaz todos os invariantes do `product.md`? Todos os testes passam? |
+| **Legibilidade** | Todas as funções exportadas estão prefixadas? Sem `any`? Sem strings mágicas? Tipos inferidos do Zod? |
+| **Auditabilidade** | Existe um `LedgerEntry` para cada alteração de saldo? A mensagem de commit inclui o ID da issue do GitHub? |
+| **Segurança** | Auth guards estão ativos? A chave de idempotência é validada antes de creditar? Segredos no `.env`, nunca hardcoded? |
 
-## Linting & Formatting
+## Linting e Formatação
 ```json
-// .eslintrc — key rules
+// .eslintrc — regras principais
 {
   "@typescript-eslint/no-explicit-any": "error",
   "@typescript-eslint/no-floating-promises": "error",
   "no-console": ["warn", { "allow": ["error"] }]
 }
 ```
-Formatter: `prettier` with default config. Run `pnpm lint` and `pnpm format` before every commit.
+Formatador: `prettier` com configuração padrão. Execute `pnpm lint` e `pnpm format` antes de cada commit.
 
-## Testing Standards (TDD — RED → GREEN → REFACTOR)
+## Padrões de Teste (TDD — RED → GREEN → REFACTOR)
 
-- **RED:** Write a failing test that directly encodes a `product.md` invariant.
-- **GREEN:** Implement the minimal code to pass — no gold-plating.
-- **REFACTOR:** Clean up naming, extract helpers, remove duplication while staying GREEN.
+- **RED:** Escreva um teste que falha e codifica diretamente um invariante do `product.md`.
+- **GREEN:** Implemente o código mínimo para passar — sem excessos.
+- **REFACTOR:** Limpe nomes, extraia helpers, remova duplicação mantendo o teste GREEN.
 
-### Test File Conventions
+### Convenções de Arquivos de Teste
 ```
 src/modules/auth/__tests__/auth_register_user.test.ts
 src/modules/wallet/__tests__/wallet_get_balances.test.ts
 src/modules/ledger/__tests__/ledger_append_entry.test.ts
 ```
 
-### Required Coverage
-Every PR must include tests covering:
-1. The happy path
-2. At least one error path (e.g., insufficient balance, duplicate idempotency key)
-3. The relevant RLVR **Correctness** signal
+### Cobertura Requerida
+Cada PR deve incluir testes cobrindo:
+1. O caminho feliz (happy path)
+2. Pelo menos um caminho de erro (ex: saldo insuficiente, chave de idempotência duplicada)
+3. O sinal de **Correção** do RLVR correspondente
 
-No PR merges without all three.
+Nenhum PR é mesclado sem estes três itens.

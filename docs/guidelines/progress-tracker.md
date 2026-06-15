@@ -1,57 +1,60 @@
-# Progress Tracker: NexusWallet State Anchor
+# Progress Tracker: Âncora de Estado NexusWallet
 
-## Current Project Phase
-**Phase 1: Foundation**
+## Fase Atual do Projeto
+**Fase 1: Fundação**
 
-## Active Implementation
-- **Current Task:** NXS-6 — Swap module (quote endpoint + execute endpoint)
-- **Status:** In Spec
-- **Branch:** `spec/NXS-6-swap-module`
+## Implementação Ativa
+- **Tarefa Atual:** NXS-7 — Módulo de Saque (Withdrawal)
+- **Status:** Planejamento (In Spec)
+- **Branch:** —
 
 ---
 
-## Feature Queue (GitHub Issues)
+## Fila de Funcionalidades (Issues GitHub)
 
-| ID | Feature | Status | Branch |
-|----|---------|--------|--------|
-| NXS-1 | Project scaffold (monorepo + Fastify + Prisma + DB schema) | ✅ Done | `NXS-1-project-scaffold` |
-| NXS-2 | Auth module (register, login, JWT, refresh token) | ✅ Done | `spec/NXS-2-auth-jwt` |
-| NXS-3 | Wallet module (auto-create on register, get balances) | ✅ Done | `spec/NXS-3-wallet-balances` |
-| NXS-4 | Ledger module (append-only entries, audit endpoint) | ✅ Done | `spec/NXS-4-ledger-audit` |
-| NXS-5 | Deposit webhook (idempotency, credit, error handling) | ✅ Done | `spec/NXS-5-deposit-webhook` |
-| NXS-6 | Swap module (quote endpoint + execute endpoint) | ⏳ In Spec | `spec/NXS-6-swap-module` |
-| NXS-7 | Withdrawal module | 🔲 Todo | — |
-| NXS-8 | Transaction history endpoint (paginated) | 🔲 Todo | — |
-| NXS-9 | Redis cache for CoinGecko quotes (30s TTL) | 🔲 Todo | — |
-| NXS-10 | React frontend (dashboard, swap form, history) | 🔲 Todo | — |
+| ID | Funcionalidade | Status | Branch |
+|----|----------------|--------|--------|
+| NXS-1 | Scaffold do projeto (monorepo + Fastify + Prisma + DB schema) | ✅ Concluído | `NXS-1-project-scaffold` |
+| NXS-2 | Módulo de Auth (registro, login, JWT, refresh token) | ✅ Concluído | `spec/NXS-2-auth-jwt` |
+| NXS-3 | Módulo de Wallet (auto-criação no registro, busca de saldos) | ✅ Concluído | `spec/NXS-3-wallet-balances` |
+| NXS-4 | Módulo de Ledger (entradas append-only, endpoint de auditoria) | ✅ Concluído | `spec/NXS-4-ledger-audit` |
+| NXS-5 | Webhook de Depósito (idempotência, crédito, tratamento de erro) | ✅ Concluído | `spec/NXS-5-deposit-webhook` |
+| NXS-6 | Módulo de Swap (endpoint de cotação + execução) | ✅ Concluído | `spec/NXS-6-swap-module` |
+| NXS-7 | Módulo de Saque (Withdrawal) | ⏳ Planejamento | — |
+| NXS-8 | Endpoint de histórico de transações (paginado) | 🔲 Todo | — |
+| NXS-9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
+| NXS-10 | Frontend React (dashboard, formulário swap, histórico) | 🔲 Todo | — |
 | NXS-11 | Deploy: Railway (API) + Vercel (web) | 🔲 Todo | — |
-| NXS-12 | README + technical decisions doc | 🔲 Todo | — |
+| NXS-12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
 
 ---
 
-## Completed Features
-- **NXS-1**: Project scaffold (monorepo + Fastify + Prisma + DB schema) - 2026-06-12
-- **NXS-2**: Auth module (register, login, JWT, refresh token) - 2026-06-13
-- **NXS-3**: Wallet module (auto-create on register, get balances) - 2026-06-13
-- **NXS-4**: Ledger module (append-only entries, audit endpoint) - 2026-06-13
-- **NXS-5**: Deposit webhook (idempotency, credit, error handling) - 2026-06-13
+## Funcionalidades Concluídas
+- **NXS-1**: Scaffold do projeto (monorepo + Fastify + Prisma + DB schema) - 2026-06-12
+- **NXS-2**: Módulo de Auth (registro, login, JWT, refresh token) - 2026-06-13
+- **NXS-3**: Módulo de Wallet (auto-criação no registro, busca de saldos) - 2026-06-13
+- **NXS-4**: Módulo de Ledger (entradas append-only, endpoint de auditoria) - 2026-06-13
+- **NXS-5**: Webhook de Depósito (idempotência, crédito, tratamento de erro) - 2026-06-13
+- **NXS-6**: Módulo de Swap (endpoint de cotação + execução) - 2026-06-14
+- **NXS-9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 
 ---
 
-## Historical Decisions
+## Decisões Históricas
 
-| Date | Decision |
+| Data | Decisão |
 |------|----------|
-| 2026-06-12 | Adopted Spec-Driven Development with Router Pattern |
-| 2026-06-12 | Chose Fastify over NestJS (lighter, schema-first, faster cold start on Railway) |
-| 2026-06-12 | Chose Railway for API deploy (native PG + Redis on free tier) |
-| 2026-06-12 | Chose Vercel for frontend deploy (HR requirement) |
-| 2026-06-12 | Chose `decimal.js` for all monetary math (no floating-point risk) |
+| 2026-06-12 | Adoção de Desenvolvimento Orientado a Specs com Padrão Router |
+| 2026-06-12 | Escolha de Fastify sobre NestJS (leve, schema-first, cold start mais rápido) |
+| 2026-06-12 | Escolha de Railway para deploy da API (PG + Redis nativos) |
+| 2026-06-12 | Escolha de Vercel para deploy do frontend (Requisito RH) |
+| 2026-06-12 | Escolha de `decimal.js` para toda matemática monetária |
+| 2026-06-14 | **Padronização de Idioma:** Commits e Docs em PT-BR; Código em EN |
 
 ---
 
-## Session Restoration Point
-Agents resuming work must:
-1. Read this file to identify the active task.
-2. Run `graphify query "active implementation"` for full context.
-3. Read `docs/specs/NXS-<active-id>/` before touching any file.
+## Ponto de Restauração de Sessão
+Agentes retomando o trabalho devem:
+1. Ler este arquivo para identificar a tarefa ativa.
+2. Executar `graphify query "active implementation"` para contexto total.
+3. Ler `docs/specs/NXS-<active-id>/` antes de tocar em qualquer arquivo.

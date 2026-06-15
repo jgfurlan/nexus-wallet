@@ -39,14 +39,33 @@ Este módulo se baseia na infraestrutura de Ledger e Wallet existente. Ele deve 
 ### Novos Tipos / APIs / Estado
 ```typescript
 // apps/api/src/modules/withdrawal/withdrawal.schemas.ts
-export const WithdrawalInputSchema = z.object({
-  token: z.nativeEnum(TokenSymbol),
-  amount: z.string().refine(/* positive decimal */),
-  address: z.string().min(1),
-  externalId: z.string().uuid(), // Idempotência
-});
+const PixKeySchema = z.string().min(1).refine((val) => {
+  // Regex simples para Email, CPF, Telefone ou UUID (PIX)
+  return /.+@.+\..+|^\d{11}$|^\d{13}$|^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(val);
+}, { message: 'Chave PIX inválida' });
 
-export type WithdrawalInput = z.infer<typeof WithdrawalInputSchema>;
+const CryptoAddressSchema = z.string().min(26).max(62); // Formato básico BTC/ETH
+
+export const WithdrawalInputSchema = z.discriminatedUnion('token', [
+  z.object({
+    token: z.literal(TokenSymbol.BRL),
+    amount: z.string().refine(/* positive decimal */),
+    address: PixKeySchema,
+    externalId: z.string().uuid(),
+  }),
+  z.object({
+    token: z.literal(TokenSymbol.BTC),
+    amount: z.string().refine(/* positive decimal */),
+    address: CryptoAddressSchema,
+    externalId: z.string().uuid(),
+  }),
+  z.object({
+    token: z.literal(TokenSymbol.ETH),
+    amount: z.string().refine(/* positive decimal */),
+    address: CryptoAddressSchema,
+    externalId: z.string().uuid(),
+  }),
+]);
 
 // Nova rota
 POST /wallet/withdraw

@@ -4,7 +4,7 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** NXS-10 — Frontend React (dashboard, formulário swap, histórico)
+- **Tarefa Atual:** NXS-11 — Deploy: Railway (API) + Vercel (web)
 - **Status:** ⏳ Planejamento (In Spec)
 - **Branch:** —
 
@@ -39,6 +39,7 @@
 - **NXS-7**: Módulo de Saque (Withdrawal) - 2026-06-14
 - **NXS-8**: Endpoint de histórico de transações (paginado) - 2026-06-14
 - **NXS-9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
+- **NXS-10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
 
 ---
 

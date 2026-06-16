@@ -1,7 +1,7 @@
 # Technical Spec: Estrutura Inicial do Projeto (Scaffold)
 
 **Veja `product.md` para detalhes sobre o comportamento esperado e critérios de aceitação.**
-**Issue:** NXS-1
+**Issue:** GH1
 
 ---
 

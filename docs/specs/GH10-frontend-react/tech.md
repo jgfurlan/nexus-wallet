@@ -1,12 +1,12 @@
-# Technical Spec: Frontend React Dashboard (NXS-10)
+# Technical Spec: Frontend React Dashboard (GH10)
 
 **Consulte `product.md` para ver o comportamento do usuário e os objetivos.**
-**Issue:** NXS-10
+**Issue:** GH10
 
 ---
 
 ## 1. Contexto
-O frontend será implementado no diretório `apps/web` usando Vite + React + Tailwind CSS. Ele consumirá a API implementada nos módulos NXS-2 ao NXS-8.
+O frontend será implementado no diretório `apps/web` usando Vite + React + Tailwind CSS. Ele consumirá a API implementada nos módulos GH2 ao GH8.
 
 ---
 

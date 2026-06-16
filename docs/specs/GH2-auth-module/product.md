@@ -1,6 +1,6 @@
-# Product Spec: Módulo de Autenticação (NXS-2)
+# Product Spec: Módulo de Autenticação (GH2)
 
-**Issue:** NXS-2 — Auth module (register, login, JWT, refresh token)
+**Issue:** GH2 — Auth module (register, login, JWT, refresh token)
 **Figma/Design:** N/A
 
 ---

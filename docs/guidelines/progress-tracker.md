@@ -4,7 +4,7 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** NXS-11 — Deploy: Railway (API) + Vercel (web)
+- **Tarefa Atual:** GH11 — Deploy: Railway (API) + Vercel (web)
 - **Status:** ⏳ Planejamento (In Spec)
 - **Branch:** —
 
@@ -14,32 +14,32 @@
 
 | ID | Funcionalidade | Status | Branch |
 |----|----------------|--------|--------|
-| NXS-1 | Scaffold do projeto (monorepo + Fastify + Prisma + DB schema) | ✅ Concluído | `NXS-1-project-scaffold` |
-| NXS-2 | Módulo de Auth (registro, login, JWT, refresh token) | ✅ Concluído | `spec/NXS-2-auth-jwt` |
-| NXS-3 | Módulo de Wallet (auto-criação no registro, busca de saldos) | ✅ Concluído | `spec/NXS-3-wallet-balances` |
-| NXS-4 | Módulo de Ledger (entradas append-only, endpoint de auditoria) | ✅ Concluído | `spec/NXS-4-ledger-audit` |
-| NXS-5 | Webhook de Depósito (idempotência, crédito, tratamento de erro) | ✅ Concluído | `spec/NXS-5-deposit-webhook` |
-| NXS-6 | Módulo de Swap (endpoint de cotação + execução) | ✅ Concluído | `spec/NXS-6-swap-module` |
-| NXS-7 | Módulo de Saque (Withdrawal) | ✅ Concluído | `spec/NXS-7-withdrawal` |
-| NXS-8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/NXS-8-history` |
-| NXS-9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
-| NXS-10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/NXS-10-frontend` |
-| NXS-11 | Deploy: Railway (API) + Vercel (web) | ⏳ Planejamento | — |
-| NXS-12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
+| GH1 | Scaffold do projeto (monorepo + Fastify + Prisma + DB schema) | ✅ Concluído | `GH1-project-scaffold` |
+| GH2 | Módulo de Auth (registro, login, JWT, refresh token) | ✅ Concluído | `spec/GH2-auth-jwt` |
+| GH3 | Módulo de Wallet (auto-criação no registro, busca de saldos) | ✅ Concluído | `spec/GH3-wallet-balances` |
+| GH4 | Módulo de Ledger (entradas append-only, endpoint de auditoria) | ✅ Concluído | `spec/GH4-ledger-audit` |
+| GH5 | Webhook de Depósito (idempotência, crédito, tratamento de erro) | ✅ Concluído | `spec/GH5-deposit-webhook` |
+| GH6 | Módulo de Swap (endpoint de cotação + execução) | ✅ Concluído | `spec/GH6-swap-module` |
+| GH7 | Módulo de Saque (Withdrawal) | ✅ Concluído | `spec/GH7-withdrawal` |
+| GH8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/GH8-history` |
+| GH9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
+| GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
+| GH11 | Deploy: Railway (API) + Vercel (web) | ⏳ Planejamento | — |
+| GH12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
 
 ---
 
 ## Funcionalidades Concluídas
-- **NXS-1**: Scaffold do projeto (monorepo + Fastify + Prisma + DB schema) - 2026-06-12
-- **NXS-2**: Módulo de Auth (registro, login, JWT, refresh token) - 2026-06-13
-- **NXS-3**: Módulo de Wallet (auto-criação no registro, busca de saldos) - 2026-06-13
-- **NXS-4**: Módulo de Ledger (entradas append-only, endpoint de auditoria) - 2026-06-13
-- **NXS-5**: Webhook de Depósito (idempotência, crédito, tratamento de erro) - 2026-06-13
-- **NXS-6**: Módulo de Swap (endpoint de cotação + execução) - 2026-06-14
-- **NXS-7**: Módulo de Saque (Withdrawal) - 2026-06-14
-- **NXS-8**: Endpoint de histórico de transações (paginado) - 2026-06-14
-- **NXS-9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
-- **NXS-10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
+- **GH1**: Scaffold do projeto (monorepo + Fastify + Prisma + DB schema) - 2026-06-12
+- **GH2**: Módulo de Auth (registro, login, JWT, refresh token) - 2026-06-13
+- **GH3**: Módulo de Wallet (auto-criação no registro, busca de saldos) - 2026-06-13
+- **GH4**: Módulo de Ledger (entradas append-only, endpoint de auditoria) - 2026-06-13
+- **GH5**: Webhook de Depósito (idempotência, crédito, tratamento de erro) - 2026-06-13
+- **GH6**: Módulo de Swap (endpoint de cotação + execução) - 2026-06-14
+- **GH7**: Módulo de Saque (Withdrawal) - 2026-06-14
+- **GH8**: Endpoint de histórico de transações (paginado) - 2026-06-14
+- **GH9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
+- **GH10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
 
 ---
 

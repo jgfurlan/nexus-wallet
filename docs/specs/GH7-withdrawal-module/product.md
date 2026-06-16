@@ -1,6 +1,6 @@
 # Product Spec: Módulo de Saque (Withdrawal)
 
-**Issue:** NXS-7 — [Withdrawal Module](https://github.com/users/jgfurlan/projects/nexus-wallet/issues/7)
+**Issue:** GH7 — [Withdrawal Module](https://github.com/users/jgfurlan/projects/nexus-wallet/issues/7)
 **Figma/Design:** N/A
 
 ---

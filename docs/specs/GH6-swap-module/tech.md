@@ -1,7 +1,7 @@
 # Technical Spec: Conversão de Moedas (Swap Module)
 
 **Consulte `product.md` para ver o comportamento do usuário e as invariantes.**
-**Issue:** NXS-6
+**Issue:** GH6
 
 ---
 

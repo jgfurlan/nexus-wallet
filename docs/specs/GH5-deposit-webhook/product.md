@@ -1,6 +1,6 @@
 # Product Spec: Webhook de Depósito (Deposit Webhook)
 
-**Issue:** NXS-5 — Deposit webhook (idempotency, credit, error handling)
+**Issue:** GH5 — Deposit webhook (idempotency, credit, error handling)
 
 ---
 

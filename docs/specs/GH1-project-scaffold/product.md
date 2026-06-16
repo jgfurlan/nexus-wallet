@@ -1,6 +1,6 @@
 # Product Spec: Estrutura Inicial do Projeto (Scaffold)
 
-**Issue:** NXS-1 — Project Scaffold
+**Issue:** GH1 — Project Scaffold
 **Figma/Design:** N/A
 
 ---
@@ -25,9 +25,9 @@ Atualmente, o projeto não possui código-fonte, dependências instaladas ou est
 - [ ] Criar testes iniciais provando que a API de health-check funciona.
 
 **Não-Objetivos:**
-- Implementar fluxo de autenticação JWT funcional (será feito no NXS-2).
-- Desenvolver a interface do usuário em React (será feito no NXS-10).
-- Configurar deploy na nuvem ou pipelines de CI/CD complexos (será feito no NXS-11).
+- Implementar fluxo de autenticação JWT funcional (será feito no GH2).
+- Desenvolver a interface do usuário em React (será feito no GH10).
+- Configurar deploy na nuvem ou pipelines de CI/CD complexos (será feito no GH11).
 
 ---
 

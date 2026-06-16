@@ -5,7 +5,7 @@
 
 ## Implementação Ativa
 - **Tarefa Atual:** GH29 — Restore Frontend React
-- **Status:** ⏳ In Spec
+- **Status:** ⏳ In Progress
 - **Branch:** `spec/GH29-restore-frontend`
 
 ---
@@ -26,7 +26,7 @@
 | GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
 | GH11 | Deploy: Railway (API) + Vercel (web) | ⏳ In Review | `spec/GH11-deploy` |
 | GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
-| GH29 | Restore Frontend React (Resgate da V1) | ⏳ In Spec | `spec/GH29-restore-frontend` |
+| GH29 | Restore Frontend React (Resgate da V1) | ⏳ In Progress | `spec/GH29-restore-frontend` |
 
 ---
 

@@ -38,7 +38,7 @@ export const LoginPage: React.FC = () => {
       setIsLoading(true);
       setError(null);
       const response = await AuthService.login(data);
-      
+
       // Extract user info from response or payload
       login(response.accessToken, response.user || { id: 'default', email: data.email });
       navigate('/');
@@ -57,7 +57,7 @@ export const LoginPage: React.FC = () => {
             <Wallet className="text-white w-8 h-8" />
           </div>
           <h1 className="text-3xl font-bold text-primary tracking-tight">NexusWallet</h1>
-          <p className="text-subtle mt-2">Sua carteira cripto moderna</p>
+          <p className="text-subtle mt-2"></p>
         </div>
 
         <Card>

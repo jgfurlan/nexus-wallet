@@ -24,8 +24,9 @@
 | GH8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/GH8-history` |
 | GH9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
 | GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
-| GH11 | Deploy: Railway (API) + Vercel (web) | ✅ Concluído | — |
+| GH11 | Deploy: Railway (API) + Vercel (web) | ✅ Concluído | `spec/GH11-deploy` |
 | GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
+| GH29 | Restore Frontend React (Resgate da V1) | ✅ Concluído | `spec/GH29-restore-frontend` |
 
 ---
 

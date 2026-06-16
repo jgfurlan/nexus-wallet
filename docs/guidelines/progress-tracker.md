@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH11 — Deploy: Railway (API) + Vercel (web)
+- **Tarefa Atual:** GH29 — Restore Frontend React
 - **Status:** ⏳ In Review
-- **Branch:** `spec/GH11-deploy`
+- **Branch:** `spec/GH29-restore-frontend`
 
 ---
 
@@ -25,7 +25,8 @@
 | GH9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
 | GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
 | GH11 | Deploy: Railway (API) + Vercel (web) | ⏳ In Review | `spec/GH11-deploy` |
-| GH12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
+| GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
+| GH29 | Restore Frontend React (Resgate da V1) | ⏳ In Review | `spec/GH29-restore-frontend` |
 
 ---
 

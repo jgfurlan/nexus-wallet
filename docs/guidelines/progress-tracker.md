@@ -23,8 +23,8 @@
 | NXS-7 | Módulo de Saque (Withdrawal) | ✅ Concluído | `spec/NXS-7-withdrawal` |
 | NXS-8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/NXS-8-history` |
 | NXS-9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
-| NXS-10 | Frontend React (dashboard, formulário swap, histórico) | ⏳ Em Revisão (PR) | `spec/NXS-10-frontend` |
-| NXS-11 | Deploy: Railway (API) + Vercel (web) | 🔲 Todo | — |
+| NXS-10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/NXS-10-frontend` |
+| NXS-11 | Deploy: Railway (API) + Vercel (web) | ⏳ Planejamento | — |
 | NXS-12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
 
 ---

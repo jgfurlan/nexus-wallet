@@ -60,4 +60,4 @@
 Agentes retomar o trabalho devem:
 1. Ler este arquivo para identificar a tarefa ativa.
 2. Executar `graphify query "active implementation"` para contexto total.
-3. Ler `docs/specs/NXS-<active-id>/` antes de tocar em qualquer arquivo.
+3. Ler `docs/specs/GH<active-id>/` antes de tocar em qualquer arquivo.

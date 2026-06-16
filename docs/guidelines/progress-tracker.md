@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH29 — Restore Frontend React
-- **Status:** ⏳ In Review
-- **Branch:** `spec/GH29-restore-frontend`
+- **Tarefa Atual:** GH31 — CORS Policy
+- **Status:** ⏳ In Progress
+- **Branch:** `spec/GH31-cors`
 
 ---
 
@@ -24,9 +24,10 @@
 | GH8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/GH8-history` |
 | GH9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
 | GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
-| GH11 | Deploy: Railway (API) + Vercel (web) | ⏳ In Review | `spec/GH11-deploy` |
+| GH11 | Deploy: Railway (API) + Vercel (web) | ✅ Concluído | `spec/GH11-deploy` |
 | GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
-| GH29 | Restore Frontend React (Resgate da V1) | ⏳ In Review | `spec/GH29-restore-frontend` |
+| GH29 | Restore Frontend React (Resgate da V1) | ✅ Concluído | `spec/GH29-restore-frontend` |
+| GH31 | Resolução de Network Error (CORS) | ⏳ In Progress | `spec/GH31-cors` |
 
 ---
 

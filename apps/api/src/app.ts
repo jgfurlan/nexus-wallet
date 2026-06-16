@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import fastifyJwt from '@fastify/jwt';
+import cors from '@fastify/cors';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { healthRoutes } from './modules/health/health.routes';
 import { authRoutes } from './modules/auth/auth.routes';
@@ -41,6 +42,16 @@ export const buildApp = () => {
 
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
+
+  // Register CORS
+  app.register(cors, {
+    origin: [
+      'http://localhost:5173',
+      'https://nexus-wallet-ashy.vercel.app',
+      /https:\/\/nexus-wallet-.*\.vercel\.app$/
+    ],
+    credentials: true,
+  });
 
   // Register JWT plugin
   app.register(fastifyJwt, {

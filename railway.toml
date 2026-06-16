@@ -1,0 +1,9 @@
+[build]
+builder = "nixpacks"
+buildCommand = "pnpm install && pnpm --filter api db:generate && pnpm --filter api build"
+
+[deploy]
+startCommand = "pnpm --filter api exec prisma migrate deploy && pnpm --filter api start"
+healthcheckPath = "/health"
+healthcheckTimeout = 100
+restartPolicyType = "on-failure"

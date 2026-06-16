@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH11 — Deploy: Railway (API) + Vercel (web)
+- **Tarefa Atual:** GH12 — README + Documentação de decisões técnicas
 - **Status:** ⏳ In Review
-- **Branch:** `spec/GH11-deploy`
+- **Branch:** `spec/GH12-readme-docs`
 
 ---
 
@@ -24,8 +24,8 @@
 | GH8 | Endpoint de histórico de transações (paginado) | ✅ Concluído | `spec/GH8-history` |
 | GH9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
 | GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
-| GH11 | Deploy: Railway (API) + Vercel (web) | ⏳ In Review | `spec/GH11-deploy` |
-| GH12 | README + Documentação de decisões técnicas | 🔲 Todo | — |
+| GH11 | Deploy: Railway (API) + Vercel (web) | ✅ Concluído | — |
+| GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
 
 ---
 
@@ -40,6 +40,7 @@
 - **GH8**: Endpoint de histórico de transações (paginado) - 2026-06-14
 - **GH9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 - **GH10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
+- **GH11**: Deploy: Railway (API) + Vercel (web) - 2026-06-16
 
 ---
 

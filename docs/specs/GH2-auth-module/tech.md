@@ -1,7 +1,7 @@
-# Technical Spec: Módulo de Autenticação (NXS-2)
+# Technical Spec: Módulo de Autenticação (GH2)
 
 **Consulte `product.md` para detalhes sobre o comportamento esperado e casos de uso.**
-**Issue:** NXS-2
+**Issue:** GH2
 
 ---
 

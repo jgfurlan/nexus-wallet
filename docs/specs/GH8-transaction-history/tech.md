@@ -1,7 +1,7 @@
 # Technical Spec: Histórico de Transações (Paginado)
 
 **Consulte `product.md` para ver o comportamento do usuário e as invariantes.**
-**Issue:** NXS-8
+**Issue:** GH8
 
 ---
 

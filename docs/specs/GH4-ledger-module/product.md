@@ -1,6 +1,6 @@
 # Product Spec: Módulo de Ledger e Auditoria (Ledger Module)
 
-**Issue:** NXS-4 — Ledger module (append-only entries, audit endpoint)
+**Issue:** GH4 — Ledger module (append-only entries, audit endpoint)
 
 ---
 

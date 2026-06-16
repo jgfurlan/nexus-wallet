@@ -1,6 +1,6 @@
 # Product Spec: Histórico de Transações (Paginado)
 
-**Issue:** NXS-8 — [Transaction History](https://github.com/users/jgfurlan/projects/nexus-wallet/issues/8)
+**Issue:** GH8 — [Transaction History](https://github.com/users/jgfurlan/projects/nexus-wallet/issues/8)
 
 ---
 

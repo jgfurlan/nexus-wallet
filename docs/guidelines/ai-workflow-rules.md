@@ -69,7 +69,7 @@ graph TD
 ### Phase 3: Code Implementation (`in-progress`)
 1. Transition the issue/PR label on GitHub to `in-progress`.
 2. Implement the feature following **Test-Driven Development (TDD)** (write failing test -> watch it fail -> write minimal code to pass -> watch it pass -> refactor).
-3. Commit implementation: `<type>: [NXS-<id>] <imperative description>` (e.g., `feat: [NXS-4] implement audit endpoint`).
+3. Commit implementation: `<type>: [NXS-<id>] <imperative description>` (e.g., `feat: [GH4] implement audit endpoint`).
 
 ### Phase 4: Verification & Review (`in-review`)
 1. Transition the issue/PR label on GitHub to `in-review`.
@@ -108,12 +108,12 @@ GitHub PRs = source of truth for **code**.
 
 ### Branch Naming Convention
 Every issue must be resolved in a branch prefixed with `spec/`:
-`spec/NXS-<id>-<slug>` (e.g., `spec/NXS-2-auth-jwt`)
+`spec/NXS-<id>-<slug>` (e.g., `spec/GH2-auth-jwt`)
 
 ### PR Naming & Issue Linking Convention
 Whenever a Pull Request is created:
 1. It **must be linked** to the corresponding GitHub issue. This is done by adding a close keyword like `Closes #<id>` or `Resolves #<id>` in the PR description/body.
-2. The title of the PR **must end** with `Closes #<id>` (e.g., `spec: [NXS-5] Deposit Webhook Closes #5`).
+2. The title of the PR **must end** with `Closes #<id>` (e.g., `spec: [GH5] Deposit Webhook Closes #5`).
 
 ### GitHub Labels & Issue State Machine
 We use GitHub Labels to track issue/PR state:
@@ -131,9 +131,9 @@ We use GitHub Labels to track issue/PR state:
 
 ```bash
 # Examples
-feat: [NXS-3] implement JWT refresh token rotation
-fix: [NXS-7] prevent duplicate deposit via idempotency key
-test: [NXS-5] add ledger audit invariant tests
+feat: [GH3] implement JWT refresh token rotation
+fix: [GH7] prevent duplicate deposit via idempotency key
+test: [GH5] add ledger audit invariant tests
 ```
 
 ---

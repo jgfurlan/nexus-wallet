@@ -1,7 +1,7 @@
 # Technical Spec: Webhook de Depósito (Deposit Webhook)
 
 **Consulte `product.md` para ver o comportamento do usuário e as invariantes.**
-**Issue:** NXS-5
+**Issue:** GH5
 
 ---
 

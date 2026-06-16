@@ -1,6 +1,6 @@
 # Product Spec: Conversão de Moedas (Swap Module)
 
-**Issue:** NXS-6 — Swap module (quote endpoint + execute endpoint)
+**Issue:** GH6 — Swap module (quote endpoint + execute endpoint)
 
 ---
 

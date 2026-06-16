@@ -30,9 +30,9 @@ Nenhuma alteração de código sem uma **Especificação de Funcionalidade Atôm
 **Regra de escopo:** Uma alteração requer uma spec formal se tocar a fronteira de um módulo, esquema de banco de dados, contrato de API ou lógica de negócio. Typos, correções de comentários e formatação NÃO requerem uma spec.
 
 ### 2. Workflow de Issues GitHub (Observabilidade Profissional)
-- **Nomenclatura de branch:** `spec/NXS-<id>-<descricao-curta>` (ex: `spec/NXS-2-auth-jwt`)
-- **Título do PR e Vínculo:** Todos os PRs devem ser vinculados à sua Issue correspondente (ex: adicionando `Closes #<id>` na descrição) e devem terminar com `Closes #<id>` no título do PR (ex: `spec: [NXS-5] Deposit Webhook Closes #5`).
-- **Formato de Commit:** `<tipo>: [NXS-<id>] <descrição>` (ex: `feat: [NXS-2] implementa rotação de refresh token JWT`)
+- **Nomenclatura de branch:** `spec/NXS-<id>-<descricao-curta>` (ex: `spec/GH2-auth-jwt`)
+- **Título do PR e Vínculo:** Todos os PRs devem ser vinculados à sua Issue correspondente (ex: adicionando `Closes #<id>` na descrição) e devem terminar com `Closes #<id>` no título do PR (ex: `spec: [GH5] Deposit Webhook Closes #5`).
+- **Formato de Commit:** `<tipo>: [NXS-<id>] <descrição>` (ex: `feat: [GH2] implementa rotação de refresh token JWT`)
 - **Máquina de Estados (Issues GitHub):**
   - `in-spec`: redigindo especificações product.md e tech.md.
   - `ready-to-implement`: especificações aprovadas, pronto para codificar.

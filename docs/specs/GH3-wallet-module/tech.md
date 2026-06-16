@@ -1,7 +1,7 @@
 # Technical Spec: Módulo de Carteira (Wallet Module)
 
 **Consulte `product.md` para ver o comportamento do usuário e as invariantes.**
-**Issue:** NXS-3
+**Issue:** GH3
 
 ---
 

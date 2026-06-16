@@ -1,6 +1,6 @@
 # Product Spec: Módulo de Carteira (Wallet Module)
 
-**Issue:** NXS-3 — Wallet module (auto-create on register, get balances)
+**Issue:** GH3 — Wallet module (auto-create on register, get balances)
 
 ---
 

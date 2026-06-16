@@ -1,7 +1,7 @@
 # Technical Spec: Módulo de Saque (Withdrawal)
 
 **Consulte `product.md` para ver o comportamento do usuário e as invariantes.**
-**Issue:** NXS-7
+**Issue:** GH7
 
 ---
 
@@ -83,7 +83,7 @@ POST /wallet/withdraw
 - [ ] Executar `pnpm test` — confirmar GREEN
 - [ ] Executar `pnpm lint && pnpm typecheck` — confirmar limpo
 - [ ] Atualizar `progress-tracker.md`
-- [ ] Commit: `feat: [NXS-7] implementa módulo de saque com idempotência e ledger`
+- [ ] Commit: `feat: [GH7] implementa módulo de saque com idempotência e ledger`
 
 ---
 

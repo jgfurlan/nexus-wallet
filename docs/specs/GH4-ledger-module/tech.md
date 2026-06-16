@@ -1,7 +1,7 @@
 # Technical Spec: Módulo de Ledger e Auditoria (Ledger Module)
 
 **Consulte `product.md` para ver o comportamento do usuário e as invariantes.**
-**Issue:** NXS-4
+**Issue:** GH4
 
 ---
 

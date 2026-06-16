@@ -1,6 +1,6 @@
-# Product Spec: Frontend React Dashboard (NXS-10)
+# Product Spec: Frontend React Dashboard (GH10)
 
-**Issue:** NXS-10 — [Frontend Implementation](https://github.com/users/jgfurlan/projects/nexus-wallet/issues/10)
+**Issue:** GH10 — [Frontend Implementation](https://github.com/users/jgfurlan/projects/nexus-wallet/issues/10)
 **Figma/Design:** Rose Pine Dark (Conceito A)
 
 ---

@@ -48,9 +48,13 @@ export const buildApp = () => {
     origin: [
       'http://localhost:5173',
       'https://nexus-wallet-ashy.vercel.app',
-      /https:\/\/nexus-wallet-.*\.vercel\.app$/
+      /https:\/\/nexus-wallet-.*\.vercel\.app$/,
     ],
     credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflight: true,
+    strictPreflight: false,
   });
 
   // Register JWT plugin
@@ -83,28 +87,15 @@ export const buildApp = () => {
   app.register(withdrawalRoutes);
   app.register(historyRoutes);
 
-  // Debug Route
-  app.get('/test-cors', (_request, reply) => {
-    reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
-    reply.header('Access-Control-Allow-Credentials', 'true');
-    return reply.send({ ok: true, version: 'cors-fixed-v2', timestamp: Date.now() });
-  });
-
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {
     request.log.error(error);
-
-    // Force CORS headers on all errors to prevent browser Network Errors
-    reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
-    reply.header('Access-Control-Allow-Credentials', 'true');
-
     if (error.statusCode) {
       return reply.status(error.statusCode).send({
         error: error.code || error.name,
         message: error.message,
       });
     }
-
     return reply.status(500).send({
       error: 'INTERNAL_SERVER_ERROR',
       message: 'An unexpected error occurred.',
@@ -112,18 +103,7 @@ export const buildApp = () => {
   });
 
   // 404 Handler
-  app.setNotFoundHandler((request, reply) => {
-    // Explicitly handle all OPTIONS preflight requests that slip through the CORS plugin
-    if (request.method === 'OPTIONS') {
-      reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
-      reply.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
-      reply.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-      reply.header('Access-Control-Allow-Credentials', 'true');
-      return reply.status(204).send();
-    }
-
-    reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
-    reply.header('Access-Control-Allow-Credentials', 'true');
+  app.setNotFoundHandler((_request, reply) => {
     return reply.status(404).send({
       error: 'NOT_FOUND',
       message: 'Route not found',

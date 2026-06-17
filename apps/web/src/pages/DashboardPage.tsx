@@ -7,21 +7,16 @@ import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card'
 import { formatCurrency, formatToken, formatDate } from '../lib/formatters';
 import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
-import { Balance } from '../types';
+import { Balance, Transaction } from '../types';
 
-interface RecentTx {
-  id: string;
-  type: 'DEPOSIT' | 'SWAP';
-  token?: string;
-  fromToken?: string;
-  amount: string;
-  date: Date;
-}
+import { HistoryService } from '../services/history.service';
+import { SwapService } from '../services/swap.service';
 
 export const DashboardPage: React.FC = () => {
   const [balances, setBalances] = useState<Balance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [recentTransactions, setRecentTransactions] = useState<RecentTx[]>([]);
+  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
+  const [fiatValues, setFiatValues] = useState<Record<string, string>>({});
 
   useEffect(() => {
     async function loadData() {
@@ -30,11 +25,28 @@ export const DashboardPage: React.FC = () => {
         const balancesData = await WalletService.getBalances();
         setBalances(balancesData.balances);
         
-        // Mock recent transactions until history service is fully integrated in Dashboard
-        setRecentTransactions([
-          { id: '1', type: 'DEPOSIT', token: 'BRL', amount: '1000.00', date: new Date() },
-          { id: '2', type: 'SWAP', fromToken: 'BRL', amount: '500.00', date: new Date() },
-        ]);
+        // Fetch real history from API
+        const historyData = await HistoryService.getHistory({ limit: 5 });
+        setRecentTransactions(historyData.data);
+
+        // Fetch real fiat quotes from API
+        const fiatMap: Record<string, string> = {};
+        for (const b of balancesData.balances) {
+          if (b.token === 'BRL') {
+            fiatMap[b.token] = '1.00';
+          } else if (Number(b.amount) > 0) {
+            try {
+              const quote = await SwapService.getQuote(b.token, 'BRL', b.amount);
+              fiatMap[b.token] = quote.destinationAmount;
+            } catch (err) {
+              console.error(`Failed to load fiat for ${b.token}`, err);
+              fiatMap[b.token] = '0.00';
+            }
+          } else {
+            fiatMap[b.token] = '0.00';
+          }
+        }
+        setFiatValues(fiatMap);
       } catch (error) {
         console.error('Failed to load dashboard data', error);
       } finally {
@@ -82,7 +94,7 @@ export const DashboardPage: React.FC = () => {
         <BalanceCard
           token="Bitcoin"
           amount={`${formatToken(getBalance('BTC'))} BTC`}
-          fiatValue="345.230,00" // Mock price
+          fiatValue={formatCurrency(fiatValues['BTC'] || '0')}
           symbol="R$"
           icon={<TrendingUp className="w-6 h-6" />}
           isLoading={isLoading}
@@ -90,7 +102,7 @@ export const DashboardPage: React.FC = () => {
         <BalanceCard
           token="Ethereum"
           amount={`${formatToken(getBalance('ETH'))} ETH`}
-          fiatValue="18.450,00" // Mock price
+          fiatValue={formatCurrency(fiatValues['ETH'] || '0')}
           symbol="R$"
           icon={<TrendingUp className="w-6 h-6" />}
           isLoading={isLoading}
@@ -123,7 +135,7 @@ export const DashboardPage: React.FC = () => {
                       <p className="text-sm font-medium text-primary">
                         {tx.type === 'DEPOSIT' ? 'Depósito Recebido' : 'Conversão Realizada'}
                       </p>
-                      <p className="text-xs text-subtle">{formatDate(tx.date)}</p>
+                      <p className="text-xs text-subtle">{formatDate(new Date(tx.createdAt))}</p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -131,7 +143,7 @@ export const DashboardPage: React.FC = () => {
                       "text-sm font-bold",
                       tx.type === 'DEPOSIT' ? "text-foam" : "text-primary"
                     )}>
-                      {tx.type === 'DEPOSIT' ? '+' : ''}{tx.amount} {tx.token || tx.fromToken}
+                      {tx.type === 'DEPOSIT' ? '+' : ''}{tx.type === 'DEPOSIT' ? tx.toAmount : tx.fromAmount} {tx.type === 'DEPOSIT' ? tx.toToken : tx.fromToken}
                     </p>
                   </div>
                 </div>

@@ -83,6 +83,13 @@ export const buildApp = () => {
   app.register(withdrawalRoutes);
   app.register(historyRoutes);
 
+  // Debug Route
+  app.get('/test-cors', (_request, reply) => {
+    reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
+    reply.header('Access-Control-Allow-Credentials', 'true');
+    return reply.send({ ok: true, version: 'cors-fixed-v2', timestamp: Date.now() });
+  });
+
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {
     request.log.error(error);

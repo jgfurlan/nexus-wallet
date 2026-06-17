@@ -87,6 +87,10 @@ export const buildApp = () => {
   app.setErrorHandler((error, request, reply) => {
     request.log.error(error);
 
+    // Force CORS headers on all errors to prevent browser Network Errors
+    reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
+    reply.header('Access-Control-Allow-Credentials', 'true');
+
     if (error.statusCode) {
       return reply.status(error.statusCode).send({
         error: error.code || error.name,
@@ -101,7 +105,18 @@ export const buildApp = () => {
   });
 
   // 404 Handler
-  app.setNotFoundHandler((_request, reply) => {
+  app.setNotFoundHandler((request, reply) => {
+    // Explicitly handle all OPTIONS preflight requests that slip through the CORS plugin
+    if (request.method === 'OPTIONS') {
+      reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
+      reply.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
+      reply.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+      reply.header('Access-Control-Allow-Credentials', 'true');
+      return reply.status(204).send();
+    }
+
+    reply.header('Access-Control-Allow-Origin', 'https://nexus-wallet-ashy.vercel.app');
+    reply.header('Access-Control-Allow-Credentials', 'true');
     return reply.status(404).send({
       error: 'NOT_FOUND',
       message: 'Route not found',

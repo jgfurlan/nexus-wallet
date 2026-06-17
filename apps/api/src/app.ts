@@ -12,6 +12,8 @@ import { depositRoutes } from './modules/webhook/deposit.routes';
 import { swapRoutes } from './modules/swap/swap.routes';
 import { withdrawalRoutes } from './modules/withdrawal/withdrawal.routes';
 import { historyRoutes } from './modules/wallet/history.routes';
+import { feedbackRoutes } from './modules/feedback/feedback.routes';
+import { faucetRoutes } from './modules/test/faucet.routes';
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
@@ -86,6 +88,8 @@ export const buildApp = () => {
   app.register(swapRoutes);
   app.register(withdrawalRoutes);
   app.register(historyRoutes);
+  app.register(feedbackRoutes);
+  app.register(faucetRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {

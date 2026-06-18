@@ -5,8 +5,6 @@ import { Layout } from './components/Layout';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
-import { SwapPage } from './pages/SwapPage';
-import { HistoryPage } from './pages/HistoryPage';
 
 function App() {
   return (
@@ -22,28 +20,6 @@ function App() {
               <ProtectedRoute>
                 <Layout>
                   <DashboardPage />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/swap"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <SwapPage />
-                </Layout>
-              </ProtectedRoute>
-            }
-          />
-
-          <Route
-            path="/history"
-            element={
-              <ProtectedRoute>
-                <Layout>
-                  <HistoryPage />
                 </Layout>
               </ProtectedRoute>
             }

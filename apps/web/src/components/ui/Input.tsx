@@ -11,7 +11,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="w-full">
         <input
           className={cn(
-            'flex h-11 w-full rounded-md border border-overlay bg-base px-3 py-2 text-sm text-primary ring-offset-base file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all',
+            'flex h-11 w-full rounded-2xl border border-overlay bg-white/5 px-3 py-2 text-sm text-primary ring-offset-base file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pine focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all',
             error && 'border-love focus-visible:ring-love',
             className
           )}

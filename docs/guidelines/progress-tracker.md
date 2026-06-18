@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH12 — README + Documentação de decisões técnicas
-- **Status:** ⏳ In Review
-- **Branch:** `spec/GH12-readme-docs`
+- **Tarefa Atual:** GH41 — UX Revamp: Drawers Navigation, Faucet, e Fale Conosco
+- **Status:** ⏳ In Progress
+- **Branch:** `spec/GH41-ux-revamp`
 
 ---
 
@@ -27,6 +27,9 @@
 | GH11 | Deploy: Railway (API) + Vercel (web) | ✅ Concluído | `spec/GH11-deploy` |
 | GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
 | GH29 | Restore Frontend React (Resgate da V1) | ✅ Concluído | `spec/GH29-restore-frontend` |
+| GH31 | Resolução de Network Error (CORS via Fastify Fallback) | ✅ Concluído | `fix/cors-fallback` |
+| GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ✅ Concluído | `spec/GH32-railway-cache` |
+| GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ⏳ In Progress | `spec/GH41-ux-revamp` |
 
 ---
 

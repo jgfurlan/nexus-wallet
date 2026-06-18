@@ -2,6 +2,7 @@ import Fastify from 'fastify';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import fastifyJwt from '@fastify/jwt';
+import cors from '@fastify/cors';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { healthRoutes } from './modules/health/health.routes';
 import { authRoutes } from './modules/auth/auth.routes';
@@ -11,6 +12,8 @@ import { depositRoutes } from './modules/webhook/deposit.routes';
 import { swapRoutes } from './modules/swap/swap.routes';
 import { withdrawalRoutes } from './modules/withdrawal/withdrawal.routes';
 import { historyRoutes } from './modules/wallet/history.routes';
+import { feedbackRoutes } from './modules/feedback/feedback.routes';
+import { faucetRoutes } from './modules/test/faucet.routes';
 
 declare module '@fastify/jwt' {
   interface FastifyJWT {
@@ -42,6 +45,20 @@ export const buildApp = () => {
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
+  // Register CORS
+  app.register(cors, {
+    origin: [
+      'http://localhost:5173',
+      'https://nexus-wallet-ashy.vercel.app',
+      /https:\/\/nexus-wallet-.*\.vercel\.app$/,
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    preflight: true,
+    strictPreflight: false,
+  });
+
   // Register JWT plugin
   app.register(fastifyJwt, {
     secret: process.env.JWT_SECRET || 'nexus_super_secret_key_1234567890_change_me_in_prod',
@@ -71,18 +88,18 @@ export const buildApp = () => {
   app.register(swapRoutes);
   app.register(withdrawalRoutes);
   app.register(historyRoutes);
+  app.register(feedbackRoutes);
+  app.register(faucetRoutes);
 
   // Global Error Handler
   app.setErrorHandler((error, request, reply) => {
     request.log.error(error);
-
     if (error.statusCode) {
       return reply.status(error.statusCode).send({
         error: error.code || error.name,
         message: error.message,
       });
     }
-
     return reply.status(500).send({
       error: 'INTERNAL_SERVER_ERROR',
       message: 'An unexpected error occurred.',

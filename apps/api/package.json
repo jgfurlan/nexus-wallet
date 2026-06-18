@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "ts-node src/server.ts",
-    "start": "node dist/server.js",
+    "start": "pwd && ls -la && ls -la dist || true && node dist/server.js",
     "build": "tsc",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@fastify/cors": "^8.5.0",
     "@fastify/jwt": "^8.0.1",
     "@fastify/swagger": "^8.14.0",
     "@fastify/swagger-ui": "^3.0.0",

@@ -19,7 +19,7 @@ export const Card: React.FC<CardProps> = ({
   return (
     <div
       className={cn(
-        'rounded-lg p-6',
+        'rounded-2xl p-6',
         variants[variant],
         className
       )}

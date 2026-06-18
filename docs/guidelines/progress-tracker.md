@@ -44,6 +44,7 @@
 - **GH8**: Endpoint de histórico de transações (paginado) - 2026-06-14
 - **GH9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 - **GH10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
+- **GH11**: Deploy: Railway (API) + Vercel (web) - 2026-06-16
 
 ---
 

@@ -1,174 +1,45 @@
-# Architecture: NexusWallet Systemic Boundaries & Invariants
+# NexusWallet — Documentação de Arquitetura
 
-## System Map
+Esta página consolida as diretrizes técnicas e as decisões arquiteturais fundamentais tomadas durante o desenvolvimento do NexusWallet (Fase 1).
 
-```
-┌─────────────────────────────────────────────────────────┐
-│  Vercel (Frontend)                                       │
-│  React 18 + Vite + TailwindCSS                          │
-│  /apps/web                                              │
-└─────────────────┬───────────────────────────────────────┘
-                  │ HTTPS REST
-┌─────────────────▼───────────────────────────────────────┐
-│  Railway (Backend)                                       │
-│  Fastify + TypeScript                                    │
-│  /apps/api                                              │
-│                                                         │
-│  ┌──────────┐  ┌──────────┐  ┌──────────────────────┐  │
-│  │  Auth    │  │  Wallet  │  │  Swap / Withdrawal   │  │
-│  │  Module  │  │  Module  │  │  Module              │  │
-│  └──────────┘  └──────────┘  └──────────────────────┘  │
-│                                                         │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │  Ledger Module (append-only, immutable entries)  │   │
-│  └──────────────────────────────────────────────────┘   │
-└──────┬──────────────────────────────────┬───────────────┘
-       │ Prisma                           │ ioredis
-┌──────▼──────┐                   ┌───────▼──────┐
-│ PostgreSQL  │                   │    Redis     │
-│ (Railway)   │                   │  (Railway)   │
-└─────────────┘                   └──────────────┘
-                                         │ HTTP
-                                  ┌──────▼──────┐
-                                  │  CoinGecko  │
-                                  │  Public API │
-                                  └─────────────┘
-```
+---
 
-## Monorepo Structure
+## 1. Topologia do Sistema
+O NexusWallet é um monorepo gerenciado com **pnpm workspaces**.
+- **Backend (`apps/api`)**: API REST focada em altíssima performance estruturada de forma modular. Desenvolvida utilizando **Fastify** para lidar com altas cargas de RPS (Requests Per Second) e cold-starts eficientes.
+- **Frontend (`apps/web`)**: Single Page Application reativa, escrita com **React** e gerenciada pelo **Vite**.
 
-```
-nexus-wallet/
-├── CLAUDE.md                        ← Agent entry point
-├── apps/
-│   ├── api/                         ← Fastify backend
-│   │   ├── src/
-│   │   │   ├── modules/
-│   │   │   │   ├── auth/
-│   │   │   │   ├── wallet/
-│   │   │   │   ├── swap/
-│   │   │   │   ├── withdrawal/
-│   │   │   │   └── ledger/
-│   │   │   ├── lib/
-│   │   │   │   ├── prisma.ts
-│   │   │   │   ├── redis.ts
-│   │   │   │   └── coingecko.ts
-│   │   │   ├── middleware/
-│   │   │   │   └── auth_guard.ts
-│   │   │   └── app.ts
-│   │   ├── prisma/
-│   │   │   └── schema.prisma
-│   │   └── vitest.config.ts
-│   └── web/                         ← React frontend
-│       ├── src/
-│       │   ├── pages/
-│       │   ├── components/
-│       │   └── lib/api.ts
-│       └── vercel.json
-└── docs/
-    ├── guidelines/                  ← Static agent context
-    └── specs/                       ← Atomic Feature Specs
-        └── NXS-<id>-<slug>/
-            ├── product.md
-            └── tech.md
-```
+## 2. Padrões de Projeto do Backend
 
-## Database Schema (Prisma)
+### Arquitetura Modular (Controller-Service-Router)
+Adotamos uma organização vertical baseada em "Features/Módulos" dentro de `src/modules/`. Em vez de separar por camada global (todas as rotas numa pasta, todos os controllers em outra), cada funcionalidade engloba tudo o que lhe pertence:
+- **`*.schemas.ts`**: Validações de payload e resposta (usando **Zod** e gerando `$ref` para o Swagger com `fastify-zod`).
+- **`*.routes.ts`**: Declaração das rotas do Fastify com seus devidos interceptores e documentação embutida.
+- **`*.controller.ts`**: Camada de entrada. Valida as requisições e envia para o serviço. Lida exclusivamente com objetos HTTP.
+- **`*.service.ts`**: Onde as regras de negócios residem. Independente do contexto HTTP, comunicando-se ativamente com o Banco de Dados.
 
-```prisma
-model User {
-  id           String          @id @default(cuid())
-  email        String          @unique
-  passwordHash String
-  refreshToken String?
-  wallet       Wallet?
-  transactions Transaction[]
-  createdAt    DateTime        @default(now())
-}
+### Matemática Monetária Segura
+**Decisão Histórica (GH1):** Todas as transações financeiras, persistências e cálculos de saldo utilizam a biblioteca **`decimal.js`**. O uso nativo do tipo `number` (ponto flutuante) ou `BigInt` (sem decimais) foi vetado devido aos riscos severos de arredondamento em moedas criptográficas (e.g. BTC) e decimais de cotação.
 
-model Wallet {
-  id       String          @id @default(cuid())
-  userId   String          @unique
-  user     User            @relation(fields: [userId], references: [id])
-  balances WalletBalance[]
-}
+## 3. Padrões de Banco de Dados
 
-model WalletBalance {
-  id           String        @id @default(cuid())
-  walletId     String
-  wallet       Wallet        @relation(fields: [walletId], references: [id])
-  token        TokenSymbol
-  amount       Decimal       @default(0) @db.Decimal(36, 18)
-  ledgerEntries LedgerEntry[]
+### ORM: Prisma
+- As tabelas e migrações são controladas através do `schema.prisma`. 
+- **Obrigatoriedade de Isolamento:** Os testes de integração (no Vitest) não compartilham estado entre módulos, pois eles acessam e interagem diretamente com o Prisma para testar do banco à rota.
 
-  @@unique([walletId, token])
-}
+### O "Ledger" Imutável (GH4)
+Para auditoria total e rastreamento fidedigno das finanças, o sistema não altera o saldo de uma carteira através de *Updates*. 
+- Todo movimento (Depósito, Saque, Swap) gera **Entradas no Ledger** (`LedgerEntry`), que operam com a premissa de *Append-Only* (apenas adição).
+- Se os dados precisarem ser reprocessados, é possível reconstruir perfeitamente o saldo de um cliente apenas recriando o agregado das entradas de Ledger.
 
-model LedgerEntry {
-  id              String          @id @default(cuid())
-  walletBalanceId String
-  walletBalance   WalletBalance   @relation(fields: [walletBalanceId], references: [id])
-  type            LedgerEntryType
-  delta           Decimal         @db.Decimal(36, 18)
-  balanceBefore   Decimal         @db.Decimal(36, 18)
-  balanceAfter    Decimal         @db.Decimal(36, 18)
-  transactionId   String?
-  transaction     Transaction?    @relation(fields: [transactionId], references: [id])
-  createdAt       DateTime        @default(now())
-}
+## 4. Integrações de Terceiros
 
-model Transaction {
-  id             String          @id @default(cuid())
-  userId         String
-  user           User            @relation(fields: [userId], references: [id])
-  type           TransactionType
-  fromToken      TokenSymbol?
-  toToken        TokenSymbol?
-  fromAmount     Decimal?        @db.Decimal(36, 18)
-  toAmount       Decimal?        @db.Decimal(36, 18)
-  feeAmount      Decimal?        @db.Decimal(36, 18)
-  rate           Decimal?        @db.Decimal(36, 18)
-  idempotencyKey String?         @unique
-  ledgerEntries  LedgerEntry[]
-  createdAt      DateTime        @default(now())
-}
+### CoinGecko + Redis (GH9)
+A integração de preços foi isolada e cacheada de forma inteligente.
+Para não ferir os limites de *rate-limiting* severos da versão gratuita da CoinGecko, os preços de Criptomoedas e Fiat são injetados no **Redis** com um **TTL (Time to Live) de 30 segundos**. O módulo de Swap só vai à API externa quando ocorre o "Cache Miss".
 
-enum TokenSymbol {
-  BRL
-  BTC
-  ETH
-}
+### Webhooks de Transação (GH5)
+- O ponto de entrada de depósitos foi estruturado via **Webhooks** com *Idempotência*. Se um parceiro de processamento de Blockchain (ou sistema de clearing Fiat) tentar notificar o mesmo recibo (`txHash`/`idempotencyKey`) repetidas vezes em casos de falha de rede, a API do NexusWallet irá recusar duplicidade no banco, garantindo que nenhum usuário receba fundos duplos.
 
-enum LedgerEntryType {
-  DEPOSIT
-  SWAP_IN
-  SWAP_OUT
-  SWAP_FEE
-  WITHDRAWAL
-}
-
-enum TransactionType {
-  DEPOSIT
-  SWAP
-  WITHDRAWAL
-}
-```
-
-## Agentic Orchestration (CWD Framework)
-
-All agentic features follow the **Coordinator-Worker-Delegator** pattern:
-
-1. **Coordinator (LLM):** Reads the spec, plans the trajectory, identifies module boundaries.
-2. **Worker (Tool):** Executes one atomic action at a time — write one file, run one test, make one DB query.
-3. **Delegator (Microservice):** CoinGecko integration is an isolated delegator; swap logic never calls the HTTP client directly — it goes through `lib/coingecko.ts`.
-
-## Systemic Invariants (Never Break)
-
-| Invariant | Rule |
-|-----------|------|
-| **Ledger Immutability** | `LedgerEntry` rows are never updated or deleted. Balance corrections are new entries. |
-| **Decimal Precision** | All monetary values use `Decimal` (prisma) / `decimal.js` (runtime). Never use `number` for amounts. |
-| **Atomic Swap** | Swap debit + fee debit + credit happen inside a single Prisma `$transaction`. Partial execution is a bug. |
-| **Idempotency** | `idempotencyKey` is unique in DB. Duplicate webhook = 200 OK with original transaction, no new credit. |
-| **Trust Anchor** | `auth_guard` middleware must be registered on all routes except `/auth/*` and `/webhooks/*`. |
-| **Stateless Auth** | Access tokens are never stored. Only hashed refresh tokens live in DB. |
+---
+*Documento gerado como finalização arquitetural da Issue GH12.*

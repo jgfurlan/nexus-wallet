@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH41 — UX Revamp: Drawers Navigation, Faucet, e Fale Conosco
+- **Tarefa Atual:** GH43 — Separar CI de CD para evitar builds falhas em produção
 - **Status:** ⏳ In Progress
-- **Branch:** `spec/GH41-ux-revamp`
+- **Branch:** `spec/GH43-separate-ci-cd`
 
 ---
 
@@ -29,7 +29,8 @@
 | GH29 | Restore Frontend React (Resgate da V1) | ✅ Concluído | `spec/GH29-restore-frontend` |
 | GH31 | Resolução de Network Error (CORS via Fastify Fallback) | ✅ Concluído | `fix/cors-fallback` |
 | GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ✅ Concluído | `spec/GH32-railway-cache` |
-| GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ⏳ In Progress | `spec/GH41-ux-revamp` |
+| GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ✅ Concluído | `spec/GH41-ux-revamp` |
+| GH43 | Separação de CI (GitHub Actions) e CD (Railway/Vercel) | ⏳ In Progress | `spec/GH43-separate-ci-cd` |
 
 ---
 
@@ -44,6 +45,7 @@
 - **GH8**: Endpoint de histórico de transações (paginado) - 2026-06-14
 - **GH9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 - **GH10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
+- **GH41**: UX Revamp: Drawers Navigation, Faucet, e Fale Conosco - 2026-06-17
 
 ---
 

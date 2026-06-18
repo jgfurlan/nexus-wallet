@@ -39,3 +39,6 @@ Thumbs.db
 # Graphify
 graphify-out/
 .vercel
+
+# Shell scripts
+*.sh

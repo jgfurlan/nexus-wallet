@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH32 — Resolver Railway Ghost Cache & Deploy a partir da Main
+- **Tarefa Atual:** GH41 — UX Revamp: Drawers Navigation, Faucet, e Fale Conosco
 - **Status:** ⏳ In Progress
-- **Branch:** `spec/GH32-railway-cache`
+- **Branch:** `spec/GH41-ux-revamp`
 
 ---
 
@@ -28,7 +28,8 @@
 | GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
 | GH29 | Restore Frontend React (Resgate da V1) | ✅ Concluído | `spec/GH29-restore-frontend` |
 | GH31 | Resolução de Network Error (CORS via Fastify Fallback) | ✅ Concluído | `fix/cors-fallback` |
-| GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ⏳ In Progress | `spec/GH32-railway-cache` |
+| GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ✅ Concluído | `spec/GH32-railway-cache` |
+| GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ⏳ In Progress | `spec/GH41-ux-revamp` |
 
 ---
 

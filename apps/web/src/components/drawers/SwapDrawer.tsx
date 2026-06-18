@@ -3,15 +3,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { ArrowLeftRight, AlertCircle, Timer, CheckCircle2 } from 'lucide-react';
-import { SwapService } from '../services/swap.service';
-import { Button } from '../components/ui/Button';
-import { Input } from '../components/ui/Input';
-import { Label } from '../components/ui/Label';
-import { Card, CardContent, CardFooter } from '../components/ui/Card';
-import { ConfirmModal } from '../components/ui/ConfirmModal';
-import { formatCurrency, formatToken } from '../lib/formatters';
-import { SwapQuoteResponse, Transaction, TokenSymbol } from '../types';
-import { getErrorMessage } from '../lib/error-utils';
+import { SwapService } from '../../services/swap.service';
+import { Button } from '../ui/Button';
+import { Input } from '../ui/Input';
+import { Label } from '../ui/Label';
+import { ConfirmModal } from '../ui/ConfirmModal';
+import { Drawer } from '../ui/Drawer';
+import { formatCurrency, formatToken } from '../../lib/formatters';
+import { SwapQuoteResponse, Transaction, TokenSymbol } from '../../types';
+import { getErrorMessage } from '../../lib/error-utils';
 import Decimal from 'decimal.js';
 
 const swapSchema = z.object({
@@ -25,7 +25,13 @@ const swapSchema = z.object({
 
 type SwapForm = z.infer<typeof swapSchema>;
 
-export const SwapPage: React.FC = () => {
+interface SwapDrawerProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess?: () => void;
+}
+
+export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [quote, setQuote] = useState<SwapQuoteResponse | null>(null);
   const [timeLeft, setTimeLeft] = useState(0);
   const [isLoadingQuote, setIsLoadingQuote] = useState(false);
@@ -34,7 +40,7 @@ export const SwapPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [successTx, setSuccessTx] = useState<Transaction | null>(null);
 
-  const { register, watch, handleSubmit, formState: { errors }, setValue } = useForm<SwapForm>({
+  const { register, watch, handleSubmit, formState: { errors }, setValue, reset } = useForm<SwapForm>({
     resolver: zodResolver(swapSchema),
     defaultValues: {
       fromToken: 'BRL',
@@ -92,6 +98,7 @@ export const SwapPage: React.FC = () => {
       setSuccessTx(tx);
       setIsModalOpen(false);
       setQuote(null);
+      if (onSuccess) onSuccess();
     } catch (err) {
       setError(getErrorMessage(err));
       setIsModalOpen(false);
@@ -106,22 +113,37 @@ export const SwapPage: React.FC = () => {
     setValue('toToken', currentFrom as TokenSymbol);
   };
 
-  if (successTx) {
-    return (
-      <div className="max-w-md mx-auto animate-in zoom-in-95 duration-300">
-        <Card className="text-center py-12">
+  const handleClose = () => {
+    if (!isExecuting) {
+      reset();
+      setSuccessTx(null);
+      setQuote(null);
+      setError(null);
+      onClose();
+    }
+  };
+
+  const resetForm = () => {
+    reset();
+    setSuccessTx(null);
+  };
+
+  return (
+    <Drawer isOpen={isOpen} onClose={handleClose} title="Converter Ativos">
+      {successTx ? (
+        <div className="text-center py-8 animate-in fade-in zoom-in-95 duration-300">
           <div className="flex justify-center mb-6">
             <div className="bg-foam/20 p-4 rounded-full">
               <CheckCircle2 className="text-foam w-12 h-12" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-primary mb-2">Conversão Concluída!</h2>
+          <h2 className="text-2xl font-bold text-primary mb-2">Concluído!</h2>
           <p className="text-subtle mb-8">
-            Seu saldo foi atualizado com sucesso.
+            Seu saldo foi atualizado.
           </p>
-          <div className="bg-base/50 p-4 rounded-lg mb-8 text-left space-y-2">
+          <div className="bg-white/5 border border-overlay p-4 rounded-2xl mb-8 text-left space-y-2">
             <div className="flex justify-between text-sm">
-              <span className="text-subtle">ID da Transação:</span>
+              <span className="text-subtle">ID:</span>
               <span className="text-primary font-mono">{successTx.id.slice(0, 8)}...</span>
             </div>
             <div className="flex justify-between text-sm">
@@ -133,41 +155,27 @@ export const SwapPage: React.FC = () => {
               <span className="text-foam font-bold">{formatToken(successTx.toAmount || 0)} {successTx.toToken}</span>
             </div>
           </div>
-          <Button onClick={() => setSuccessTx(null)} className="w-full">
-            Fazer outra conversão
-          </Button>
-        </Card>
-      </div>
-    );
-  }
-
-  return (
-    <div className="max-w-xl mx-auto space-y-6">
-      <div>
-        <h1 className="text-2xl font-bold text-primary">Converter Ativos</h1>
-        <p className="text-subtle">Troque suas moedas instantaneamente com as melhores taxas.</p>
-      </div>
-
-      <Card>
-        <form onSubmit={handleSubmit(() => setIsModalOpen(true))}>
-          <CardContent className="space-y-6 pt-6">
+          <div className="space-y-3">
+            <Button onClick={resetForm} className="w-full h-12">Nova conversão</Button>
+            <Button variant="ghost" onClick={handleClose} className="w-full h-12">Fechar</Button>
+          </div>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit(() => setIsModalOpen(true))} className="flex flex-col h-full">
+          <div className="space-y-6 flex-1">
             {error && (
-              <div className="bg-love/10 border border-love/20 text-love text-sm p-3 rounded-md flex items-start gap-2">
+              <div className="bg-love/10 border border-love/20 text-love text-sm p-3 rounded-2xl flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
                 <span>{error}</span>
               </div>
             )}
 
-            {/* From Token */}
             <div className="space-y-2">
-              <div className="flex justify-between">
-                <Label htmlFor="amount">Você envia</Label>
-                <span className="text-xs text-subtle">Saldo: --</span>
-              </div>
+              <Label htmlFor="amount">Você envia</Label>
               <div className="flex gap-2">
                 <select
                   {...register('fromToken')}
-                  className="bg-overlay border border-overlay rounded-md px-3 text-sm text-primary focus:ring-2 focus:ring-pine outline-none"
+                  className="bg-white/5 border border-overlay rounded-2xl px-3 text-sm text-primary focus:ring-2 focus:ring-pine outline-none"
                 >
                   <option value="BRL">BRL</option>
                   <option value="BTC">BTC</option>
@@ -192,19 +200,18 @@ export const SwapPage: React.FC = () => {
               </button>
             </div>
 
-            {/* To Token */}
             <div className="space-y-2">
               <Label>Você recebe (estimado)</Label>
               <div className="flex gap-2">
                 <select
                   {...register('toToken')}
-                  className="bg-overlay border border-overlay rounded-md px-3 text-sm text-primary focus:ring-2 focus:ring-pine outline-none"
+                  className="bg-white/5 border border-overlay rounded-2xl px-3 text-sm text-primary focus:ring-2 focus:ring-pine outline-none"
                 >
                   <option value="BTC">BTC</option>
                   <option value="ETH">ETH</option>
                   <option value="BRL">BRL</option>
                 </select>
-                <div className="flex-1 h-11 bg-overlay/50 border border-overlay rounded-md px-3 flex items-center text-primary font-bold">
+                <div className="flex-1 h-11 bg-white/5 border border-overlay rounded-2xl px-3 flex items-center text-primary font-bold">
                   {isLoadingQuote ? (
                     <div className="h-4 w-20 bg-overlay animate-pulse rounded" />
                   ) : quote ? (
@@ -217,9 +224,8 @@ export const SwapPage: React.FC = () => {
               {errors.toToken && <p className="text-xs text-love">{errors.toToken.message}</p>}
             </div>
 
-            {/* Quote Details */}
             {quote && (
-              <div className="bg-base/30 rounded-lg p-4 space-y-2 text-sm border border-overlay/50">
+              <div className="bg-white/5 rounded-2xl p-4 space-y-2 text-sm border border-overlay">
                 <div className="flex justify-between">
                   <span className="text-subtle">Taxa (1.5%)</span>
                   <span className="text-gold">{formatToken(quote.feeAmount)} {quote.fromToken}</span>
@@ -228,16 +234,17 @@ export const SwapPage: React.FC = () => {
                   <span className="text-subtle">Cotação</span>
                   <span className="text-primary">1 {quote.toToken} = {formatCurrency(new Decimal(1).div(quote.rate).toString())}</span>
                 </div>
-                <div className="pt-2 mt-2 border-t border-overlay/30 flex justify-between items-center">
+                <div className="pt-2 mt-2 border-t border-overlay flex justify-between items-center">
                   <div className="flex items-center gap-1.5 text-xs text-subtle">
                     <Timer className="w-3 h-3 text-gold" />
-                    A cotação expira em <span className="text-gold font-mono font-bold">{timeLeft}s</span>
+                    Expira em <span className="text-gold font-mono font-bold">{timeLeft}s</span>
                   </div>
                 </div>
               </div>
             )}
-          </CardContent>
-          <CardFooter>
+          </div>
+
+          <div className="pt-6 mt-auto">
             <Button
               type="submit"
               className="w-full h-12 text-base font-bold shadow-lg shadow-pine/20"
@@ -245,18 +252,18 @@ export const SwapPage: React.FC = () => {
             >
               Confirmar Conversão
             </Button>
-          </CardFooter>
+          </div>
         </form>
-      </Card>
+      )}
 
       <ConfirmModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onConfirm={onExecute}
         isLoading={isExecuting}
-        title="Confirmar Conversão"
-        description={`Você está prestes a converter ${formatToken(amount || 0)} ${fromToken} para aproximadamente ${quote ? formatToken(quote.destinationAmount) : ''} ${toToken}. Esta operação é irreversível.`}
+        title="Confirmar"
+        description={`Converter ${formatToken(amount || 0)} ${fromToken} para ~${quote ? formatToken(quote.destinationAmount) : ''} ${toToken}?`}
       />
-    </div>
+    </Drawer>
   );
 };

@@ -32,7 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={cn(
-        'rounded-md font-medium transition-all focus:outline-none focus:ring-2 focus:ring-pine focus:ring-offset-2 focus:ring-offset-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2',
+        'rounded-2xl font-medium transition-all focus:outline-none focus:ring-2 focus:ring-pine focus:ring-offset-2 focus:ring-offset-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2',
         variants[variant],
         sizes[size],
         className

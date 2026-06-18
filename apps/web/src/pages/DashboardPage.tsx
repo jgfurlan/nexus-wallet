@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { Coins, TrendingUp, ArrowUpRight, ArrowLeftRight } from 'lucide-react';
+import { Coins, TrendingUp, ArrowUpRight, ArrowLeftRight, ArrowDownLeft, History } from 'lucide-react';
 import { WalletService } from '../services/wallet.service';
 import { BalanceCard } from '../components/ui/BalanceCard';
 import { Button } from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { formatCurrency, formatToken, formatDate } from '../lib/formatters';
-import { Link } from 'react-router-dom';
 import { cn } from '../lib/utils';
 import { Balance, Transaction } from '../types';
 
 import { HistoryService } from '../services/history.service';
 import { SwapService } from '../services/swap.service';
+
+// Drawers
+import { SwapDrawer } from '../components/drawers/SwapDrawer';
+import { HistoryDrawer } from '../components/drawers/HistoryDrawer';
+import { DepositDrawer } from '../components/drawers/DepositDrawer';
+import { WithdrawDrawer } from '../components/drawers/WithdrawDrawer';
 
 export const DashboardPage: React.FC = () => {
   const [balances, setBalances] = useState<Balance[]>([]);
@@ -18,41 +23,46 @@ export const DashboardPage: React.FC = () => {
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [fiatValues, setFiatValues] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    async function loadData() {
-      try {
-        setIsLoading(true);
-        const balancesData = await WalletService.getBalances();
-        setBalances(balancesData.balances);
-        
-        // Fetch real history from API
-        const historyData = await HistoryService.getHistory({ limit: 5 });
-        setRecentTransactions(historyData.data);
+  // Drawers State
+  const [isSwapOpen, setIsSwapOpen] = useState(false);
+  const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const [isDepositOpen, setIsDepositOpen] = useState(false);
+  const [isWithdrawOpen, setIsWithdrawOpen] = useState(false);
 
-        // Fetch real fiat quotes from API
-        const fiatMap: Record<string, string> = {};
-        for (const b of balancesData.balances) {
-          if (b.token === 'BRL') {
-            fiatMap[b.token] = '1.00';
-          } else if (Number(b.amount) > 0) {
-            try {
-              const quote = await SwapService.getQuote(b.token, 'BRL', b.amount);
-              fiatMap[b.token] = quote.destinationAmount;
-            } catch (err) {
-              console.error(`Failed to load fiat for ${b.token}`, err);
-              fiatMap[b.token] = '0.00';
-            }
-          } else {
+  const loadData = async () => {
+    try {
+      setIsLoading(true);
+      const balancesData = await WalletService.getBalances();
+      setBalances(balancesData.balances);
+      
+      const historyData = await HistoryService.getHistory({ limit: 5 });
+      setRecentTransactions(historyData.data);
+
+      const fiatMap: Record<string, string> = {};
+      for (const b of balancesData.balances) {
+        if (b.token === 'BRL') {
+          fiatMap[b.token] = '1.00';
+        } else if (Number(b.amount) > 0) {
+          try {
+            const quote = await SwapService.getQuote(b.token, 'BRL', b.amount);
+            fiatMap[b.token] = quote.destinationAmount;
+          } catch (err) {
+            console.error(`Failed to load fiat for ${b.token}`, err);
             fiatMap[b.token] = '0.00';
           }
+        } else {
+          fiatMap[b.token] = '0.00';
         }
-        setFiatValues(fiatMap);
-      } catch (error) {
-        console.error('Failed to load dashboard data', error);
-      } finally {
-        setIsLoading(false);
       }
+      setFiatValues(fiatMap);
+    } catch (error) {
+      console.error('Failed to load dashboard data', error);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  useEffect(() => {
     loadData();
   }, []);
 
@@ -61,99 +71,117 @@ export const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-primary tracking-tight">Bem-vindo de volta!</h1>
-          <p className="text-subtle mt-1">Aqui está o resumo dos seus ativos.</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link to="/swap">
-            <Button variant="secondary">
+    <>
+      <div className="space-y-8 animate-in fade-in duration-500">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <h1 className="text-3xl font-bold text-primary tracking-tight">Bem-vindo de volta!</h1>
+            <p className="text-subtle mt-1">Aqui está o resumo dos seus ativos.</p>
+          </div>
+          
+          <div className="flex flex-wrap items-center gap-3">
+            <Button variant="secondary" onClick={() => setIsDepositOpen(true)}>
+              <ArrowDownLeft className="w-4 h-4" />
+              Depositar
+            </Button>
+            <Button variant="secondary" onClick={() => setIsWithdrawOpen(true)}>
+              <ArrowUpRight className="w-4 h-4" />
+              Sacar
+            </Button>
+            <Button onClick={() => setIsSwapOpen(true)} className="shadow-lg shadow-pine/20">
               <ArrowLeftRight className="w-4 h-4" />
               Converter
             </Button>
-          </Link>
-          <Button>
-            <ArrowUpRight className="w-4 h-4" />
-            Sacar
-          </Button>
-        </div>
-      </div>
-
-      {/* Balances Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <BalanceCard
-          token="Real Brasileiro"
-          amount={formatCurrency(getBalance('BRL'))}
-          fiatValue="1.00"
-          symbol="R$"
-          icon={<Coins className="w-6 h-6" />}
-          isLoading={isLoading}
-        />
-        <BalanceCard
-          token="Bitcoin"
-          amount={`${formatToken(getBalance('BTC'))} BTC`}
-          fiatValue={formatCurrency(fiatValues['BTC'] || '0')}
-          symbol="R$"
-          icon={<TrendingUp className="w-6 h-6" />}
-          isLoading={isLoading}
-        />
-        <BalanceCard
-          token="Ethereum"
-          amount={`${formatToken(getBalance('ETH'))} ETH`}
-          fiatValue={formatCurrency(fiatValues['ETH'] || '0')}
-          symbol="R$"
-          icon={<TrendingUp className="w-6 h-6" />}
-          isLoading={isLoading}
-        />
-      </div>
-
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle>Atividades Recentes</CardTitle>
-          <Link to="/history" className="text-sm text-pine hover:underline font-medium">
-            Ver histórico completo
-          </Link>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {isLoading ? (
-              [1, 2, 3].map(i => <div key={i} className="h-12 bg-overlay animate-pulse rounded-md" />)
-            ) : recentTransactions.length > 0 ? (
-              recentTransactions.map((tx) => (
-                <div key={tx.id} className="flex items-center justify-between p-3 rounded-lg hover:bg-overlay/30 transition-colors border border-transparent hover:border-overlay">
-                  <div className="flex items-center gap-4">
-                    <div className={cn(
-                      "p-2 rounded-full",
-                      tx.type === 'DEPOSIT' ? "bg-foam/10 text-foam" : "bg-gold/10 text-gold"
-                    )}>
-                      {tx.type === 'DEPOSIT' ? <TrendingUp className="w-4 h-4" /> : <ArrowLeftRight className="w-4 h-4" />}
-                    </div>
-                    <div>
-                      <p className="text-sm font-medium text-primary">
-                        {tx.type === 'DEPOSIT' ? 'Depósito Recebido' : 'Conversão Realizada'}
-                      </p>
-                      <p className="text-xs text-subtle">{formatDate(new Date(tx.createdAt))}</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className={cn(
-                      "text-sm font-bold",
-                      tx.type === 'DEPOSIT' ? "text-foam" : "text-primary"
-                    )}>
-                      {tx.type === 'DEPOSIT' ? '+' : ''}{tx.type === 'DEPOSIT' ? tx.toAmount : tx.fromAmount} {tx.type === 'DEPOSIT' ? tx.toToken : tx.fromToken}
-                    </p>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-center py-8 text-subtle italic">Nenhuma atividade recente encontrada.</p>
-            )}
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </div>
+
+        {/* Balances Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <BalanceCard
+            token="Real Brasileiro"
+            amount={formatCurrency(getBalance('BRL'))}
+            fiatValue="1.00"
+            symbol="R$"
+            icon={<Coins className="w-6 h-6" />}
+            isLoading={isLoading}
+          />
+          <BalanceCard
+            token="Bitcoin"
+            amount={`${formatToken(getBalance('BTC'))} BTC`}
+            fiatValue={formatCurrency(fiatValues['BTC'] || '0')}
+            symbol="R$"
+            icon={<TrendingUp className="w-6 h-6" />}
+            isLoading={isLoading}
+          />
+          <BalanceCard
+            token="Ethereum"
+            amount={`${formatToken(getBalance('ETH'))} ETH`}
+            fiatValue={formatCurrency(fiatValues['ETH'] || '0')}
+            symbol="R$"
+            icon={<TrendingUp className="w-6 h-6" />}
+            isLoading={isLoading}
+          />
+        </div>
+
+        {/* Recent Activity */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between pb-2">
+            <CardTitle>Atividades Recentes</CardTitle>
+            <Button variant="ghost" size="sm" onClick={() => setIsHistoryOpen(true)} className="text-pine hover:text-pine hover:bg-pine/10">
+              <History className="w-4 h-4 mr-2" />
+              Ver tudo
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              {isLoading ? (
+                [1, 2, 3].map(i => <div key={i} className="h-14 bg-white/5 animate-pulse rounded-2xl" />)
+              ) : recentTransactions.length > 0 ? (
+                recentTransactions.map((tx) => (
+                  <div key={tx.id} className="flex items-center justify-between p-3 rounded-2xl hover:bg-white/5 transition-colors border border-transparent hover:border-overlay">
+                    <div className="flex items-center gap-4">
+                      <div className={cn(
+                        "p-2.5 rounded-xl border border-overlay",
+                        tx.type === 'DEPOSIT' ? "bg-foam/10 text-foam border-foam/20" : 
+                        tx.type === 'WITHDRAWAL' ? "bg-love/10 text-love border-love/20" : "bg-gold/10 text-gold border-gold/20"
+                      )}>
+                        {tx.type === 'DEPOSIT' ? <ArrowDownLeft className="w-4 h-4" /> : 
+                         tx.type === 'WITHDRAWAL' ? <ArrowUpRight className="w-4 h-4" /> : <ArrowLeftRight className="w-4 h-4" />}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-primary">
+                          {tx.type === 'DEPOSIT' ? 'Depósito Recebido' : 
+                           tx.type === 'WITHDRAWAL' ? 'Saque Solicitado' : 'Conversão Realizada'}
+                        </p>
+                        <p className="text-xs text-subtle">{formatDate(new Date(tx.createdAt))}</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className={cn(
+                        "text-sm font-bold",
+                        tx.type === 'DEPOSIT' ? "text-foam" : 
+                        tx.type === 'WITHDRAWAL' ? "text-love" : "text-primary"
+                      )}>
+                        {tx.type === 'DEPOSIT' ? '+' : tx.type === 'WITHDRAWAL' ? '-' : ''}
+                        {tx.type === 'SWAP' ? formatToken(tx.fromAmount || 0) : formatToken(tx.toAmount || tx.fromAmount || 0)} {tx.type === 'SWAP' ? tx.fromToken : (tx.toToken || tx.fromToken)}
+                      </p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-12 border border-dashed border-overlay rounded-2xl">
+                  <p className="text-subtle italic text-sm">Nenhuma atividade recente.</p>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      <SwapDrawer isOpen={isSwapOpen} onClose={() => setIsSwapOpen(false)} onSuccess={loadData} />
+      <HistoryDrawer isOpen={isHistoryOpen} onClose={() => setIsHistoryOpen(false)} />
+      <DepositDrawer isOpen={isDepositOpen} onClose={() => setIsDepositOpen(false)} onSuccess={loadData} />
+      <WithdrawDrawer isOpen={isWithdrawOpen} onClose={() => setIsWithdrawOpen(false)} onSuccess={loadData} />
+    </>
   );
 };

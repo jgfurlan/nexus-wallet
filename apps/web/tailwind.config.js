@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        pine: '#3b82f6',
-        love: '#eb6f92',
-        gold: '#f6c177',
-        foam: '#9ccfd8',
-        surface: '#1f1d2e',
-        base: '#191724',
-        overlay: '#26233a',
-        primary: '#e0def4',
-        subtle: '#908caa',
+        pine: '#3b82f6', // blue-500
+        love: '#f43f5e', // rose-500
+        gold: '#f59e0b', // amber-500
+        foam: '#38bdf8', // sky-400
+        surface: '#1e293b', // slate-800
+        base: '#0f172a', // slate-900
+        overlay: '#334155', // slate-700
+        primary: '#f8fafc', // slate-50
+        subtle: '#94a3b8', // slate-400
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],

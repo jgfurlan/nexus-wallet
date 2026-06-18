@@ -58,6 +58,6 @@ Cada tarefa concluída é avaliada em quatro eixos. Uma tarefa só está "Conclu
 ### 5. Portão de Verificação
 Antes de declarar qualquer tarefa concluída, execute:
 ```bash
-pnpm test && pnpm lint && pnpm typecheck
+pnpm lint && pnpm typecheck && pnpm test
 ```
 Todos os três devem retornar 0.

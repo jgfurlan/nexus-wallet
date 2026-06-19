@@ -5,6 +5,17 @@ import { SwapService } from './swap.service';
 import { SwapQuoteQuerySchema, SwapExecuteInputSchema, SwapQuoteQuery, SwapExecuteInput } from './swap.schemas';
 
 export const swapRoutes = async (app: FastifyInstance) => {
+  app.get(
+    '/swap/rates',
+    {
+      preHandler: [authGuard],
+    },
+    async (_request, reply) => {
+      const rates = await SwapService.swap_get_rates();
+      return reply.send(rates);
+    }
+  );
+
   app.get<{ Querystring: SwapQuoteQuery }>(
     '/swap/quote',
     {

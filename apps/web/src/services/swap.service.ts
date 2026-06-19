@@ -9,6 +9,11 @@ export class SwapService {
     return response.data;
   }
 
+  static async getRates(): Promise<Record<string, string>> {
+    const response = await api.get('/swap/rates');
+    return response.data;
+  }
+
   static async executeSwap(quoteId: string): Promise<Transaction> {
     const response = await api.post('/swap/execute', { quoteId });
     return response.data;

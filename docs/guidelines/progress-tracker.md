@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH46 — Otimizar CD com Jobs Paralelos e Gate de Validação
-- **Status:** ⏳ In Progress
-- **Branch:** `spec/NXS-46-parallel-cd`
+- **Tarefa Atual:** —
+- **Status:** —
+- **Branch:** —
 
 ---
 
@@ -31,7 +31,7 @@
 | GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ✅ Concluído | `spec/GH32-railway-cache` |
 | GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ✅ Concluído | `spec/GH41-ux-revamp` |
 | GH43 | Separação de CI (GitHub Actions) e CD (Railway/Vercel) | ✅ Concluído | — |
-| GH46 | Otimizar CD com Jobs Paralelos e Gate de Validação | ⏳ In Progress | `spec/NXS-46-parallel-cd` |
+| GH46 | Otimizar CD com Jobs Paralelos e Gate de Validação | ✅ Concluído | `spec/NXS-46-parallel-cd` |
 
 ---
 
@@ -50,6 +50,7 @@
 - **GH12**: README + Documentação de decisões técnicas - 2026-06-18
 - **GH41**: UX Revamp: Drawers Navigation, Faucet, e Fale Conosco - 2026-06-17
 - **GH43**: Separação de CI (GitHub Actions) e CD (Railway/Vercel) - 2026-06-19
+- **GH46**: Otimizar CD com Jobs Paralelos e Gate de Validação - 2026-06-19
 
 ---
 

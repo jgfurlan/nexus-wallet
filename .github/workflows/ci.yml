@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: CI (Continuous Integration)
 
 on:
   push:
@@ -10,6 +10,9 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   install-deps:
     name: 📦 Setup & Install
@@ -18,32 +21,33 @@ jobs:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 🏗️ Setup PNPM
+        uses: pnpm/action-setup@v4
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: 🏗️ Setup PNPM
-        uses: pnpm/action-setup@v4
+          cache: 'pnpm'
 
       - name: 📥 Install Dependencies
         run: pnpm install --frozen-lockfile
 
   lint:
     name: ⬡ Lint & Code Quality
-    needs: install-deps
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 🏗️ Setup PNPM
+        uses: pnpm/action-setup@v4
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: 🏗️ Setup PNPM
-        uses: pnpm/action-setup@v4
+          cache: 'pnpm'
 
       - name: 📥 Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -53,19 +57,19 @@ jobs:
 
   typecheck:
     name: ⚙️ TypeScript Typecheck
-    needs: install-deps
     runs-on: ubuntu-latest
     steps:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 🏗️ Setup PNPM
+        uses: pnpm/action-setup@v4
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: 🏗️ Setup PNPM
-        uses: pnpm/action-setup@v4
+          cache: 'pnpm'
 
       - name: 📥 Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -78,7 +82,6 @@ jobs:
 
   test:
     name: 🧪 Integration & Unit Tests
-    needs: install-deps
     runs-on: ubuntu-latest
 
     services:
@@ -110,13 +113,14 @@ jobs:
       - name: ⬇️ Checkout Repository
         uses: actions/checkout@v4
 
+      - name: 🏗️ Setup PNPM
+        uses: pnpm/action-setup@v4
+
       - name: 🟢 Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
-
-      - name: 🏗️ Setup PNPM
-        uses: pnpm/action-setup@v4
+          cache: 'pnpm'
 
       - name: 📥 Install Dependencies
         run: pnpm install --frozen-lockfile
@@ -134,3 +138,25 @@ jobs:
         env:
           DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/nexus_wallet?schema=public"
           REDIS_URL: "redis://localhost:6379"
+
+  audit:
+    name: 🛡️ DevSecOps Security Audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 🏗️ Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: 📥 Install Dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🛡️ Audit Dependencies (Advisory)
+        run: pnpm audit --audit-level=high || echo "⚠️ Vulnerabilities found during audit, surfaced for security review."

@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH41 — UX Revamp: Drawers Navigation, Faucet, e Fale Conosco
-- **Status:** ⏳ In Progress
-- **Branch:** `spec/GH41-ux-revamp`
+- **Tarefa Atual:** GH43 — Separar CI de CD para evitar builds falhas em produção
+- **Status:** ⏳ In Review
+- **Branch:** `spec/NXS-43-separate-ci-cd`
 
 ---
 
@@ -25,11 +25,12 @@
 | GH9 | Cache Redis para cotações CoinGecko (30s TTL) | ✅ Concluído | — |
 | GH10 | Frontend React (dashboard, formulário swap, histórico) | ✅ Concluído | `spec/GH10-frontend` |
 | GH11 | Deploy: Railway (API) + Vercel (web) | ✅ Concluído | `spec/GH11-deploy` |
-| GH12 | README + Documentação de decisões técnicas | ⏳ In Review | `spec/GH12-readme-docs` |
+| GH12 | README + Documentação de decisões técnicas | ✅ Concluído | — |
 | GH29 | Restore Frontend React (Resgate da V1) | ✅ Concluído | `spec/GH29-restore-frontend` |
 | GH31 | Resolução de Network Error (CORS via Fastify Fallback) | ✅ Concluído | `fix/cors-fallback` |
 | GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ✅ Concluído | `spec/GH32-railway-cache` |
-| GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ⏳ In Progress | `spec/GH41-ux-revamp` |
+| GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ✅ Concluído | `spec/GH41-ux-revamp` |
+| GH43 | Separação de CI (GitHub Actions) e CD (Railway/Vercel) | ⏳ In Review | `spec/NXS-43-separate-ci-cd` |
 
 ---
 
@@ -45,6 +46,8 @@
 - **GH9**: Cache Redis para cotações CoinGecko (30s TTL) - 2026-06-14
 - **GH10**: Frontend React (dashboard, formulário swap, histórico) - 2026-06-15
 - **GH11**: Deploy: Railway (API) + Vercel (web) - 2026-06-16
+- **GH12**: README + Documentação de decisões técnicas - 2026-06-18
+- **GH41**: UX Revamp: Drawers Navigation, Faucet, e Fale Conosco - 2026-06-17
 
 ---
 

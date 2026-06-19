@@ -41,5 +41,10 @@ Para não ferir os limites de *rate-limiting* severos da versão gratuita da Coi
 ### Webhooks de Transação (GH5)
 - O ponto de entrada de depósitos foi estruturado via **Webhooks** com *Idempotência*. Se um parceiro de processamento de Blockchain (ou sistema de clearing Fiat) tentar notificar o mesmo recibo (`txHash`/`idempotencyKey`) repetidas vezes em casos de falha de rede, a API do NexusWallet irá recusar duplicidade no banco, garantindo que nenhum usuário receba fundos duplos.
 
+## 5. Infraestrutura de CI/CD (GH43)
+Para garantir estabilidade em produção e isolamento de falhas, separamos completamente os processos de Integração Contínua (CI) e Entrega Contínua (CD) usando o GitHub Actions:
+- **Integração Contínua (`ci.yml`)**: Dispara em todo commit e pull request para a branch `main`. Executa em paralelo validações estáticas (`lint`), tipagem (`typecheck`), testes automatizados de integração com banco de dados e Redis reais (`test`) e auditoria de vulnerabilidades de dependências de forma consultiva (`audit`).
+- **Entrega Contínua (`cd.yml`)**: Dispara apenas após o merge bem-sucedido na branch `main`. Realiza o deploy do frontend na Vercel e do backend no Railway de forma segura, acionando um portão de validação de saúde pós-implantação (Health Check Gate) que verifica via HTTP se os serviços responderam com `200 OK` antes de concluir a execução da pipeline.
+
 ---
-*Documento gerado como finalização arquitetural da Issue GH12.*
+*Documento gerado como finalização arquitetural da Issue GH12 e atualizado na Issue GH43.*

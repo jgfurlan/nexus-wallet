@@ -12,7 +12,6 @@ import { Drawer } from '../ui/Drawer';
 import { formatCurrency, formatToken } from '../../lib/formatters';
 import { SwapQuoteResponse, Transaction, TokenSymbol } from '../../types';
 import { getErrorMessage } from '../../lib/error-utils';
-import Decimal from 'decimal.js';
 
 const swapSchema = z.object({
   fromToken: z.enum(['BRL', 'BTC', 'ETH']),
@@ -184,6 +183,7 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
                 <Input
                   id="amount"
                   placeholder="0.00"
+                  inputMode="decimal"
                   {...register('amount')}
                   error={errors.amount?.message}
                 />
@@ -232,7 +232,7 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
                 </div>
                 <div className="flex justify-between">
                   <span className="text-subtle">Cotação</span>
-                  <span className="text-primary">1 {quote.toToken} = {formatCurrency(new Decimal(1).div(quote.rate).toString())}</span>
+                  <span className="text-primary">1 {quote.fromToken} = {quote.toToken === 'BRL' ? formatCurrency(quote.rate) : `${formatToken(quote.rate)} ${quote.toToken}`}</span>
                 </div>
                 <div className="pt-2 mt-2 border-t border-overlay flex justify-between items-center">
                   <div className="flex items-center gap-1.5 text-xs text-subtle">

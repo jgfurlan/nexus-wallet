@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH43 — Separar CI de CD para evitar builds falhas em produção
-- **Status:** ⏳ In Review
-- **Branch:** `spec/NXS-43-separate-ci-cd`
+- **Tarefa Atual:** —
+- **Status:** —
+- **Branch:** —
 
 ---
 
@@ -30,7 +30,7 @@
 | GH31 | Resolução de Network Error (CORS via Fastify Fallback) | ✅ Concluído | `fix/cors-fallback` |
 | GH32 | Resolver Railway Ghost Cache & Deploy a partir da Main | ✅ Concluído | `spec/GH32-railway-cache` |
 | GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ✅ Concluído | `spec/GH41-ux-revamp` |
-| GH43 | Separação de CI (GitHub Actions) e CD (Railway/Vercel) | ⏳ In Review | `spec/NXS-43-separate-ci-cd` |
+| GH43 | Separação de CI (GitHub Actions) e CD (Railway/Vercel) | ✅ Concluído | — |
 
 ---
 
@@ -48,6 +48,7 @@
 - **GH11**: Deploy: Railway (API) + Vercel (web) - 2026-06-16
 - **GH12**: README + Documentação de decisões técnicas - 2026-06-18
 - **GH41**: UX Revamp: Drawers Navigation, Faucet, e Fale Conosco - 2026-06-17
+- **GH43**: Separação de CI (GitHub Actions) e CD (Railway/Vercel) - 2026-06-19
 
 ---
 

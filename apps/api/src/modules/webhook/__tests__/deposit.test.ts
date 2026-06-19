@@ -56,7 +56,7 @@ describe('Deposit Webhook Integration Tests', () => {
     });
 
     const body = {
-      walletId: wallet.id,
+      userId: userId,
       token: 'BRL',
       amount: '150.75',
       idempotencyKey: 'idemp-key-happy-path',
@@ -100,7 +100,7 @@ describe('Deposit Webhook Integration Tests', () => {
 
   it('should return 401 Unauthorized if signature header is missing', async () => {
     const body = {
-      walletId: 'some-wallet-id',
+      userId: 'some-user-id',
       token: 'BRL',
       amount: '100.00',
       idempotencyKey: 'idemp-key-missing-sig',
@@ -116,7 +116,7 @@ describe('Deposit Webhook Integration Tests', () => {
 
   it('should return 401 Unauthorized if signature is invalid', async () => {
     const body = {
-      walletId: 'some-wallet-id',
+      userId: 'some-user-id',
       token: 'BRL',
       amount: '100.00',
       idempotencyKey: 'idemp-key-invalid-sig',
@@ -133,7 +133,7 @@ describe('Deposit Webhook Integration Tests', () => {
 
   it('should return 400 Bad Request if token is not supported', async () => {
     const body = {
-      walletId: 'some-wallet-id',
+      userId: 'some-user-id',
       token: 'USDT', // unsupported
       amount: '100.00',
       idempotencyKey: 'idemp-key-invalid-token',
@@ -152,7 +152,7 @@ describe('Deposit Webhook Integration Tests', () => {
 
   it('should return 400 Bad Request if amount is not positive', async () => {
     const body = {
-      walletId: 'some-wallet-id',
+      userId: 'some-user-id',
       token: 'BRL',
       amount: '-50.00', // negative
       idempotencyKey: 'idemp-key-negative-amount',
@@ -171,7 +171,7 @@ describe('Deposit Webhook Integration Tests', () => {
 
   it('should return 404 Not Found if wallet does not exist', async () => {
     const body = {
-      walletId: 'non-existent-wallet-id',
+      userId: 'non-existent-user-id',
       token: 'BRL',
       amount: '100.00',
       idempotencyKey: 'idemp-key-missing-wallet',
@@ -205,7 +205,7 @@ describe('Deposit Webhook Integration Tests', () => {
     });
 
     const body = {
-      walletId: wallet.id,
+      userId: userId,
       token: 'BRL',
       amount: '200.00',
       idempotencyKey: 'idemp-key-duplicate-test',

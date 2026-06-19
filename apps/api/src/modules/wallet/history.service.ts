@@ -1,9 +1,9 @@
 import { prisma } from '../../lib/prisma';
 import { HistoryQuery, PaginatedResponse } from './history.schemas';
-import { Transaction, LedgerEntry } from '@prisma/client';
+import { Transaction, LedgerEntry, TokenSymbol } from '@prisma/client';
 
 export type TransactionWithLedger = Transaction & {
-  ledgerEntries: LedgerEntry[];
+  ledgerEntries: (LedgerEntry & { token: TokenSymbol })[];
 };
 
 export class HistoryService {
@@ -26,19 +26,37 @@ export class HistoryService {
       skip: cursor ? 1 : 0, // Pular o próprio item do cursor
       orderBy: { createdAt: 'desc' },
       include: {
-        ledgerEntries: true,
+        ledgerEntries: {
+          include: {
+            walletBalance: true,
+          },
+        },
       },
     });
 
+    const mappedTransactions = transactions.map((t) => {
+      const mappedLedgerEntries = t.ledgerEntries.map((le) => {
+        const { walletBalance, ...rest } = le;
+        return {
+          ...rest,
+          token: walletBalance.token,
+        };
+      });
+      return {
+        ...t,
+        ledgerEntries: mappedLedgerEntries,
+      };
+    });
+
     let nextCursor: string | null = null;
-    if (transactions.length > limit) {
-      transactions.pop();
-      const lastItem = transactions[transactions.length - 1];
+    if (mappedTransactions.length > limit) {
+      mappedTransactions.pop();
+      const lastItem = mappedTransactions[mappedTransactions.length - 1];
       nextCursor = lastItem.id;
     }
 
     return {
-      data: transactions,
+      data: mappedTransactions,
       nextCursor,
     };
   }

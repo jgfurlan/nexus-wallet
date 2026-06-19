@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, Wallet } from 'lucide-react';
+import { LogOut, LayoutDashboard, Sun, Moon } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Button } from './ui/Button';
 import { ContactWidget } from './ui/ContactWidget';
-
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
+import logoNexus from '../logo-nexus.png';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const { theme, toggleTheme } = useTheme();
 
   // Since we are using Drawers for actions, these might not be normal links anymore,
   // but we can keep Dashboard here. The actual buttons to open Drawers will be inside Dashboard,
@@ -32,9 +34,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       <aside className="hidden md:flex flex-col w-64 bg-surface border-r border-overlay z-40">
         <div className="p-6">
           <Link to="/" className="flex items-center gap-3">
-            <div className="bg-pine p-2 rounded-2xl">
-              <Wallet className="text-white w-6 h-6" />
-            </div>
+            <img src={logoNexus} alt="Nexus Logo" className="w-10 h-10 object-contain rounded-xl" />
             <span className="font-bold text-xl tracking-tight">Nexus</span>
           </Link>
         </div>
@@ -53,7 +53,11 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           {/* We'll add the other items later via Context or keep them in Dashboard */}
         </nav>
 
-        <div className="p-4 border-t border-overlay">
+        <div className="p-4 border-t border-overlay space-y-2">
+          <Button variant="ghost" onClick={toggleTheme} className="w-full justify-start text-subtle hover:bg-white/5 hover:text-primary">
+            {theme === 'light' ? <Moon className="w-5 h-5 mr-3" /> : <Sun className="w-5 h-5 mr-3" />}
+            {theme === 'light' ? 'Modo Escuro' : 'Modo Claro'}
+          </Button>
           <Button variant="ghost" onClick={() => { logout(); navigate('/login'); }} className="w-full justify-start text-love hover:bg-love/10 hover:text-love">
             <LogOut className="w-5 h-5 mr-3" />
             Sair
@@ -67,11 +71,12 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           {/* Header Mobile (Only visible on small screens) */}
           <div className="md:hidden flex items-center justify-between mb-8">
             <div className="flex items-center gap-2">
-              <div className="bg-pine p-1.5 rounded-2xl">
-                <Wallet className="text-white w-5 h-5" />
-              </div>
+              <img src={logoNexus} alt="Nexus Logo" className="w-8 h-8 object-contain rounded-lg" />
               <span className="font-bold text-lg tracking-tight">Nexus</span>
             </div>
+            <Button variant="ghost" onClick={toggleTheme} className="p-2 text-subtle hover:text-primary rounded-xl">
+              {theme === 'light' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
+            </Button>
           </div>
 
           {children}

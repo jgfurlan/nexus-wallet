@@ -3,8 +3,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Link, useNavigate } from 'react-router-dom';
-import { Wallet } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import logoNexus from '../logo-nexus.png';
 import { AuthService } from '../services/auth.service';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -53,9 +53,7 @@ export const LoginPage: React.FC = () => {
     <div className="min-h-screen bg-base flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-pine p-3 rounded-xl mb-4 shadow-lg shadow-pine/20">
-            <Wallet className="text-white w-8 h-8" />
-          </div>
+          <img src={logoNexus} alt="Nexus Logo" className="w-16 h-16 object-contain rounded-2xl mb-4" />
           <h1 className="text-3xl font-bold text-primary tracking-tight">NexusWallet</h1>
           <p className="text-subtle mt-2"></p>
         </div>

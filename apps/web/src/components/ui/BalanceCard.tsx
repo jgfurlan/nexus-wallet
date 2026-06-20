@@ -5,7 +5,7 @@ interface BalanceCardProps {
   token: string;
   amount: string;
   fiatValue?: string;
-  symbol: string;
+  symbol?: string;
   icon?: React.ReactNode;
   isLoading?: boolean;
 }
@@ -14,7 +14,6 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
   token,
   amount,
   fiatValue,
-  symbol,
   icon,
   isLoading
 }) => {
@@ -42,7 +41,7 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
           <div className="h-4 w-16 bg-overlay animate-pulse rounded" />
         ) : (
           <span className="text-subtle font-medium">
-            {symbol} {fiatValue}
+            {fiatValue}
           </span>
         )}
       </div>

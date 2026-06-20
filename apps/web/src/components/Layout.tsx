@@ -1,11 +1,12 @@
 import React from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { LogOut, LayoutDashboard, Sun, Moon } from 'lucide-react';
+import { LogOut, LayoutDashboard, Sun, Moon, ArrowDownLeft, ArrowUpRight, ArrowLeftRight, History } from 'lucide-react';
 import { cn } from '../lib/utils';
 import { Button } from './ui/Button';
 import { ContactWidget } from './ui/ContactWidget';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { DrawerProvider, useDrawer } from '../contexts/DrawerContext';
 import logoNexus from '../logo-nexus.png';
 
 interface LayoutProps {
@@ -13,21 +14,20 @@ interface LayoutProps {
 }
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <DrawerProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </DrawerProvider>
+  );
+};
+
+const LayoutContent: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const { logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
+  const { openDrawer } = useDrawer();
 
-  // Since we are using Drawers for actions, these might not be normal links anymore,
-  // but we can keep Dashboard here. The actual buttons to open Drawers will be inside Dashboard,
-  // OR we can make the sidebar buttons emit an event / use context to open the Drawers.
-  // For now, the user requested the Dashboard to be the main stage. The sidebar can just have Home, and maybe logout.
-  // Wait, if actions are Drawers, we shouldn't navigate to /swap or /history.
-  // Let's keep the navItems but they will just be UI buttons. We can use a Context or Zustand to manage Drawer states,
-  // or simply let DashboardPage handle it. Let's pass a `onOpenDrawer` prop or use context.
-  // Actually, to keep it simple, the sidebar will just be part of DashboardPage, or we can use React Context.
-  // Let's create an event system or just use React Context.
-  
   return (
     <div className="flex h-screen bg-base text-primary overflow-hidden">
       {/* Sidebar (Desktop) */}
@@ -50,7 +50,38 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
             <LayoutDashboard className="w-5 h-5" />
             Dashboard
           </Link>
-          {/* We'll add the other items later via Context or keep them in Dashboard */}
+
+          <button
+            onClick={() => openDrawer('deposit')}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-subtle hover:text-primary hover:bg-white/5 transition-all text-left"
+          >
+            <ArrowDownLeft className="w-5 h-5 text-foam" />
+            Depositar
+          </button>
+
+          <button
+            onClick={() => openDrawer('withdraw')}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-subtle hover:text-primary hover:bg-white/5 transition-all text-left"
+          >
+            <ArrowUpRight className="w-5 h-5 text-love" />
+            Sacar
+          </button>
+
+          <button
+            onClick={() => openDrawer('swap')}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-subtle hover:text-primary hover:bg-white/5 transition-all text-left"
+          >
+            <ArrowLeftRight className="w-5 h-5 text-gold" />
+            Converter
+          </button>
+
+          <button
+            onClick={() => openDrawer('history')}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-subtle hover:text-primary hover:bg-white/5 transition-all text-left"
+          >
+            <History className="w-5 h-5 text-pine" />
+            Histórico
+          </button>
         </nav>
 
         <div className="p-4 border-t border-overlay space-y-2">
@@ -95,6 +126,38 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
           <LayoutDashboard className="w-5 h-5" />
           <span className="text-[10px] font-medium">Dash</span>
         </Link>
+
+        <button
+          onClick={() => openDrawer('deposit')}
+          className="flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-2xl text-subtle hover:text-primary transition-colors"
+        >
+          <ArrowDownLeft className="w-5 h-5 text-foam" />
+          <span className="text-[10px] font-medium">Depositar</span>
+        </button>
+
+        <button
+          onClick={() => openDrawer('withdraw')}
+          className="flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-2xl text-subtle hover:text-primary transition-colors"
+        >
+          <ArrowUpRight className="w-5 h-5 text-love" />
+          <span className="text-[10px] font-medium">Sacar</span>
+        </button>
+
+        <button
+          onClick={() => openDrawer('swap')}
+          className="flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-2xl text-subtle hover:text-primary transition-colors"
+        >
+          <ArrowLeftRight className="w-5 h-5 text-gold" />
+          <span className="text-[10px] font-medium">Converter</span>
+        </button>
+
+        <button
+          onClick={() => openDrawer('history')}
+          className="flex flex-col items-center justify-center gap-1 px-3 py-1 rounded-2xl text-subtle hover:text-primary transition-colors"
+        >
+          <History className="w-5 h-5 text-pine" />
+          <span className="text-[10px] font-medium">Histórico</span>
+        </button>
       </nav>
       <ContactWidget />
     </div>

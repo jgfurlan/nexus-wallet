@@ -4,7 +4,21 @@ import { prisma } from '../../lib/prisma';
 import { LedgerService } from '../ledger/ledger.service';
 import { WithdrawalInput } from './withdrawal.schemas';
 
+/**
+ * Withdrawal service handling withdrawal requests (fiat/crypto cash-out) 
+ * with idempotency checks and atomic ledger entries.
+ */
 export class WithdrawalService {
+  /**
+   * Processes a withdrawal request. Uses serialization isolation to avoid race conditions 
+   * and verifies idempotency via an externalId.
+   * 
+   * @param userId - The unique identifier of the user requesting the withdrawal.
+   * @param input - The withdrawal parameters containing token, amount, destination address, and externalId.
+   * @returns A promise resolving to the created/existing transaction.
+   * @throws {Error} FORBIDDEN (403) if the idempotency key belongs to another user.
+   * @throws {Error} INSUFFICIENT_BALANCE (422) if the user has insufficient balance.
+   */
   static async withdrawal_request(userId: string, input: WithdrawalInput) {
     return await prisma.$transaction(
       async (tx) => {

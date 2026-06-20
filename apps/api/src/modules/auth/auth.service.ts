@@ -4,12 +4,29 @@ import { prisma } from '../../lib/prisma';
 import { RegisterInput, LoginInput } from './auth.schemas';
 import { FastifyInstance } from 'fastify';
 
-// Helper to calculate SHA256 hash of a string
+/**
+ * Helper utility to calculate the SHA256 hash of a given string.
+ * 
+ * @param data - The string to be hashed.
+ * @returns The hex-encoded SHA256 hash of the input string.
+ */
 const hashSHA256 = (data: string): string => {
   return createHash('sha256').update(data).digest('hex');
 };
 
+/**
+ * Authentication service handling user registration, user login, 
+ * and session refreshing/token rotation.
+ */
 export class AuthService {
+  /**
+   * Registers a new user, automatically creating their associated wallet 
+   * and initializing zero-balances for BRL, BTC, and ETH.
+   * 
+   * @param input - Registration payload containing email and password.
+   * @returns A promise resolving to user details (id, email, createdAt).
+   * @throws {ConflictError} EMAIL_ALREADY_EXISTS (409) if the email is already registered.
+   */
   static async registerUser(input: RegisterInput) {
     const existingUser = await prisma.user.findUnique({
       where: { email: input.email },
@@ -58,6 +75,15 @@ export class AuthService {
     };
   }
 
+  /**
+   * Validates user credentials, generates access and refresh tokens, 
+   * and stores the SHA256 hash of the refresh token in the database.
+   * 
+   * @param app - The Fastify application instance.
+   * @param input - Login credentials containing email and password.
+   * @returns A promise resolving to an object containing accessToken and refreshToken.
+   * @throws {UnauthorizedError} INVALID_CREDENTIALS (401) if email or password does not match.
+   */
   static async loginUser(app: FastifyInstance, input: LoginInput) {
     const user = await prisma.user.findUnique({
       where: { email: input.email },
@@ -103,6 +129,15 @@ export class AuthService {
     return { accessToken, refreshToken };
   }
 
+  /**
+   * Refreshes a user's session using token rotation. Validates the refresh token, 
+   * detects potential reuse/theft, revokes sessions on reuse, and issues a new pair of tokens.
+   * 
+   * @param app - The Fastify application instance.
+   * @param refreshToken - The active refresh token JWT.
+   * @returns A promise resolving to a new pair of accessToken and refreshToken.
+   * @throws {UnauthorizedError} INVALID_REFRESH_TOKEN (401) if validation fails or token is reused.
+   */
   static async refreshSession(app: FastifyInstance, refreshToken: string) {
     let payload: { sub?: string; type?: string };
     try {

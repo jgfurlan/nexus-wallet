@@ -15,7 +15,7 @@ import { getErrorMessage } from '../../lib/error-utils';
 const withdrawalSchema = z.object({
   token: z.enum(['BRL', 'BTC', 'ETH']),
   amount: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, 'Valor inválido'),
-  destinationAddress: z.string().min(5, 'Endereço inválido'),
+  address: z.string().min(5, 'Endereço inválido'),
 });
 
 type WithdrawalForm = z.infer<typeof withdrawalSchema>;
@@ -41,7 +41,7 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
 
   const token = watch('token');
   const amount = watch('amount');
-  const destinationAddress = watch('destinationAddress');
+  const address = watch('address');
 
   const onExecute = async () => {
     try {
@@ -50,7 +50,8 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
       await WithdrawalService.requestWithdrawal({
         token: token as string,
         amount,
-        destinationAddress,
+        address,
+        externalId: window.crypto.randomUUID ? window.crypto.randomUUID() : '00000000-0000-0000-0000-000000000000', // fallback if crypto isn't fully supported on old envs, though modern browsers have randomUUID
       });
       setSuccess(true);
       setIsModalOpen(false);
@@ -110,6 +111,7 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
                 </select>
                 <Input
                   placeholder="0.00"
+                  inputMode="decimal"
                   {...register('amount')}
                   error={errors.amount?.message}
                 />
@@ -120,8 +122,8 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
               <Label>Endereço de Destino (PIX ou Carteira)</Label>
               <Input
                 placeholder="Chave PIX ou Endereço Crypto"
-                {...register('destinationAddress')}
-                error={errors.destinationAddress?.message}
+                {...register('address')}
+                error={errors.address?.message}
               />
               <p className="text-xs text-subtle mt-1">Certifique-se de que a rede corresponde à moeda selecionada.</p>
             </div>
@@ -153,7 +155,7 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
         onConfirm={onExecute}
         isLoading={isExecuting}
         title="Confirmar Saque"
-        description={`Você está prestes a sacar ${formatToken(amount || 0)} ${token} para: ${destinationAddress}`}
+        description={`Você está prestes a sacar ${formatToken(amount || 0)} ${token} para: ${address}`}
       />
     </Drawer>
   );

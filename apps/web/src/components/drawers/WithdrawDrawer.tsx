@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowUpRight, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -32,7 +32,7 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
-  const { register, watch, handleSubmit, formState: { errors }, reset } = useForm<WithdrawalForm>({
+  const { register, watch, handleSubmit, formState: { errors }, reset, setValue } = useForm<WithdrawalForm>({
     resolver: zodResolver(withdrawalSchema),
     defaultValues: {
       token: 'BRL',
@@ -42,6 +42,19 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
   const token = watch('token');
   const amount = watch('amount');
   const address = watch('address');
+
+  const handleAutofill = () => {
+    if (token === 'BRL') {
+      setValue('amount', '150.00', { shouldValidate: true });
+      setValue('address', 'faucet@nexuswallet.com', { shouldValidate: true });
+    } else if (token === 'BTC') {
+      setValue('amount', '0.005', { shouldValidate: true });
+      setValue('address', '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', { shouldValidate: true });
+    } else if (token === 'ETH') {
+      setValue('amount', '0.05', { shouldValidate: true });
+      setValue('address', '0x71C7656EC7ab88b098defB751B7401B5f6d8976F', { shouldValidate: true });
+    }
+  };
 
   const onExecute = async () => {
     try {
@@ -127,6 +140,16 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
               />
               <p className="text-xs text-subtle mt-1">Certifique-se de que a rede corresponde à moeda selecionada.</p>
             </div>
+
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleAutofill}
+              className="w-full flex items-center justify-center gap-2 mt-4 border-dashed border-pine/30 hover:border-pine/60 bg-pine/5 text-pine hover:bg-pine/10"
+            >
+              <Sparkles className="w-4 h-4 text-pine" />
+              Preencher Dados de Teste (Sandbox)
+            </Button>
             
             <div className="bg-white/5 p-4 rounded-2xl border border-overlay mt-4">
                <div className="flex items-center gap-3">

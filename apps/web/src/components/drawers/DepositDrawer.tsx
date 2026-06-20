@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
-import { ArrowDownLeft, CheckCircle2, AlertCircle } from 'lucide-react';
+import { CheckCircle2, AlertCircle } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Button } from '../ui/Button';
 import { Drawer } from '../ui/Drawer';
+import { Input } from '../ui/Input';
+import { Label } from '../ui/Label';
 import api from '../../services/api';
 
 interface DepositDrawerProps {
@@ -10,16 +15,37 @@ interface DepositDrawerProps {
   onSuccess?: () => void;
 }
 
+const depositSchema = z.object({
+  token: z.enum(['BRL', 'BTC', 'ETH']),
+  amount: z.string().refine(val => !isNaN(Number(val)) && Number(val) > 0, 'Valor inválido'),
+});
+
+type DepositForm = z.infer<typeof depositSchema>;
+
 export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleDeposit = async () => {
+  const { register, watch, handleSubmit, formState: { errors }, reset } = useForm<DepositForm>({
+    resolver: zodResolver(depositSchema),
+    defaultValues: {
+      token: 'BRL',
+      amount: '1000',
+    }
+  });
+
+  const token = watch('token');
+  const amount = watch('amount');
+
+  const onSubmit = async (data: DepositForm) => {
     try {
       setIsLoading(true);
       setError(null);
-      await api.post('/test/faucet');
+      await api.post('/test/faucet', {
+        amount: data.amount,
+        token: data.token,
+      });
       setSuccess(true);
       if (onSuccess) onSuccess();
     } catch (error) {
@@ -32,6 +58,7 @@ export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, o
 
   const handleClose = () => {
     if (!isLoading) {
+      reset();
       setSuccess(false);
       setError(null);
       onClose();
@@ -49,14 +76,14 @@ export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, o
           </div>
           <h2 className="text-2xl font-bold text-primary mb-2">Depósito Confirmado!</h2>
           <p className="text-subtle mb-8">
-            Você recebeu 1.000,00 BRL em sua conta.
+            Você recebeu {amount} {token} em sua conta.
           </p>
           <Button onClick={handleClose} className="w-full h-12">
             Voltar ao Dashboard
           </Button>
         </div>
       ) : (
-        <div className="flex flex-col h-full">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
           <div className="space-y-6 flex-1">
             <p className="text-subtle text-sm">
               Como este é um ambiente de testes (Sandbox), você pode utilizar nosso Faucet para injetar fundos virtuais em sua carteira e testar as conversões.
@@ -69,27 +96,37 @@ export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, o
               </div>
             )}
 
-            <div className="bg-white/5 border border-overlay rounded-2xl p-6 text-center space-y-2">
-              <div className="flex justify-center mb-4">
-                <div className="bg-base p-3 rounded-2xl border border-overlay">
-                  <ArrowDownLeft className="text-foam w-8 h-8" />
-                </div>
+            <div className="space-y-2">
+              <Label>Moeda e Valor</Label>
+              <div className="flex gap-2">
+                <select
+                  {...register('token')}
+                  className="bg-white/5 border border-overlay rounded-2xl px-3 text-sm text-primary focus:ring-2 focus:ring-pine outline-none"
+                >
+                  <option value="BRL">BRL</option>
+                  <option value="BTC">BTC</option>
+                  <option value="ETH">ETH</option>
+                </select>
+                <Input
+                  placeholder="0.00"
+                  inputMode="decimal"
+                  {...register('amount')}
+                  error={errors.amount?.message}
+                />
               </div>
-              <h3 className="text-lg font-bold text-primary">Faucet de Testes</h3>
-              <p className="text-2xl font-mono text-foam font-bold">+ 1.000,00 BRL</p>
             </div>
           </div>
 
           <div className="pt-6 mt-auto">
             <Button
+              type="submit"
               className="w-full h-12 text-base font-bold shadow-lg shadow-pine/20"
-              onClick={handleDeposit}
               isLoading={isLoading}
             >
               Simular Depósito
             </Button>
           </div>
-        </div>
+        </form>
       )}
     </Drawer>
   );

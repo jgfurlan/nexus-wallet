@@ -20,12 +20,22 @@ const withdrawalSchema = z.object({
 
 type WithdrawalForm = z.infer<typeof withdrawalSchema>;
 
+/**
+ * Properties for the WithdrawDrawer component.
+ */
 interface WithdrawDrawerProps {
+  /** If true, the withdraw drawer is displayed */
   isOpen: boolean;
+  /** Callback function to close the drawer overlay */
   onClose: () => void;
+  /** Optional callback triggered after a successful withdraw operation */
   onSuccess?: () => void;
 }
 
+/**
+ * WithdrawDrawer displays the interface to request fiat (PIX) or cryptocurrency
+ * withdrawals, including a sandbox autofill option.
+ */
 export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [isExecuting, setIsExecuting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

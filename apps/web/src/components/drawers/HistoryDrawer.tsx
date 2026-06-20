@@ -7,11 +7,20 @@ import { ArrowUpRight, ArrowDownLeft, ArrowLeftRight, ChevronRight } from 'lucid
 import { cn } from '../../lib/utils';
 import { Transaction, LedgerEntry } from '../../types';
 
+/**
+ * Properties for the HistoryDrawer component.
+ */
 interface HistoryDrawerProps {
+  /** If true, the transaction history drawer is displayed */
   isOpen: boolean;
+  /** Callback function to close the drawer overlay */
   onClose: () => void;
 }
 
+/**
+ * HistoryDrawer displays a list of the user's past transactions (deposits,
+ * withdrawals, swaps) with optional filtering by token and transaction type.
+ */
 export const HistoryDrawer: React.FC<HistoryDrawerProps> = ({ isOpen, onClose }) => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [nextCursor, setNextCursor] = useState<string | null>(null);

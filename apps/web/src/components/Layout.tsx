@@ -9,10 +9,18 @@ import { useTheme } from '../contexts/ThemeContext';
 import { DrawerProvider, useDrawer } from '../contexts/DrawerContext';
 import logoNexus from '../logo-nexus.png';
 
+/**
+ * Properties for the Layout component.
+ */
 interface LayoutProps {
+  /** The children nodes to be rendered in the main content area */
   children: React.ReactNode;
 }
 
+/**
+ * Layout wraps the entire page, providing a DrawerProvider context,
+ * rendering the sidebar navigation, bottom navigation, and top header.
+ */
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <DrawerProvider>

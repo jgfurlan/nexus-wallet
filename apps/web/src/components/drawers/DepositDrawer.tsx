@@ -9,9 +9,15 @@ import { Input } from '../ui/Input';
 import { Label } from '../ui/Label';
 import api from '../../services/api';
 
+/**
+ * Properties for the DepositDrawer component.
+ */
 interface DepositDrawerProps {
+  /** If true, the deposit drawer is displayed */
   isOpen: boolean;
+  /** Callback function to close the drawer overlay */
   onClose: () => void;
+  /** Optional callback triggered after a successful deposit operation */
   onSuccess?: () => void;
 }
 
@@ -22,6 +28,10 @@ const depositSchema = z.object({
 
 type DepositForm = z.infer<typeof depositSchema>;
 
+/**
+ * DepositDrawer provides a sandbox faucet form to request mock deposits
+ * of BRL, BTC, or ETH.
+ */
 export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);

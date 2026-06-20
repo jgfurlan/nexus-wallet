@@ -13,6 +13,10 @@ const feedbackSchema = z.object({
 
 type FeedbackForm = z.infer<typeof feedbackSchema>;
 
+/**
+ * ContactWidget renders a floating button that opens a feedback form popover.
+ * Allows users to submit structured textual feedback and a 1-5 star rating.
+ */
 export const ContactWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);

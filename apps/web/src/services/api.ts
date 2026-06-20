@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+/**
+ * Axios instance configured with the API baseURL, request interceptors
+ * to inject JWT bearer tokens, and response interceptors to handle 401 Unauthorized errors.
+ */
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
 });

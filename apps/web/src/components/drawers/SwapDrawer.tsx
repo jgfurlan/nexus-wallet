@@ -24,12 +24,22 @@ const swapSchema = z.object({
 
 type SwapForm = z.infer<typeof swapSchema>;
 
+/**
+ * Properties for the SwapDrawer component.
+ */
 interface SwapDrawerProps {
+  /** If true, the swap drawer is displayed */
   isOpen: boolean;
+  /** Callback function to close the drawer overlay */
   onClose: () => void;
+  /** Optional callback triggered after a successful swap operation */
   onSuccess?: () => void;
 }
 
+/**
+ * SwapDrawer displays the interface to request quotes and execute asset swaps
+ * between BRL, BTC, and ETH.
+ */
 export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [quote, setQuote] = useState<SwapQuoteResponse | null>(null);
   const [timeLeft, setTimeLeft] = useState(0);

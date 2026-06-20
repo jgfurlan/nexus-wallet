@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MessageCircle, X, Send, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { MessageCircle, X, Send, AlertCircle, CheckCircle2, Star } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -18,6 +18,8 @@ export const ContactWidget: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [rating, setRating] = useState<number | null>(null);
+  const [hoverRating, setHoverRating] = useState<number | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FeedbackForm>({
     resolver: zodResolver(feedbackSchema),
@@ -27,12 +29,16 @@ export const ContactWidget: React.FC = () => {
     try {
       setIsSubmitting(true);
       setError(null);
-      await api.post('/feedbacks', data);
+      await api.post('/feedbacks', {
+        ...data,
+        rating: rating || undefined,
+      });
       setIsSuccess(true);
       setTimeout(() => {
         setIsOpen(false);
         setTimeout(() => {
           setIsSuccess(false);
+          setRating(null);
           reset();
         }, 300);
       }, 3000);
@@ -49,6 +55,7 @@ export const ContactWidget: React.FC = () => {
       setIsOpen(true);
       setIsSuccess(false);
       setError(null);
+      setRating(null);
       reset();
     } else {
       setIsOpen(false);
@@ -87,6 +94,35 @@ export const ContactWidget: React.FC = () => {
                 </div>
               )}
               
+              <div className="space-y-1">
+                <span className="text-xs font-medium text-primary">Como você avalia a sua experiência?</span>
+                <div className="flex gap-1.5 items-center my-1">
+                  {[1, 2, 3, 4, 5].map((star) => {
+                    const isSelected = star <= (hoverRating ?? rating ?? 0);
+                    return (
+                      <button
+                        key={star}
+                        type="button"
+                        onClick={() => setRating(star)}
+                        onMouseEnter={() => setHoverRating(star)}
+                        onMouseLeave={() => setHoverRating(null)}
+                        className="text-subtle hover:text-gold transition-colors focus:outline-none"
+                      >
+                        <Star
+                          className={cn(
+                            "w-5 h-5",
+                            isSelected ? "fill-gold text-gold" : "text-subtle/40"
+                          )}
+                        />
+                      </button>
+                    );
+                  })}
+                  {rating && (
+                    <span className="text-xs font-semibold text-gold ml-2">{rating} / 5</span>
+                  )}
+                </div>
+              </div>
+
               <div className="space-y-1.5">
                 <p className="text-xs text-subtle">Sua opinião é fundamental para nós. Como podemos melhorar?</p>
                 <textarea 

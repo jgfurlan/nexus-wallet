@@ -20,6 +20,14 @@ O projeto utiliza **pnpm workspaces** para dividir as responsabilidades:
 
 👉 Para entender profundamente a estrutura, padrões de código e decisões técnicas, acesse a nossa **[Documentação de Arquitetura](./docs/guidelines/architecture.md)**.
 
+## 🛡️ Arquitetura e Resiliência
+
+Para compreender em detalhes como a plataforma garante consistência financeira, controle de concorrência rigoroso e resiliência contra falhas, consulte o nosso **[Blueprint de Evolução Arquitetural e Resiliência](./docs/architecture/evolution-blueprint.md)**. O blueprint cobre:
+- **Ledger Imutável (Double-Entry):** Registro histórico à prova de fraudes para todas as contas de saldo.
+- **Isolamento SERIALIZABLE:** Prevenção absoluta contra race conditions de concorrência e falhas de duplo saque/depósito.
+- **Transactional Outbox:** Garantia de entrega at-least-once para callbacks assíncronos e processamentos em background.
+- **Redis & Token Bucket:** Cache estratégico de cotações em tempo real e limitação distribuída de requisições.
+
 ## 🚀 Pré-requisitos
 Certifique-se de ter os seguintes componentes instalados na sua máquina local:
 - **Node.js** (v20+)

@@ -20,6 +20,7 @@ Antes de QUALQUER ação, verifique o contexto nestas fontes em ordem:
 | Padrões de Código e RLVR | `docs/guidelines/code-standards.md` |
 | Roadmap Atual | `docs/guidelines/progress-tracker.md` |
 | Princípios de UX/UI | `docs/guidelines/ui-context.md` |
+| Diretrizes de Documentação | `docs/guidelines/documentation.md` |
 | Decisões Arquiteturais (ADR) | `docs/decisions/README.md` |
 
 ## Mandatos Operacionais

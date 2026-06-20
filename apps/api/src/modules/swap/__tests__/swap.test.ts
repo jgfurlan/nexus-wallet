@@ -82,6 +82,26 @@ describe('Swap Module Integration Tests', () => {
     expect(cached).toBeTruthy();
   });
 
+  it('should return rates on GET /swap/rates', async () => {
+    vi.spyOn(CoinGeckoClient, 'getExchangeRate').mockImplementation(async (from, to) => {
+      if (from === 'BTC' && to === 'BRL') return new Decimal(300000);
+      if (from === 'ETH' && to === 'BRL') return new Decimal(18000);
+      return new Decimal(1);
+    });
+
+    const response = await request(app.server)
+      .get('/swap/rates')
+      .set('Authorization', `Bearer ${authToken}`)
+      .expect(200);
+
+    expect(response.body).toHaveProperty('BTC');
+    expect(response.body).toHaveProperty('ETH');
+    expect(response.body).toHaveProperty('BRL');
+    expect(response.body.BTC).toBe('300000');
+    expect(response.body.ETH).toBe('18000');
+    expect(response.body.BRL).toBe('1');
+  });
+
   it('should execute a swap successfully', async () => {
     // 1. Give some BRL balance to the user
     await prisma.walletBalance.update({

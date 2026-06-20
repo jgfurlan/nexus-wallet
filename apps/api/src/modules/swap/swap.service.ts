@@ -11,6 +11,16 @@ const SWAP_FEE_PERCENTAGE = 0.015; // 1.5%
 const QUOTE_TTL = 30; // 30 seconds
 
 export class SwapService {
+  static async swap_get_rates(): Promise<Record<string, string>> {
+    const btcRate = await CoinGeckoClient.getExchangeRate(TokenSymbol.BTC, TokenSymbol.BRL);
+    const ethRate = await CoinGeckoClient.getExchangeRate(TokenSymbol.ETH, TokenSymbol.BRL);
+    return {
+      BTC: btcRate.toString(),
+      ETH: ethRate.toString(),
+      BRL: '1',
+    };
+  }
+
   static async swap_get_quote(userId: string, fromToken: TokenSymbol, toToken: TokenSymbol, amount: string): Promise<SwapQuoteResponse> {
     const rate = await CoinGeckoClient.getExchangeRate(fromToken, toToken);
     

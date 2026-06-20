@@ -10,6 +10,7 @@ import { Balance, Transaction } from '../types';
 
 import { HistoryService } from '../services/history.service';
 import { SwapService } from '../services/swap.service';
+import Decimal from 'decimal.js';
 
 // Drawers
 import { SwapDrawer } from '../components/drawers/SwapDrawer';
@@ -38,23 +39,24 @@ export const DashboardPage: React.FC = () => {
       const historyData = await HistoryService.getHistory({ limit: 5 });
       setRecentTransactions(historyData.data);
 
-      const fiatMap: Record<string, string> = {};
-      for (const b of balancesData.balances) {
-        if (b.token === 'BRL') {
-          fiatMap[b.token] = '1.00';
-        } else if (Number(b.amount) > 0) {
-          try {
-            const quote = await SwapService.getQuote(b.token, 'BRL', b.amount);
-            fiatMap[b.token] = quote.destinationAmount;
-          } catch (err) {
-            console.error(`Failed to load fiat for ${b.token}`, err);
-            fiatMap[b.token] = '0.00';
-          }
-        } else {
-          fiatMap[b.token] = '0.00';
+      try {
+        const rates = await SwapService.getRates();
+        const fiatMap: Record<string, string> = {};
+        for (const b of balancesData.balances) {
+          const rate = rates[b.token] || '0';
+          const balanceDecimal = new Decimal(b.amount);
+          const rateDecimal = new Decimal(rate);
+          fiatMap[b.token] = balanceDecimal.mul(rateDecimal).toFixed(2);
         }
+        setFiatValues(fiatMap);
+      } catch (err) {
+        console.error('Failed to load rates for dashboard', err);
+        const fiatMap: Record<string, string> = {};
+        for (const b of balancesData.balances) {
+          fiatMap[b.token] = b.token === 'BRL' ? Number(b.amount).toFixed(2) : '0.00';
+        }
+        setFiatValues(fiatMap);
       }
-      setFiatValues(fiatMap);
     } catch (error) {
       console.error('Failed to load dashboard data', error);
     } finally {

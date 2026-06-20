@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-pine: 185 28 28; /* #b91c1c (Carmim Red) */
+    --color-love: 244 63 94; /* #f43f5e */
+    --color-gold: 245 158 11; /* #f59e0b */
+    --color-foam: 56 189 248; /* #38bdf8 */
+    --color-surface: 30 41 59; /* #1e293b (Slate-800) */
+    --color-base: 15 23 42; /* #0f172a (Slate-900) */
+    --color-overlay: 51 65 85; /* #334155 (Slate-700) */
+    --color-primary: 248 250 252; /* #f8fafc (Slate-50) */
+    --color-subtle: 148 163 184; /* #94a3b8 (Slate-400) */
+  }
+
+  :root[data-theme='light'] {
+    --color-pine: 185 28 28; /* #b91c1c (Carmim Red) */
+    --color-love: 225 29 72; /* #e11d48 */
+    --color-gold: 217 119 6; /* #d97706 */
+    --color-foam: 2 132 199; /* #0284c7 */
+    --color-surface: 255 255 255; /* #ffffff */
+    --color-base: 241 245 249; /* #f1f5f9 */
+    --color-overlay: 203 213 225; /* #cbd5e1 */
+    --color-primary: 15 23 42; /* #0f172a */
+    --color-subtle: 100 116 139; /* #64748b */
+  }
+
+  body {
+    @apply bg-base text-primary transition-colors duration-200;
+  }
+}

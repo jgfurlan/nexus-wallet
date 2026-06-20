@@ -3,7 +3,7 @@ import { TokenSymbol } from '@prisma/client';
 import Decimal from 'decimal.js';
 
 export const DepositWebhookInputSchema = z.object({
-  walletId: z.string(),
+  userId: z.string(),
   token: z.nativeEnum(TokenSymbol),
   amount: z.string().refine(
     (val) => {

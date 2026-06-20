@@ -42,7 +42,7 @@ export const faucetRoutes = async (app: FastifyInstance) => {
       const idempotencyKey = `faucet_${userId}_${crypto.randomUUID()}`;
 
       await DepositService.deposit_process_webhook({
-        walletId: wallet.id,
+        userId,
         token: token as "BRL",
         amount,
         idempotencyKey,

@@ -26,7 +26,7 @@ export class DepositService {
 
         // 2. Fetch the wallet to get the userId and verify it exists
         const wallet = await tx.wallet.findUnique({
-          where: { id: input.walletId },
+          where: { userId: input.userId },
         });
 
         if (!wallet) {

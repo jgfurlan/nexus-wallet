@@ -102,8 +102,7 @@ export const DashboardPage: React.FC = () => {
           <BalanceCard
             token="Real Brasileiro"
             amount={formatCurrency(getBalance('BRL'))}
-            fiatValue="1.00"
-            symbol="R$"
+            fiatValue={formatCurrency(getBalance('BRL'))}
             icon={<Coins className="w-6 h-6" />}
             isLoading={isLoading}
           />
@@ -111,7 +110,6 @@ export const DashboardPage: React.FC = () => {
             token="Bitcoin"
             amount={`${formatToken(getBalance('BTC'))} BTC`}
             fiatValue={formatCurrency(fiatValues['BTC'] || '0')}
-            symbol="R$"
             icon={<TrendingUp className="w-6 h-6" />}
             isLoading={isLoading}
           />
@@ -119,7 +117,6 @@ export const DashboardPage: React.FC = () => {
             token="Ethereum"
             amount={`${formatToken(getBalance('ETH'))} ETH`}
             fiatValue={formatCurrency(fiatValues['ETH'] || '0')}
-            symbol="R$"
             icon={<TrendingUp className="w-6 h-6" />}
             isLoading={isLoading}
           />

@@ -36,8 +36,8 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, title, children
       {/* Drawer */}
       <div 
         className={cn(
-          "fixed inset-y-0 right-0 z-[110] flex w-full max-w-md flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out md:rounded-l-2xl",
-          isOpen ? "translate-x-0" : "translate-x-full"
+          "fixed inset-y-0 left-0 z-[110] flex w-full max-w-md flex-col bg-surface shadow-2xl transition-transform duration-300 ease-in-out md:rounded-r-2xl",
+          isOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
         {/* Header */}

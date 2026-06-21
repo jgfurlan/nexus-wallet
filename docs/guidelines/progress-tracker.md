@@ -45,6 +45,7 @@
 | NXS-111 | Correção: Drawer não possui animação | ✅ Concluído | `spec/NXS-111-drawer-animation` |
 | NXS-112 | Correção: `formatToken` renderiza NaN | ✅ Concluído | `spec/NXS-112-format-token-nan` |
 | NXS-114 | Token JWT armazenado em localStorage | ✅ Concluído | `spec/NXS-114-jwt-httponly-cookie` |
+| NXS-115 | Sem tratamento de erro global (ausência de Error Boundary) | ✅ Concluído | `spec/NXS-115-error-boundary` |
 | NXS-116 | Correção de auto-resolução de token no SwapDrawer | ✅ Concluído | `spec/NXS-116-swap-token-conflict` |
 | NXS-117 | Correção de erro 500 no Histórico de Transações | ✅ Concluído | `fix/NXS-117-history-authguard` |
 | NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
@@ -80,6 +81,7 @@
 - **NXS-111**: Correção: Drawer não possui animação - 2026-06-21
 - **NXS-112**: Correção: `formatToken` renderiza NaN - 2026-06-21
 - **NXS-114**: Token JWT armazenado em localStorage - 2026-06-21
+- **NXS-115**: Sem tratamento de erro global (ausência de Error Boundary) - 2026-06-21
 - **NXS-116**: Correção de auto-resolução de token no SwapDrawer - 2026-06-21
 - **NXS-117**: Correção de erro 500 no Histórico de Transações - 2026-06-21
 - **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21

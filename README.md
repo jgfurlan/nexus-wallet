@@ -3,7 +3,7 @@
   
   # 🌌 Nexus Wallet
   
-  **Uma carteira digital Sandbox premium, segura e resiliente para transações fiat e cripto.**
+  🔗 `https://nexus-wallet-ashy.vercel.app`
   
   [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
   [![React](https://img.shields.io/badge/React-18.3-blue?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)

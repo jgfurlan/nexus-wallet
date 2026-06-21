@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** —
-- **Status:** —
-- **Branch:** —
+- **Tarefa Atual:** GH94 — Testes Unitários Frontend (Contexts, Hooks, Drawers)
+- **Status:** ⏳ In Review
+- **Branch:** `spec/GH94-frontend-tests`
 
 ---
 

@@ -51,6 +51,8 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
   const [successTx, setSuccessTx] = useState<Transaction | null>(null);
   const [balances, setBalances] = useState<Balance[]>([]);
 
+  const [rates, setRates] = useState<Record<string, string> | null>(null);
+
   const { register, watch, handleSubmit, formState: { errors }, setValue, reset } = useForm<SwapForm>({
     resolver: zodResolver(swapSchema),
     defaultValues: {
@@ -83,16 +85,18 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
     }
   }, [isOpen]);
 
-  // Fetch quote when amount or tokens change (debounced)
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (amount && Number(amount) > 0 && fromToken !== toToken) {
-        handleGetQuote();
-      } else {
-        setQuote(null);
-      }
-    }, 500);
-    return () => clearTimeout(timer);
+    if (isOpen) {
+      SwapService.getRates().then(setRates).catch(console.error);
+    } else {
+      setRates(null);
+    }
+  }, [isOpen]);
+
+  // Clear quote if amount or tokens change
+  useEffect(() => {
+    setQuote(null);
+    setTimeLeft(0);
   }, [amount, fromToken, toToken]);
 
   // Timer countdown
@@ -249,10 +253,20 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
                   <option value="BRL">BRL</option>
                 </select>
                 <div className="flex-1 h-11 bg-white/5 border border-overlay rounded-2xl px-3 flex items-center text-primary font-bold">
-                  {isLoadingQuote ? (
-                    <div className="h-4 w-20 bg-overlay animate-pulse rounded" />
-                  ) : quote ? (
+                  {quote ? (
                     formatToken(quote.destinationAmount)
+                  ) : amount && rates && !isNaN(Number(amount)) && Number(amount) > 0 && fromToken !== toToken ? (
+                    (() => {
+                      try {
+                        const fromRate = Number(rates[fromToken] || 1);
+                        const toRate = Number(rates[toToken] || 1);
+                        const crossRate = toRate / fromRate;
+                        const netAmount = Number(amount) * 0.985;
+                        return `~${formatToken(netAmount * crossRate)}`;
+                      } catch {
+                        return '0.00';
+                      }
+                    })()
                   ) : (
                     '0.00'
                   )}
@@ -264,7 +278,7 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
             {quote && (
               <div className="bg-white/5 rounded-2xl p-4 space-y-2 text-sm border border-overlay">
                 <div className="flex justify-between">
-                  <span className="text-subtle">Taxa (1.5%)</span>
+                  <span className="text-subtle">Taxa (Estimativa 1.5%)</span>
                   <span className="text-gold">{formatToken(quote.feeAmount)} {quote.fromToken}</span>
                 </div>
                 <div className="flex justify-between">
@@ -282,13 +296,25 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
           </div>
 
           <div className="pt-6 mt-auto">
-            <Button
-              type="submit"
-              className="w-full h-12 text-base font-bold shadow-lg shadow-pine/20"
-              disabled={!quote || isLoadingQuote}
-            >
-              Confirmar Conversão
-            </Button>
+            {!quote ? (
+              <Button
+                type="button"
+                onClick={handleGetQuote}
+                className="w-full h-12 text-base font-bold shadow-lg shadow-pine/20 bg-pine/10 text-pine hover:bg-pine/20 border-none"
+                disabled={!amount || isNaN(Number(amount)) || Number(amount) <= 0 || fromToken === toToken || isLoadingQuote}
+                isLoading={isLoadingQuote}
+              >
+                Gerar Cotação Oficial
+              </Button>
+            ) : (
+              <Button
+                type="submit"
+                className="w-full h-12 text-base font-bold shadow-lg shadow-pine/20"
+                disabled={!quote || isLoadingQuote}
+              >
+                Confirmar Conversão
+              </Button>
+            )}
           </div>
         </form>
       )}

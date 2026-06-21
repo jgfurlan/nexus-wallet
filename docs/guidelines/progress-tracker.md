@@ -53,6 +53,7 @@
 | NXS-129 | Deposit Drawer com valor padrão de 1000 | ✅ Concluído | `spec/NXS-129-ux-fixes` |
 | NXS-130 | Withdraw Drawer sobrescrevendo valor no Sandbox | ✅ Concluído | `spec/NXS-129-ux-fixes` |
 | NXS-131 | Remover botão 'Ver Tudo' em Atividade Recente | ✅ Concluído | `spec/NXS-129-ux-fixes` |
+| NXS-135 | Resolução de Bloqueio de Cookie ITP em Mobile | ✅ Concluído | `fix/NXS-135-mobile-cookie` |
 
 ---
 
@@ -93,6 +94,7 @@
 - **NXS-129**: Deposit Drawer com valor padrão de 1000 - 2026-06-21
 - **NXS-130**: Withdraw Drawer sobrescrevendo valor no Sandbox - 2026-06-21
 - **NXS-131**: Remover botão 'Ver Tudo' em Atividade Recente - 2026-06-21
+- **NXS-135**: Resolução de Bloqueio de Cookie ITP em Mobile - 2026-06-21
 
 ---
 

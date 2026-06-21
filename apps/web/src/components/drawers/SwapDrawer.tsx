@@ -10,8 +10,9 @@ import { Label } from '../ui/Label';
 import { ConfirmModal } from '../ui/ConfirmModal';
 import { Drawer } from '../ui/Drawer';
 import { formatCurrency, formatToken } from '../../lib/formatters';
-import { SwapQuoteResponse, Transaction, TokenSymbol } from '../../types';
+import { SwapQuoteResponse, Transaction, TokenSymbol, Balance } from '../../types';
 import { getErrorMessage } from '../../lib/error-utils';
+import { WalletService } from '../../services/wallet.service';
 
 const swapSchema = z.object({
   fromToken: z.enum(['BRL', 'BTC', 'ETH']),
@@ -48,6 +49,7 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [successTx, setSuccessTx] = useState<Transaction | null>(null);
+  const [balances, setBalances] = useState<Balance[]>([]);
 
   const { register, watch, handleSubmit, formState: { errors }, setValue, reset } = useForm<SwapForm>({
     resolver: zodResolver(swapSchema),
@@ -60,6 +62,17 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
   const fromToken = watch('fromToken');
   const toToken = watch('toToken');
   const amount = watch('amount');
+
+  // Fetch balances when drawer opens
+  useEffect(() => {
+    if (isOpen) {
+      WalletService.getBalances()
+        .then(data => setBalances(data.balances))
+        .catch(err => console.error('Failed to fetch balances for swap drawer:', err));
+    } else {
+      setBalances([]);
+    }
+  }, [isOpen]);
 
   // Fetch quote when amount or tokens change (debounced)
   useEffect(() => {
@@ -180,7 +193,12 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="amount">Você envia</Label>
+              <div className="flex justify-between items-center">
+                <Label htmlFor="amount">Você envia</Label>
+                <span className="text-xs text-subtle font-medium">
+                  Disponível: {fromToken === 'BRL' ? formatCurrency(Number(balances.find(b => b.token === fromToken)?.amount || 0)) : formatToken(Number(balances.find(b => b.token === fromToken)?.amount || 0))} {fromToken !== 'BRL' ? fromToken : ''}
+                </span>
+              </div>
               <div className="flex gap-2">
                 <select
                   {...register('fromToken')}

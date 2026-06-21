@@ -4,9 +4,9 @@
 **Fase 1: Fundação**
 
 ## Implementação Ativa
-- **Tarefa Atual:** GH103 — Enforce progress-tracker.md Update as the Final Step of the PR Merge Workflow
-- **Status:** Em Progresso
-- **Branch:** `spec/GH103-enforce-progress-tracker`
+- **Tarefa Atual:** Nenhuma
+- **Status:** —
+- **Branch:** —
 
 ---
 
@@ -37,8 +37,8 @@
 | GH93 | Links de Blueprint no README e Guia de Documentação | ✅ Concluído | `spec/GH93-readme-links-docs` |
 | GH94 | Testes Unitários Frontend (Contextos, Hooks, Drawers) | ✅ Concluído | `spec/GH94-frontend-tests` |
 | GH95 | Redesenho do README Premium e Roadmap OpenTelemetry | ✅ Concluído | `spec/GH95-readme-revamp` |
-| GH102 | Exibir Saldo Disponível no SwapDrawer | 📋 A Planejar | — |
-| GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | 🔍 Em Revisão | `spec/GH103-enforce-progress-tracker` |
+| GH102 | Exibir Saldo Disponível no SwapDrawer | ✅ Concluído | `spec/GH102-swap-available-balance` |
+| GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | ✅ Concluído | `spec/GH103-enforce-progress-tracker` |
 
 ---
 
@@ -63,6 +63,8 @@
 - **GH92**: JSDoc/TSDoc no Frontend Web - 2026-06-20
 - **GH93**: Links de Blueprint no README e Guia de Documentação - 2026-06-20
 - **GH95**: Redesenho do README Premium e Roadmap OpenTelemetry - 2026-06-20
+- **GH102**: Exibir Saldo Disponível no SwapDrawer - 2026-06-21
+- **GH103**: Forçar Atualização do Progress Tracker no Workflow de PR - 2026-06-21
 
 ---
 

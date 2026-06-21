@@ -32,13 +32,13 @@
 | GH41 | UX Revamp: Drawers Navigation, Faucet, e Fale Conosco | ✅ Concluído | `spec/GH41-ux-revamp` |
 | GH43 | Separação de CI (GitHub Actions) e CD (Railway/Vercel) | ✅ Concluído | — |
 | GH46 | Otimizar CD com Jobs Paralelos e Gate de Validação | ✅ Concluído | `spec/NXS-46-parallel-cd` |
-| GH91 | JSDoc/TSDoc no Backend API | 🔍 Em Revisão | `spec/GH91-backend-tsdoc` |
-| GH92 | JSDoc/TSDoc no Frontend Web | 🔍 Em Revisão | `spec/GH92-frontend-tsdoc` |
-| GH93 | Links de Blueprint no README e Guia de Documentação | 🔍 Em Revisão | `spec/GH93-readme-links-docs` |
+| GH91 | JSDoc/TSDoc no Backend API | ✅ Concluído | `spec/GH91-backend-tsdoc` |
+| GH92 | JSDoc/TSDoc no Frontend Web | ✅ Concluído | `spec/GH92-frontend-tsdoc` |
+| GH93 | Links de Blueprint no README e Guia de Documentação | ✅ Concluído | `spec/GH93-readme-links-docs` |
 | GH94 | Testes Unitários Frontend (Contextos, Hooks, Drawers) | ✅ Concluído | `spec/GH94-frontend-tests` |
-| GH95 | Redesenho do README Premium e Roadmap OpenTelemetry | 🔍 Em Revisão | `spec/GH95-readme-revamp` |
+| GH95 | Redesenho do README Premium e Roadmap OpenTelemetry | ✅ Concluído | `spec/GH95-readme-revamp` |
 | GH102 | Exibir Saldo Disponível no SwapDrawer | 📋 A Planejar | — |
-| GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | ⚙️ Em Progresso | `spec/GH103-enforce-progress-tracker` |
+| GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | 🔍 Em Revisão | `spec/GH103-enforce-progress-tracker` |
 
 ---
 
@@ -59,6 +59,10 @@
 - **GH43**: Separação de CI (GitHub Actions) e CD (Railway/Vercel) - 2026-06-19
 - **GH46**: Otimizar CD com Jobs Paralelos e Gate de Validação - 2026-06-19
 - **GH94**: Testes Unitários Frontend (Contextos, Hooks, Drawers) - 2026-06-20
+- **GH91**: JSDoc/TSDoc no Backend API - 2026-06-20
+- **GH92**: JSDoc/TSDoc no Frontend Web - 2026-06-20
+- **GH93**: Links de Blueprint no README e Guia de Documentação - 2026-06-20
+- **GH95**: Redesenho do README Premium e Roadmap OpenTelemetry - 2026-06-20
 
 ---
 

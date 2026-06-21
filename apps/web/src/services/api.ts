@@ -6,16 +6,10 @@ import axios from 'axios';
  */
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000',
+  withCredentials: true,
 });
 
-// Interceptor para injetar o token JWT
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('nexus_token');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+// Interceptor para injetar o token JWT foi removido em favor do uso de cookies HttpOnly
 
 // Interceptor para tratar erros 401
 api.interceptors.response.use(

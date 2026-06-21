@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import api from '../services/api';
 
 /**
  * Logged in user profile representation.
@@ -40,27 +41,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const savedToken = localStorage.getItem('nexus_token');
     const savedUser = localStorage.getItem('nexus_user');
 
-    if (savedToken && savedUser) {
-      setToken(savedToken);
+    if (savedUser) {
+      // Token is assumed to be in the HttpOnly cookie.
+      // If the API rejects it with 401, the interceptor will clear the user.
       setUser(JSON.parse(savedUser));
+      setToken('http-only-cookie');
     }
     setIsLoading(false);
   }, []);
 
-  const login = (newToken: string, newUser: User) => {
-    setToken(newToken);
+  const login = (_newToken: string, newUser: User) => {
+    // newToken is still passed by auth service but we don't store it in localStorage
+    setToken('http-only-cookie');
     setUser(newUser);
-    localStorage.setItem('nexus_token', newToken);
     localStorage.setItem('nexus_user', JSON.stringify(newUser));
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await api.post('/auth/logout');
+    } catch (e) {
+      console.error('Failed to logout', e);
+    }
     setToken(null);
     setUser(null);
-    localStorage.removeItem('nexus_token');
     localStorage.removeItem('nexus_user');
   };
 
@@ -71,7 +77,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         token,
         login,
         logout,
-        isAuthenticated: !!token,
+        isAuthenticated: !!user,
         isLoading,
       }}
     >

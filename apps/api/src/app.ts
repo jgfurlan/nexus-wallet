@@ -3,6 +3,7 @@ import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import fastifyJwt from '@fastify/jwt';
 import cors from '@fastify/cors';
+import cookie from '@fastify/cookie';
 import { serializerCompiler, validatorCompiler, jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { healthRoutes } from './modules/health/health.routes';
 import { authRoutes } from './modules/auth/auth.routes';
@@ -62,6 +63,15 @@ export const buildApp = () => {
   // Register JWT plugin
   app.register(fastifyJwt, {
     secret: process.env.JWT_SECRET || 'nexus_super_secret_key_1234567890_change_me_in_prod',
+    cookie: {
+      cookieName: 'nexus_token',
+      signed: false,
+    },
+  });
+
+  // Register Cookie plugin
+  app.register(cookie, {
+    secret: process.env.COOKIE_SECRET || 'nexus_super_secret_cookie_key',
   });
 
   app.register(swagger, {

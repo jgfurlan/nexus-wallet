@@ -4,10 +4,18 @@ import { prisma } from '../../lib/prisma';
 import { LedgerService } from '../ledger/ledger.service';
 import { DepositWebhookInput } from './deposit.schemas';
 
+/**
+ * Deposit service handling incoming deposit webhooks with 
+ * idempotency checks and atomic ledger credits.
+ */
 export class DepositService {
   /**
    * Processes the deposit webhook within an atomic Serializable transaction.
    * Ensures idempotency by checking if the idempotencyKey has already been processed.
+   * 
+   * @param input - The deposit webhook payload including userId, token, amount, and idempotencyKey.
+   * @returns A promise resolving to the created transaction and a flag indicating if it was a duplicate.
+   * @throws {Error} WALLET_NOT_FOUND (404) if the wallet does not exist for the user.
    */
   static async deposit_process_webhook(input: DepositWebhookInput) {
     return await prisma.$transaction(

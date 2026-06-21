@@ -10,7 +10,16 @@ import { SwapQuoteResponse } from './swap.schemas';
 const SWAP_FEE_PERCENTAGE = 0.015; // 1.5%
 const QUOTE_TTL = 30; // 30 seconds
 
+/**
+ * Swap service handling cryptocurrency/fiat exchange rate lookups, 
+ * swap quoting, and atomic swap execution.
+ */
 export class SwapService {
+  /**
+   * Retrieves the current exchange rates for BTC, ETH, and BRL relative to BRL base.
+   * 
+   * @returns A promise resolving to a mapping of token symbols to exchange rate strings.
+   */
   static async swap_get_rates(): Promise<Record<string, string>> {
     const btcRate = await CoinGeckoClient.getExchangeRate(TokenSymbol.BTC, TokenSymbol.BRL);
     const ethRate = await CoinGeckoClient.getExchangeRate(TokenSymbol.ETH, TokenSymbol.BRL);
@@ -21,6 +30,16 @@ export class SwapService {
     };
   }
 
+  /**
+   * Generates a temporary swap quote (valid for 30s) including fees, 
+   * rates, and net/destination calculations, storing the quote in Redis.
+   * 
+   * @param userId - The unique identifier of the user requesting the quote.
+   * @param fromToken - The token being swapped from.
+   * @param toToken - The token being swapped to.
+   * @param amount - The raw amount of source token to swap.
+   * @returns A promise resolving to the created SwapQuoteResponse.
+   */
   static async swap_get_quote(userId: string, fromToken: TokenSymbol, toToken: TokenSymbol, amount: string): Promise<SwapQuoteResponse> {
     const rate = await CoinGeckoClient.getExchangeRate(fromToken, toToken);
     
@@ -52,6 +71,18 @@ export class SwapService {
     return quote;
   }
 
+  /**
+   * Executes a previously quoted swap atomically within a Serializable transaction.
+   * Validates the quote from Redis, checks balance, debits fees & source token, 
+   * and credits destination token, recording all movements in the Ledger.
+   * 
+   * @param userId - The unique identifier of the user executing the swap.
+   * @param quoteId - The identifier of the active quote in Redis.
+   * @returns A promise resolving to the created transaction details.
+   * @throws {Error} QUOTE_EXPIRED (410) if the quote is not found or expired.
+   * @throws {Error} FORBIDDEN (403) if the quote does not belong to the user.
+   * @throws {Error} INSUFFICIENT_BALANCE (422) if the user has insufficient source token balance.
+   */
   static async swap_execute(userId: string, quoteId: string) {
     const cacheKey = `swap:quote:${quoteId}`;
     const cachedQuote = await redis.get(cacheKey);

@@ -24,6 +24,11 @@ export const FaucetInputSchema = z.object({
 
 export type FaucetInput = z.infer<typeof FaucetInputSchema>;
 
+/**
+ * Test faucet routes to inject mock funds into the authenticated user's wallet balances.
+ * 
+ * @param app - The Fastify application instance.
+ */
 export const faucetRoutes = async (app: FastifyInstance) => {
   app.post(
     '/test/faucet',

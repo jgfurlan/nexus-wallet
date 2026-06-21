@@ -44,7 +44,7 @@ export const authRoutes = async (app: FastifyInstance) => {
     async (request, reply) => {
       const tokens = await AuthService.loginUser(app, request.body);
       
-      reply.setCookie('nexus_token', tokens.token, {
+      reply.setCookie('nexus_token', tokens.accessToken, {
         path: '/',
         httpOnly: true,
         secure: true,
@@ -71,7 +71,7 @@ export const authRoutes = async (app: FastifyInstance) => {
     async (request, reply) => {
       const tokens = await AuthService.refreshSession(app, request.body.refreshToken);
       
-      reply.setCookie('nexus_token', tokens.token, {
+      reply.setCookie('nexus_token', tokens.accessToken, {
         path: '/',
         httpOnly: true,
         secure: true,
@@ -94,7 +94,7 @@ export const authRoutes = async (app: FastifyInstance) => {
         },
       },
     },
-    async (request, reply) => {
+    async (_request, reply) => {
       reply.clearCookie('nexus_token', {
         path: '/',
         httpOnly: true,

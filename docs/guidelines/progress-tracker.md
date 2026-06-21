@@ -53,6 +53,7 @@
 | NXS-129 | Deposit Drawer com valor padrão de 1000 | ✅ Concluído | `spec/NXS-129-ux-fixes` |
 | NXS-130 | Withdraw Drawer sobrescrevendo valor no Sandbox | ✅ Concluído | `spec/NXS-129-ux-fixes` |
 | NXS-131 | Remover botão 'Ver Tudo' em Atividade Recente | ✅ Concluído | `spec/NXS-129-ux-fixes` |
+| NXS-134 | Refatoração da estimativa de cotação SwapDrawer | ✅ Concluído | `spec/NXS-134-swap-refactor` |
 
 ---
 

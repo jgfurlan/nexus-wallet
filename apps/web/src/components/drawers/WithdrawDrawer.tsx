@@ -20,12 +20,26 @@ const withdrawalSchema = z.object({
 
 type WithdrawalForm = z.infer<typeof withdrawalSchema>;
 
+/** Propriedades do drawer de saque. */
 interface WithdrawDrawerProps {
+  /** Se true, o drawer fica visível. */
   isOpen: boolean;
+  /** Callback ao fechar o drawer. */
   onClose: () => void;
+  /** Callback disparado após um saque bem-sucedido. */
   onSuccess?: () => void;
 }
 
+/**
+ * Drawer de saque com suporte a autopreenchimento sandbox.
+ * Permite selecionar moeda (BRL/BTC/ETH), inserir valor e endereço,
+ * e confirmar a transação via modal de confirmação.
+ *
+ * Funcionalidades:
+ * - **Autofill (Sandbox)**: preenche dados de teste conforme o token.
+ * - **Confirmação**: modal ConfirmModal antes de executar.
+ * - **Estados**: formulário → confirmação → sucesso/erro.
+ */
 export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [isExecuting, setIsExecuting] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);

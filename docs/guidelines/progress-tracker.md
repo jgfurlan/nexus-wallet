@@ -39,6 +39,9 @@
 | GH95 | Redesenho do README Premium e Roadmap OpenTelemetry | ✅ Concluído | `spec/GH95-readme-revamp` |
 | GH102 | Exibir Saldo Disponível no SwapDrawer | ✅ Concluído | `spec/GH102-swap-available-balance` |
 | GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | ✅ Concluído | `spec/GH103-enforce-progress-tracker` |
+| NXS-107 | Exibição de Saldo no Saque | ✅ Concluído | `spec/NXS-107-withdraw-balance` |
+| NXS-108 | Remoção de Valores de Conversão em BRL | ✅ Concluído | `spec/NXS-108-remove-fiat-values` |
+| NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
 
 ---
 
@@ -65,6 +68,9 @@
 - **GH95**: Redesenho do README Premium e Roadmap OpenTelemetry - 2026-06-20
 - **GH102**: Exibir Saldo Disponível no SwapDrawer - 2026-06-21
 - **GH103**: Forçar Atualização do Progress Tracker no Workflow de PR - 2026-06-21
+- **NXS-107**: Exibição de Saldo no Saque - 2026-06-21
+- **NXS-108**: Remoção de Valores de Conversão em BRL - 2026-06-21
+- **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21
 
 ---
 

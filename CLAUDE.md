@@ -5,8 +5,8 @@ Você é um engenheiro sênior TypeScript/Node.js construindo uma API de carteir
 
 ## Padrão de Idioma (Mandatório)
 Para alinhar com a equipe local no Brasil:
-- **Código-fonte:** Inglês (Variáveis, funções, classes, comentários de lógica).
-- **Documentação e Planejamento:** Português (PT-BR) para ADRs, Specs, Progress Tracker e Memory.
+- **Código-fonte:** Inglês (Variáveis, funções, classes).
+- **Documentação e Planejamento:** Português (PT-BR) para ADRs, Github Issues, Specs, Progress Tracker e Memory, comentários e documentação do código fonte.
 - **Commits e Pull Requests:** Português (PT-BR), seguindo o formato Conventional Commits.
 
 ## Índice de Diretrizes (O Roteador)
@@ -34,13 +34,15 @@ Nenhuma alteração de código sem uma **Especificação de Funcionalidade Atôm
 - **Nomenclatura de branch:** `spec/NXS-<id>-<descricao-curta>` (ex: `spec/GH2-auth-jwt`)
 - **Título do PR e Vínculo:** Todos os PRs devem ser vinculados à sua Issue correspondente (ex: adicionando `Closes #<id>` na descrição) e devem terminar com `Closes #<id>` no título do PR (ex: `spec: [GH5] Deposit Webhook Closes #5`).
 - **Formato de Commit:** `<tipo>: [NXS-<id>] <descrição>` (ex: `feat: [GH2] implementa rotação de refresh token JWT`)
-- **Máquina de Estados (Issues GitHub):**
-  - `in-spec`: redigindo especificações product.md e tech.md.
-  - `ready-to-implement`: especificações aprovadas, pronto para codificar.
-  - `in-progress`: codificação em progresso.
-  - `in-review`: PR aberto, aguardando verificações de CI/CD. NUNCA mescle um PR sem o código totalmente implementado, testado localmente e passando em todos os pipelines.
-  - `done`: PR mesclado e verificação concluída.
-- **Atualização do Progress Tracker:** Antes de transicionar uma issue para `done` (etapa final de revisão e merge do PR), é obrigatório atualizar o arquivo `docs/guidelines/progress-tracker.md`. Mude o status do item correspondente para `✅ Concluído`, adicione a data de finalização na seção de concluídos, e garanta que a tarefa ativa esteja limpa.
+- **Fluxo Ideal de Desenvolvimento (10/10):**
+  1. `Issue` (Criada e detalhada)
+  2. `Spec (na branch)` (Criação de `product.md` e `tech.md` na respectiva branch)
+  3. `Implementação` (Codificação das mudanças propostas)
+  4. `Testes Locais` (Execução de linters e testes para garantir que nada quebrou)
+  5. `Commit final c/ Tracker Update` (Atualizar `progress-tracker.md` como Concluído no próprio pacote de alterações)
+  6. `PR Aberto` (Única vez que o CI roda)
+  7. `Merge`
+  8. `CD` (Deploy contínuo via trigger automático)
 
 ### 3. Eficiência de Contexto
 - Prefira `grep_search` e `glob` em vez de varreduras completas com `read_file`.

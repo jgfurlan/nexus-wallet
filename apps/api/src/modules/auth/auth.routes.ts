@@ -48,7 +48,7 @@ export const authRoutes = async (app: FastifyInstance) => {
         path: '/',
         httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60, // 7 days
       });
       
@@ -75,7 +75,7 @@ export const authRoutes = async (app: FastifyInstance) => {
         path: '/',
         httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60, // 7 days
       });
       
@@ -99,7 +99,7 @@ export const authRoutes = async (app: FastifyInstance) => {
         path: '/',
         httpOnly: true,
         secure: true,
-        sameSite: 'none',
+        sameSite: 'lax',
       });
       return reply.status(200).send({ success: true });
     }

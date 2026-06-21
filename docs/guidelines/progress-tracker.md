@@ -49,6 +49,7 @@
 | NXS-116 | Correção de auto-resolução de token no SwapDrawer | ✅ Concluído | `spec/NXS-116-swap-token-conflict` |
 | NXS-117 | Correção de erro 500 no Histórico de Transações | ✅ Concluído | `fix/NXS-117-history-authguard` |
 | NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
+| NXS-121 | Correção de ordem do plugin Fastify JWT Cookie | ✅ Concluído | `fix/NXS-121-cookie-plugin-order` |
 
 ---
 
@@ -85,6 +86,7 @@
 - **NXS-116**: Correção de auto-resolução de token no SwapDrawer - 2026-06-21
 - **NXS-117**: Correção de erro 500 no Histórico de Transações - 2026-06-21
 - **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21
+- **NXS-121**: Correção de ordem do plugin Fastify JWT Cookie - 2026-06-21
 
 ---
 

@@ -63,6 +63,15 @@ export const SwapDrawer: React.FC<SwapDrawerProps> = ({ isOpen, onClose, onSucce
   const toToken = watch('toToken');
   const amount = watch('amount');
 
+  // Auto-resolve token conflicts (NXS-116)
+  useEffect(() => {
+    if (fromToken === toToken) {
+      const tokens: TokenSymbol[] = ['BRL', 'BTC', 'ETH'];
+      const next = tokens.find(t => t !== fromToken);
+      if (next) setValue('toToken', next);
+    }
+  }, [fromToken, toToken, setValue]);
+
   // Fetch balances when drawer opens
   useEffect(() => {
     if (isOpen) {

@@ -55,6 +55,7 @@
 | NXS-131 | Remover botão 'Ver Tudo' em Atividade Recente | ✅ Concluído | `spec/GH129-ux-fixes` |
 | NXS-134 | Refatoração da estimativa de cotação SwapDrawer | ✅ Concluído | `spec/NXS-134-swap-refactor` |
 | NXS-135 | Correção de cookie (SameSite=Lax) para iOS Safari | ✅ Concluído | `fix/NXS-135-mobile-cookie` |
+| NXS-136 | Correção da sintaxe do Proxy Vercel e SPA Fallback | ✅ Concluído | `fix/NXS-136-vercel-proxy` |
 
 ---
 
@@ -96,6 +97,7 @@
 - **NXS-130**: Withdraw Drawer sobrescrevendo valor no Sandbox - 2026-06-21
 - **NXS-131**: Remover botão 'Ver Tudo' em Atividade Recente - 2026-06-21
 - **NXS-135**: Resolução de Bloqueio de Cookie ITP em Mobile - 2026-06-21
+- **NXS-136**: Correção da sintaxe do Proxy Vercel e SPA Fallback - 2026-06-21
 
 ---
 

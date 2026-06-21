@@ -1,8 +1,12 @@
 {
   "rewrites": [
     {
-      "source": "/api/(.*)",
-      "destination": "https://api-production-d866.up.railway.app/$1"
+      "source": "/api/:path*",
+      "destination": "https://api-production-d866.up.railway.app/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

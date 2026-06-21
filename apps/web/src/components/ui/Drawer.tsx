@@ -23,14 +23,15 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose, title, children
     };
   }, [isOpen]);
 
-  if (!isOpen) return null;
-
   return (
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm transition-opacity"
-        onClick={onClose}
+        className={cn(
+          "fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm transition-opacity duration-300",
+          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+        )}
+        onClick={isOpen ? onClose : undefined}
       />
       
       {/* Drawer */}

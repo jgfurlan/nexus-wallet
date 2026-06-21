@@ -41,6 +41,9 @@
 | GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | ✅ Concluído | `spec/GH103-enforce-progress-tracker` |
 | NXS-107 | Exibição de Saldo no Saque | ✅ Concluído | `spec/NXS-107-withdraw-balance` |
 | NXS-108 | Remoção de Valores de Conversão em BRL | ✅ Concluído | `spec/NXS-108-remove-fiat-values` |
+| NXS-109 | Correção: Crash de formatadores ao digitar input | ✅ Concluído | `spec/NXS-109-formatters-crash` |
+| NXS-111 | Correção: Drawer não possui animação | ✅ Concluído | `spec/NXS-111-drawer-animation` |
+| NXS-112 | Correção: `formatToken` renderiza NaN | ✅ Concluído | `spec/NXS-112-format-token-nan` |
 | NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
 
 ---
@@ -70,6 +73,9 @@
 - **GH103**: Forçar Atualização do Progress Tracker no Workflow de PR - 2026-06-21
 - **NXS-107**: Exibição de Saldo no Saque - 2026-06-21
 - **NXS-108**: Remoção de Valores de Conversão em BRL - 2026-06-21
+- **NXS-109**: Correção: Crash de formatadores ao digitar input - 2026-06-21
+- **NXS-111**: Correção: Drawer não possui animação - 2026-06-21
+- **NXS-112**: Correção: `formatToken` renderiza NaN - 2026-06-21
 - **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21
 
 ---

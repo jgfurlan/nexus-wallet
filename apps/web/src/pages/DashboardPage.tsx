@@ -8,15 +8,12 @@ import { formatCurrency, formatToken, formatDate } from '../lib/formatters';
 import { cn } from '../lib/utils';
 import { Balance, Transaction } from '../types';
 import { HistoryService } from '../services/history.service';
-import { SwapService } from '../services/swap.service';
 import { useDrawer } from '../contexts/DrawerContext';
-import Decimal from 'decimal.js';
 
 export const DashboardPage: React.FC = () => {
   const [balances, setBalances] = useState<Balance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
-  const [fiatValues, setFiatValues] = useState<Record<string, string>>({});
   const { openDrawer } = useDrawer();
 
   const loadData = async () => {
@@ -28,24 +25,6 @@ export const DashboardPage: React.FC = () => {
       const historyData = await HistoryService.getHistory({ limit: 5 });
       setRecentTransactions(historyData.data);
 
-      try {
-        const rates = await SwapService.getRates();
-        const fiatMap: Record<string, string> = {};
-        for (const b of balancesData.balances) {
-          const rate = rates[b.token] || '0';
-          const balanceDecimal = new Decimal(b.amount);
-          const rateDecimal = new Decimal(rate);
-          fiatMap[b.token] = balanceDecimal.mul(rateDecimal).toFixed(2);
-        }
-        setFiatValues(fiatMap);
-      } catch (err) {
-        console.error('Failed to load rates for dashboard', err);
-        const fiatMap: Record<string, string> = {};
-        for (const b of balancesData.balances) {
-          fiatMap[b.token] = b.token === 'BRL' ? Number(b.amount).toFixed(2) : '0.00';
-        }
-        setFiatValues(fiatMap);
-      }
     } catch (error) {
       console.error('Failed to load dashboard data', error);
     } finally {
@@ -84,21 +63,18 @@ export const DashboardPage: React.FC = () => {
         <BalanceCard
           token="Real Brasileiro"
           amount={formatCurrency(getBalance('BRL'))}
-          fiatValue={formatCurrency(getBalance('BRL'))}
           icon={<Coins className="w-6 h-6" />}
           isLoading={isLoading}
         />
         <BalanceCard
           token="Bitcoin"
           amount={`${formatToken(getBalance('BTC'))} BTC`}
-          fiatValue={formatCurrency(fiatValues['BTC'] || '0')}
           icon={<TrendingUp className="w-6 h-6" />}
           isLoading={isLoading}
         />
         <BalanceCard
           token="Ethereum"
           amount={`${formatToken(getBalance('ETH'))} ETH`}
-          fiatValue={formatCurrency(fiatValues['ETH'] || '0')}
           icon={<TrendingUp className="w-6 h-6" />}
           isLoading={isLoading}
         />

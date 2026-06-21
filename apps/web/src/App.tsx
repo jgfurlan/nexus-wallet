@@ -6,10 +6,12 @@ import { Layout } from './components/Layout';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 function App() {
   return (
-    <ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider>
       <BrowserRouter>
         <AuthProvider>
           <Routes>
@@ -33,6 +35,7 @@ function App() {
         </AuthProvider>
       </BrowserRouter>
     </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

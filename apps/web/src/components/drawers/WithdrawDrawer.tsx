@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowUpRight, AlertCircle, CheckCircle2, Sparkles } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,8 +9,10 @@ import { Label } from '../ui/Label';
 import { Drawer } from '../ui/Drawer';
 import { ConfirmModal } from '../ui/ConfirmModal';
 import { WithdrawalService } from '../../services/withdrawal.service';
-import { formatToken } from '../../lib/formatters';
+import { WalletService } from '../../services/wallet.service';
+import { formatToken, formatCurrency } from '../../lib/formatters';
 import { getErrorMessage } from '../../lib/error-utils';
+import { Balance } from '../../types';
 
 const withdrawalSchema = z.object({
   token: z.enum(['BRL', 'BTC', 'ETH']),
@@ -45,6 +47,17 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const [balances, setBalances] = useState<Balance[]>([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      WalletService.getBalances()
+        .then(data => setBalances(data.balances))
+        .catch(err => console.error('Failed to fetch balances for withdraw drawer:', err));
+    } else {
+      setBalances([]);
+    }
+  }, [isOpen]);
 
   const { register, watch, handleSubmit, formState: { errors }, reset, setValue } = useForm<WithdrawalForm>({
     resolver: zodResolver(withdrawalSchema),
@@ -126,7 +139,15 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
             )}
 
             <div className="space-y-2">
-              <Label>Moeda e Valor</Label>
+              <div className="flex justify-between items-center">
+                <Label>Moeda e Valor</Label>
+                <span className="text-xs text-subtle font-medium">
+                  Disponível: {token === 'BRL'
+                    ? formatCurrency(Number(balances.find(b => b.token === token)?.amount || 0))
+                    : formatToken(Number(balances.find(b => b.token === token)?.amount || 0))
+                  } {token !== 'BRL' ? token : ''}
+                </span>
+              </div>
               <div className="flex gap-2">
                 <select
                   {...register('token')}
@@ -192,7 +213,7 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
         onConfirm={onExecute}
         isLoading={isExecuting}
         title="Confirmar Saque"
-        description={`Você está prestes a sacar ${formatToken(amount || 0)} ${token} para: ${address}`}
+        description={`Você está prestes a sacar ${amount && !isNaN(Number(amount)) ? formatToken(amount) : '0'} ${token} para: ${address}`}
       />
     </Drawer>
   );

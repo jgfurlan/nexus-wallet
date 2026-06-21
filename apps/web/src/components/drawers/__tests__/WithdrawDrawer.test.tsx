@@ -35,19 +35,19 @@ describe('WithdrawDrawer', () => {
 
     // 1. Check BRL autofill
     fireEvent.click(fillButton);
-    expect(screen.getByPlaceholderText('0.00')).toHaveValue('150.00');
+    expect(screen.getByPlaceholderText('0.00')).toHaveValue('');
     expect(screen.getByPlaceholderText('Chave PIX ou Endereço Crypto')).toHaveValue('faucet@nexuswallet.com');
 
     // 2. Check BTC autofill
     fireEvent.change(tokenSelect, { target: { value: 'BTC' } });
     fireEvent.click(fillButton);
-    expect(screen.getByPlaceholderText('0.00')).toHaveValue('0.005');
+    expect(screen.getByPlaceholderText('0.00')).toHaveValue('');
     expect(screen.getByPlaceholderText('Chave PIX ou Endereço Crypto')).toHaveValue('1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa');
 
     // 3. Check ETH autofill
     fireEvent.change(tokenSelect, { target: { value: 'ETH' } });
     fireEvent.click(fillButton);
-    expect(screen.getByPlaceholderText('0.00')).toHaveValue('0.05');
+    expect(screen.getByPlaceholderText('0.00')).toHaveValue('');
     expect(screen.getByPlaceholderText('Chave PIX ou Endereço Crypto')).toHaveValue('0x71C7656EC7ab88b098defB751B7401B5f6d8976F');
   });
 
@@ -60,6 +60,9 @@ describe('WithdrawDrawer', () => {
     // Autofill values (BRL by default)
     const fillButton = screen.getByText('Preencher Dados de Teste (Sandbox)');
     fireEvent.click(fillButton);
+
+    // Manually fill amount since autofill no longer does it
+    fireEvent.change(screen.getByPlaceholderText('0.00'), { target: { value: '150.00' } });
 
     const submitBtn = screen.getByText('Confirmar Saque');
     fireEvent.click(submitBtn);

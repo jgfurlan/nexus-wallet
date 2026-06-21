@@ -46,7 +46,7 @@ export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, o
     resolver: zodResolver(depositSchema),
     defaultValues: {
       token: 'BRL',
-      amount: '1000',
+      amount: '',
     }
   });
 

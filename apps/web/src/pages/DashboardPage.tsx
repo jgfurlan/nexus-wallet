@@ -1,20 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Coins, TrendingUp, ArrowUpRight, ArrowLeftRight, ArrowDownLeft, History } from 'lucide-react';
+import { Coins, TrendingUp, ArrowUpRight, ArrowLeftRight, ArrowDownLeft } from 'lucide-react';
 import { WalletService } from '../services/wallet.service';
 import { BalanceCard } from '../components/ui/BalanceCard';
-import { Button } from '../components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '../components/ui/Card';
 import { formatCurrency, formatToken, formatDate } from '../lib/formatters';
 import { cn } from '../lib/utils';
 import { Balance, Transaction } from '../types';
 import { HistoryService } from '../services/history.service';
-import { useDrawer } from '../contexts/DrawerContext';
 
 export const DashboardPage: React.FC = () => {
   const [balances, setBalances] = useState<Balance[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
-  const { openDrawer } = useDrawer();
 
   const loadData = async () => {
     try {
@@ -84,10 +81,6 @@ export const DashboardPage: React.FC = () => {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <CardTitle>Atividades Recentes</CardTitle>
-          <Button variant="ghost" size="sm" onClick={() => openDrawer('history')} className="text-pine hover:text-pine hover:bg-pine/10">
-            <History className="w-4 h-4 mr-2" />
-            Ver tudo
-          </Button>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">

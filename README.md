@@ -1,81 +1,108 @@
-# 🌌 NexusWallet
+<div align="center">
+  <img src="apps/web/src/logo-nexus.png" alt="Nexus Wallet Logo" width="120" height="120" style="border-radius: 24px;" />
+  
+  # 🌌 Nexus Wallet
+  
+  **Uma carteira digital Sandbox premium, segura e resiliente para transações fiat e cripto.**
+  
+  [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![React](https://img.shields.io/badge/React-18.3-blue?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
+  [![Fastify](https://img.shields.io/badge/Fastify-4.28-black?style=for-the-badge&logo=fastify&logoColor=white)](https://fastify.dev/)
+  [![Prisma](https://img.shields.io/badge/Prisma-5.22-darkblue?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+  [![Redis](https://img.shields.io/badge/Redis-7.0-red?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+  [![Docker](https://img.shields.io/badge/Docker-24-blue?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Fastify](https://img.shields.io/badge/fastify-%23000000.svg?style=for-the-badge&logo=fastify&logoColor=white)
-![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
-![Prisma](https://img.shields.io/badge/Prisma-3982CE?style=for-the-badge&logo=Prisma&logoColor=white)
-![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
-![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-
-Uma plataforma financeira moderna construída sobre arquitetura de microserviços e *Spec-Driven Development*. O NexusWallet suporta múltiplas moedas (Fiat e Crypto), webhook idempotente para depósitos, cotações em tempo real com Redis e um livro-razão (Ledger) append-only para auditoria garantida.
+</div>
 
 ---
 
-## 🏗 Estrutura do Repositório (Monorepo)
-O projeto utiliza **pnpm workspaces** para dividir as responsabilidades:
+## 📖 Visão Geral
 
-- 📁 `apps/api/` — Backend de alta performance (Fastify, Prisma, Zod, Swagger)
-- 📁 `apps/web/` — Frontend SPA (React, Vite, Tailwind CSS)
-- 📁 `docs/` — Documentação Técnica e Specs
+O **Nexus Wallet** é uma plataforma sandbox de carteira digital projetada sob o paradigma de *Spec-Driven Development* e focada em robustez transacional absoluta. O sistema gerencia saldos fiduciários (BRL) e criptoativos (BTC, ETH), fornecendo fluxos completos de depósito (faucet), saques idempotentes e conversões (swaps) dinâmicas alimentadas por cotações em tempo real.
 
-👉 Para entender profundamente a estrutura, padrões de código e decisões técnicas, acesse a nossa **[Documentação de Arquitetura](./docs/guidelines/architecture.md)**.
+---
 
-## 🛡️ Arquitetura e Resiliência
+## 🛠️ Recursos & Funcionalidades
 
-Para compreender em detalhes como a plataforma garante consistência financeira, controle de concorrência rigoroso e resiliência contra falhas, consulte o nosso **[Blueprint de Evolução Arquitetural e Resiliência](./docs/architecture/evolution-blueprint.md)**. O blueprint cobre:
-- **Ledger Imutável (Double-Entry):** Registro histórico à prova de fraudes para todas as contas de saldo.
-- **Isolamento SERIALIZABLE:** Prevenção absoluta contra race conditions de concorrência e falhas de duplo saque/depósito.
-- **Transactional Outbox:** Garantia de entrega at-least-once para callbacks assíncronos e processamentos em background.
-- **Redis & Token Bucket:** Cache estratégico de cotações em tempo real e limitação distribuída de requisições.
+| Módulo | Descrição | Status |
+| :--- | :--- | :---: |
+| 🔑 **Autenticação Avançada** | Login e registro de usuários com JWT de acesso (15 min) e rotação rígida de refresh tokens (7 dias). | `Pronto` |
+| 💰 **Saldos Multiativos** | Gerenciamento de carteira com suporte nativo a Real (BRL), Bitcoin (BTC) e Ethereum (ETH). | `Pronto` |
+| 🔄 **Conversões Instantâneas** | Swap cotado em tempo real com taxa fixa de 1.5% e tempo de expiração de 30 segundos (via Redis). | `Pronto` |
+| 📥 **Simulador de Faucet** | Injeção sandbox de saldo fiduciário ou cripto para fins de testes. | `Pronto` |
+| 📤 **Saques Idempotentes** | Retiradas com chave PIX ou endereço blockchain validados e chave de idempotência de transação única. | `Pronto` |
+| 🌓 **Temas Dinâmicos** | Interface adaptável com suporte completo aos modos Claro e Escuro (Carmim & Rosé Pine). | `Pronto` |
 
-## 🚀 Pré-requisitos
-Certifique-se de ter os seguintes componentes instalados na sua máquina local:
-- **Node.js** (v20+)
-- **pnpm** (v9+)
-- **Docker e Docker Compose** (Para rodar o PostgreSQL e Redis localmente)
+---
 
-## 🛠 Instalação e Execução (Local)
+## 🛡️ Pilares de Consistência e Resiliência
 
-1. **Clone o repositório:**
+A integridade do Nexus Wallet baseia-se em conceitos avançados de engenharia de software transacional. Detalhes completos e análises de impacto podem ser consultados no **[Blueprint de Evolução Arquitetural](./docs/architecture/evolution-blueprint.md)**.
+
+| Pilar | Descrição Técnica | Implementação no Nexus |
+| :--- | :--- | :--- |
+| **Partidas Dobradas (Ledger)** | Nenhum saldo é alterado sem uma contrapartida. Cada movimentação gera um débito e um crédito correspondentes e imutáveis. | Tabela `LedgerEntry` vinculada a `Transaction` e `WalletBalance`. |
+| **Concorrência Serializable** | Transações financeiras concorrentes são executadas de forma isolada, evitando condições de corrida (*race conditions*). | `Prisma.TransactionIsolationLevel.Serializable` nas rotas de Swap e Saque. |
+| **Transactional Outbox** | O envio de notificações assíncronas (como callbacks de depósitos) é persistido localmente na transação de banco de dados. | Registro do estado de callback e fila de webhooks persistente em banco de dados. |
+| **Caching com Redis** | Cotações externas de mercado são mantidas em cache com TTL curto para evitar gargalos na API. | Armazenamento de quotes no Redis com expiração forçada de 30 segundos. |
+| **Token Bucket Rate Limiting** | Controle de tráfego de requisições de API usando algoritmo distribuído no Redis. | Proteção ativa contra abuso de endpoints financeiros por IP e usuário. |
+
+---
+
+## 🚀 Roadmap de Evolução: OpenTelemetry
+
+Para escalar e manter a alta disponibilidade em produção, a próxima fase evolutiva do Nexus Wallet contempla a implementação de **Observabilidade Distribuída** utilizando a stack de padrões abertos do **OpenTelemetry (OTel)**:
+
+```mermaid
+graph TD
+    API[Fastify API] -->|Auto-Instrumentation| OTel[OpenTelemetry SDK]
+    OTel -->|OTLP/gRPC| Collector[OTel Collector]
+    Collector -->|Traces| Jaeger[Jaeger / Tempo]
+    Collector -->|Metrics| Prom[Prometheus]
+    Collector -->|Structured Logs| Loki[Grafana Loki]
+```
+
+1. **Rastreamento Distribuído (Distributed Tracing):**
+   * Instrumentação automática do Fastify (`@opentelemetry/instrumentation-fastify`) e do cliente HTTP (`@opentelemetry/instrumentation-http`).
+   * Rastreamento ponta a ponta de fluxos de transação de ponta (ex: do clique de Swap no frontend até as inserções no banco através do Prisma).
+2. **Coleta de Métricas (Metrics):**
+   * Monitoramento de latência média de requisições financeiras, taxa de acerto do cache do Redis, e saturação do banco de dados PostgreSQL.
+   * Instrumentação manual usando métricas personalizadas (Counter, UpDownCounter e Histogram) para contar transações bem-sucedidas vs falhas de saldo.
+3. **Correlação de Logs com Contexto (Structured Logging):**
+   * Integração do SDK do OpenTelemetry com o logger `Pino` para injetar automaticamente `traceId` e `spanId` nos logs estruturados.
+   * Capacidade de filtrar todos os logs gerados em segundo plano relacionados a uma requisição específica usando o ID único do trace.
+
+---
+
+## ⚙️ Inicialização Rápida
+
+### Requisitos Mínimos
+* Node.js v20+ e gerenciador de pacotes **pnpm** (v9+)
+* Docker e Docker Compose instalados
+
+### Como Executar
+
+1. **Subir os Bancos de Dados (Postgres & Redis):**
    ```bash
-   git clone https://github.com/jgfurlan/nexus-wallet.git
-   cd nexus-wallet
+   # A partir do diretório raiz
+   wsl docker start nexus_wallet_db nexus_wallet_redis
+   # Ou suba a infraestrutura via docker compose no diretório apps/api:
+   # cd apps/api && docker-compose up -d
    ```
 
-2. **Instale todas as dependências do Monorepo:**
+2. **Roda as Migrações do Banco de Dados:**
    ```bash
-   pnpm install
+   npx pnpm --filter api db:migrate
    ```
 
-3. **Suba a infraestrutura local (Bancos de Dados):**
+3. **Executar a Aplicação em Modo de Desenvolvimento:**
    ```bash
-   # Dentro de apps/api
-   docker-compose up -d
+   npx pnpm dev
    ```
+   * O frontend web estará acessível em: `http://localhost:5173`
+   * A documentação interativa do Swagger estará em: `http://localhost:3000/docs`
 
-4. **Configure as variáveis de ambiente e rode as migrações:**
+4. **Rodar a Suíte Completa de Testes:**
    ```bash
-   cd apps/api
-   cp .env.example .env
-   pnpm prisma migrate dev
+   npx pnpm test
    ```
-
-5. **Inicie o servidor de desenvolvimento global:**
-   ```bash
-   # Na raiz do projeto, roda API e WEB simultaneamente
-   pnpm dev
-   ```
-
-- **Frontend:** http://localhost:5173
-- **API (Documentação Swagger):** http://localhost:3000/docs
-
-## 🧪 Comandos Úteis (Workspaces)
-
-A partir da **raiz** do projeto, você pode gerenciar toda a aplicação:
-- `pnpm dev` — Inicia API e Web via *concurrently*.
-- `pnpm test` — Roda a suíte completa de testes no Vitest.
-- `pnpm lint` — Executa o Biome/ESLint em todo o projeto.
-- `pnpm build` — Gera a versão de produção (tsc para backend, vite build para frontend).
-
-## 📄 Governança e Metodologia
-Nós seguimos o **Spec-Driven Development** sob rígida supervisão detalhada no `CLAUDE.md`. Nenhuma linha de código é alterada sem antes passar por um ciclo de Especificação (Spec), Revisão, e Implementação.

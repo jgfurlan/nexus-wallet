@@ -40,6 +40,7 @@ Nenhuma alteração de código sem uma **Especificação de Funcionalidade Atôm
   - `in-progress`: codificação em progresso.
   - `in-review`: PR aberto, aguardando verificações de CI/CD. NUNCA mescle um PR sem o código totalmente implementado, testado localmente e passando em todos os pipelines.
   - `done`: PR mesclado e verificação concluída.
+- **Atualização do Progress Tracker:** Antes de transicionar uma issue para `done` (etapa final de revisão e merge do PR), é obrigatório atualizar o arquivo `docs/guidelines/progress-tracker.md`. Mude o status do item correspondente para `✅ Concluído`, adicione a data de finalização na seção de concluídos, e garanta que a tarefa ativa esteja limpa.
 
 ### 3. Eficiência de Contexto
 - Prefira `grep_search` e `glob` em vez de varreduras completas com `read_file`.
@@ -57,8 +58,10 @@ Cada tarefa concluída é avaliada em quatro eixos. Uma tarefa só está "Conclu
 | **Segurança** | Sem segredos expostos; middleware de auth em todas as rotas protegidas; chaves de idempotência respeitadas |
 
 ### 5. Portão de Verificação
-Antes de declarar qualquer tarefa concluída, execute:
+Antes de declarar qualquer tarefa concluída e mesclar o PR correspondente:
+1. Execute as validações locais de build, lint e testes:
 ```bash
 pnpm lint && pnpm typecheck && pnpm test
 ```
 Todos os três devem retornar 0.
+2. Atualize o arquivo `docs/guidelines/progress-tracker.md` com a conclusão da respectiva funcionalidade, marcando-a como `✅ Concluído` e movendo-a para o histórico de concluídos com a data atual.

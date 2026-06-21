@@ -22,7 +22,7 @@ describe('DepositDrawer', () => {
     render(<DepositDrawer isOpen={true} onClose={vi.fn()} />);
 
     expect(screen.getByText(/ambiente de testes/i)).toBeInTheDocument();
-    expect(screen.getByPlaceholderText('0.00')).toHaveValue('1000');
+    expect(screen.getByPlaceholderText('0.00')).toHaveValue('');
     expect(screen.getByRole('combobox')).toHaveValue('BRL');
   });
 
@@ -63,6 +63,9 @@ describe('DepositDrawer', () => {
     });
 
     render(<DepositDrawer isOpen={true} onClose={vi.fn()} />);
+
+    const input = screen.getByPlaceholderText('0.00');
+    fireEvent.change(input, { target: { value: '500' } });
 
     const submitBtn = screen.getByText('Simular Depósito');
     fireEvent.click(submitBtn);

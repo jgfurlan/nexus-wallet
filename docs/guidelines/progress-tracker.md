@@ -50,6 +50,9 @@
 | NXS-117 | Correção de erro 500 no Histórico de Transações | ✅ Concluído | `fix/NXS-117-history-authguard` |
 | NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
 | NXS-121 | Correção de ordem do plugin Fastify JWT Cookie | ✅ Concluído | `fix/NXS-121-cookie-plugin-order` |
+| NXS-129 | Deposit Drawer com valor padrão de 1000 | ✅ Concluído | `spec/NXS-129-ux-fixes` |
+| NXS-130 | Withdraw Drawer sobrescrevendo valor no Sandbox | ✅ Concluído | `spec/NXS-129-ux-fixes` |
+| NXS-131 | Remover botão 'Ver Tudo' em Atividade Recente | ✅ Concluído | `spec/NXS-129-ux-fixes` |
 
 ---
 
@@ -87,6 +90,9 @@
 - **NXS-117**: Correção de erro 500 no Histórico de Transações - 2026-06-21
 - **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21
 - **NXS-121**: Correção de ordem do plugin Fastify JWT Cookie - 2026-06-21
+- **NXS-129**: Deposit Drawer com valor padrão de 1000 - 2026-06-21
+- **NXS-130**: Withdraw Drawer sobrescrevendo valor no Sandbox - 2026-06-21
+- **NXS-131**: Remover botão 'Ver Tudo' em Atividade Recente - 2026-06-21
 
 ---
 

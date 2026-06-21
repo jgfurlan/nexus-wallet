@@ -72,13 +72,10 @@ export const WithdrawDrawer: React.FC<WithdrawDrawerProps> = ({ isOpen, onClose,
 
   const handleAutofill = () => {
     if (token === 'BRL') {
-      setValue('amount', '150.00', { shouldValidate: true });
       setValue('address', 'faucet@nexuswallet.com', { shouldValidate: true });
     } else if (token === 'BTC') {
-      setValue('amount', '0.005', { shouldValidate: true });
       setValue('address', '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa', { shouldValidate: true });
     } else if (token === 'ETH') {
-      setValue('amount', '0.05', { shouldValidate: true });
       setValue('address', '0x71C7656EC7ab88b098defB751B7401B5f6d8976F', { shouldValidate: true });
     }
   };

@@ -37,7 +37,7 @@
 | GH93 | Links de Blueprint no README e Guia de Documentação | ✅ Concluído | `spec/GH93-readme-links-docs` |
 | GH94 | Testes Unitários Frontend (Contextos, Hooks, Drawers) | ✅ Concluído | `spec/GH94-frontend-tests` |
 | GH95 | Redesenho do README Premium e Roadmap OpenTelemetry | ✅ Concluído | `spec/GH95-readme-revamp` |
-| GH102 | Exibir Saldo Disponível no SwapDrawer | ⚙️ Em Progresso | `spec/GH102-swap-available-balance` |
+| GH102 | Exibir Saldo Disponível no SwapDrawer | 🔍 Em Revisão | `spec/GH102-swap-available-balance` |
 | GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | ✅ Concluído | `spec/GH103-enforce-progress-tracker` |
 
 ---

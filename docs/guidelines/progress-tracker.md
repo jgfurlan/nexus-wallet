@@ -44,6 +44,7 @@
 | NXS-109 | Correção: Crash de formatadores ao digitar input | ✅ Concluído | `spec/NXS-109-formatters-crash` |
 | NXS-111 | Correção: Drawer não possui animação | ✅ Concluído | `spec/NXS-111-drawer-animation` |
 | NXS-112 | Correção: `formatToken` renderiza NaN | ✅ Concluído | `spec/NXS-112-format-token-nan` |
+| NXS-117 | Correção de erro 500 no Histórico de Transações | ✅ Concluído | `fix/NXS-117-history-authguard` |
 | NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
 
 ---
@@ -76,6 +77,7 @@
 - **NXS-109**: Correção: Crash de formatadores ao digitar input - 2026-06-21
 - **NXS-111**: Correção: Drawer não possui animação - 2026-06-21
 - **NXS-112**: Correção: `formatToken` renderiza NaN - 2026-06-21
+- **NXS-117**: Correção de erro 500 no Histórico de Transações - 2026-06-21
 - **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21
 
 ---

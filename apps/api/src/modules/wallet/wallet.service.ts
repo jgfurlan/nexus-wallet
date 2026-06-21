@@ -1,7 +1,18 @@
 import { prisma } from '../../lib/prisma';
 import { WalletBalancesResponse } from './wallet.schemas';
 
+/**
+ * Wallet service responsible for retrieval of wallet structures 
+ * and token balance accounts.
+ */
 export class WalletService {
+  /**
+   * Retrieves the token balances (BRL, BTC, ETH) for a user's wallet.
+   * If the wallet is missing due to database anomaly, it is created on-the-fly.
+   * 
+   * @param userId - The unique identifier of the user.
+   * @returns A promise resolving to the wallet ID and mapping of token amounts.
+   */
   static async getBalances(userId: string): Promise<WalletBalancesResponse> {
     let wallet = await prisma.wallet.findUnique({
       where: { userId },

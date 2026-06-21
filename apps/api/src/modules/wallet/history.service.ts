@@ -6,7 +6,19 @@ export type TransactionWithLedger = Transaction & {
   ledgerEntries: (LedgerEntry & { token: TokenSymbol })[];
 };
 
+/**
+ * History service responsible for retrieving and paginating user transactions 
+ * along with their corresponding ledger entries.
+ */
 export class HistoryService {
+  /**
+   * Lists and paginates a user's transaction history, with optional filtering 
+   * by token symbol and transaction type.
+   * 
+   * @param userId - The unique identifier of the user.
+   * @param query - Pagination and filtering options (limit, cursor, token, type).
+   * @returns A promise resolving to a paginated list of transactions with their ledger entries.
+   */
   static async history_list_user_transactions(
     userId: string,
     query: HistoryQuery

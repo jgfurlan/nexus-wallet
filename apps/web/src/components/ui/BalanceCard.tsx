@@ -1,15 +1,28 @@
 import React from 'react';
 import { Card } from './Card';
 
+/**
+ * Properties for the BalanceCard component.
+ */
 interface BalanceCardProps {
+  /** The ticker symbol or name of the token (e.g., "BTC", "BRL") */
   token: string;
+  /** The formatted balance amount (e.g., "1,500.00", "0.005") */
   amount: string;
+  /** The calculated fiat estimation value in local currency (e.g., "R$ 1.500,00") */
   fiatValue?: string;
+  /** Optional currency symbol */
   symbol?: string;
+  /** Optional Lucide icon element to display in the header card */
   icon?: React.ReactNode;
+  /** If true, renders a pulsing skeleton screen placeholder */
   isLoading?: boolean;
 }
 
+/**
+ * BalanceCard renders an interactive dashboard card displaying the token balance
+ * and its fiat valuation equivalent, supporting loading skeleton states.
+ */
 export const BalanceCard: React.FC<BalanceCardProps> = ({
   token,
   amount,

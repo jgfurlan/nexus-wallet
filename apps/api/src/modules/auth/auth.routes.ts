@@ -43,6 +43,15 @@ export const authRoutes = async (app: FastifyInstance) => {
     },
     async (request, reply) => {
       const tokens = await AuthService.loginUser(app, request.body);
+      
+      reply.setCookie('nexus_token', tokens.token, {
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+      });
+      
       return reply.status(200).send(tokens);
     }
   );
@@ -61,7 +70,38 @@ export const authRoutes = async (app: FastifyInstance) => {
     },
     async (request, reply) => {
       const tokens = await AuthService.refreshSession(app, request.body.refreshToken);
+      
+      reply.setCookie('nexus_token', tokens.token, {
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+        maxAge: 7 * 24 * 60 * 60, // 7 days
+      });
+      
       return reply.status(200).send(tokens);
+    }
+  );
+
+  typeProviderApp.post(
+    '/auth/logout',
+    {
+      schema: {
+        description: 'Logout user by clearing the HttpOnly cookie',
+        tags: ['Authentication'],
+        response: {
+          200: z.object({ success: z.boolean() }),
+        },
+      },
+    },
+    async (request, reply) => {
+      reply.clearCookie('nexus_token', {
+        path: '/',
+        httpOnly: true,
+        secure: true,
+        sameSite: 'none',
+      });
+      return reply.status(200).send({ success: true });
     }
   );
 };

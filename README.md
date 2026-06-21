@@ -10,6 +10,7 @@
   [![Fastify](https://img.shields.io/badge/Fastify-4.28-black?style=for-the-badge&logo=fastify&logoColor=white)](https://fastify.dev/)
   [![Prisma](https://img.shields.io/badge/Prisma-5.22-darkblue?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
   [![Redis](https://img.shields.io/badge/Redis-7.0-red?style=for-the-badge&logo=redis&logoColor=white)](https://redis.io/)
+[![Vitest](https://img.shields.io/badge/Vitest-1.6-%2334d399?style=for-the-badge&logo=vitest&logoColor=white)](https://vitest.dev/)
   [![Docker](https://img.shields.io/badge/Docker-24-blue?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 </div>

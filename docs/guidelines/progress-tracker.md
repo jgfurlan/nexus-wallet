@@ -41,6 +41,7 @@
 | GH103 | Forçar Atualização do Progress Tracker no Workflow de PR | ✅ Concluído | `spec/GH103-enforce-progress-tracker` |
 | NXS-107 | Exibição de Saldo no Saque | ✅ Concluído | `spec/NXS-107-withdraw-balance` |
 | NXS-108 | Remoção de Valores de Conversão em BRL | ✅ Concluído | `spec/NXS-108-remove-fiat-values` |
+| NXS-117 | Correção de erro 500 no Histórico de Transações | ✅ Concluído | `fix/NXS-117-history-authguard` |
 | NXS-120 | Implementar Fluxo Ideal de Desenvolvimento 10/10 | ✅ Concluído | `spec/NXS-120-ideal-workflow` |
 
 ---
@@ -70,6 +71,7 @@
 - **GH103**: Forçar Atualização do Progress Tracker no Workflow de PR - 2026-06-21
 - **NXS-107**: Exibição de Saldo no Saque - 2026-06-21
 - **NXS-108**: Remoção de Valores de Conversão em BRL - 2026-06-21
+- **NXS-117**: Correção de erro 500 no Histórico de Transações - 2026-06-21
 - **NXS-120**: Implementar Fluxo Ideal de Desenvolvimento 10/10 - 2026-06-21
 
 ---

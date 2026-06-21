@@ -7,8 +7,11 @@ export const historyRoutes = async (app: FastifyInstance) => {
   app.get<{ Querystring: HistoryQuery }>(
     '/wallet/history',
     {
-      preHandler: [authGuard],
+      preHandler: authGuard,
       schema: {
+        description: 'Get user transaction history',
+        tags: ['Wallet'],
+        security: [{ BearerAuth: [] }],
         querystring: HistoryQuerySchema,
       },
     },

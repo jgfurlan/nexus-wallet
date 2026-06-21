@@ -47,6 +47,9 @@ import { TokenSymbol, LedgerEntryType } from '@prisma/client';
 if (entry.type === 'SWAP_FEE') { ... }
 ```
 
+### 4. Documentação Obrigatória (TSDoc/JSDoc)
+Toda função exportada, hook customizado e componente React deve seguir estritamente as regras definidas em [`documentation.md`](./documentation.md). Falhar em documentar inputs/outputs anula o sinal de Legibilidade.
+
 ## Conformidade de Tipos
 - `any` é **estritamente proibido**. A regra ESLint `@typescript-eslint/no-explicit-any` está definida como `error`.
 - Use schemas Zod para toda validação de request; infira tipos TypeScript do Zod: `type RegisterDto = z.infer<typeof RegisterSchema>`.

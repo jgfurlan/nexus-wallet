@@ -1,23 +1,22 @@
 import axios from 'axios';
 
 /**
- * Axios instance configured with the API baseURL, request interceptors
- * to inject JWT bearer tokens, and response interceptors to handle 401 Unauthorized errors.
+ * Axios instance configured with the API baseURL and credentials.
+ * All requests include cookies automatically via `withCredentials: true`.
+ * The JWT token is managed as an HttpOnly cookie — no Authorization header is used.
  */
 const api = axios.create({
   baseURL: import.meta.env.PROD ? '/api' : (import.meta.env.VITE_API_URL || 'http://localhost:3000'),
   withCredentials: true,
 });
 
-// Interceptor para injetar o token JWT foi removido em favor do uso de cookies HttpOnly
-
-// Interceptor para tratar erros 401
+// Interceptor para tratar erros 401 (sessão expirada/inválida)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('nexus_token');
-      localStorage.removeItem('nexus_user');
+    // Não redireciona em 401 de rotas de auth (login, register, refresh)
+    // pois o erro é tratado pelo componente chamador
+    if (error.response?.status === 401 && !error.config?.url?.includes('/auth/')) {
       window.location.href = '/login';
     }
     return Promise.reject(error);

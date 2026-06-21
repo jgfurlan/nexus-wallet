@@ -126,7 +126,11 @@ export class AuthService {
       data: { refreshToken: refreshTokenHash },
     });
 
-    return { accessToken, refreshToken };
+    return {
+      accessToken,
+      refreshToken,
+      user: { id: user.id, email: user.email },
+    };
   }
 
   /**
@@ -206,6 +210,10 @@ export class AuthService {
       data: { refreshToken: newHash },
     });
 
-    return { accessToken, refreshToken: newRefreshToken };
+    return {
+      accessToken,
+      refreshToken: newRefreshToken,
+      user: { id: user.id, email: user.email },
+    };
   }
 }

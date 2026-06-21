@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import api from '../services/api';
 
 /**
@@ -13,15 +13,14 @@ interface User {
 
 /**
  * AuthContextType defines the states and functions for session authentication.
+ * Authentication is managed entirely via HttpOnly cookies — no tokens in client state.
  */
 interface AuthContextType {
   /** The profile of the currently logged in user, or null */
   user: User | null;
-  /** The active authentication JWT access token, or null */
-  token: string | null;
-  /** Stores token and user profile in context and localStorage */
-  login: (token: string, user: User) => void;
-  /** Clears the session from context and localStorage */
+  /** Stores user profile in context after successful login */
+  login: (user: User) => void;
+  /** Clears the session cookie via backend and resets context */
   logout: () => void;
   /** True if the user is authenticated */
   isAuthenticated: boolean;
@@ -32,49 +31,46 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 /**
- * AuthProvider wraps the application, reading saved token credentials
- * from localStorage and providing login/logout states to components.
+ * AuthProvider wraps the application, validating the HttpOnly cookie session
+ * via GET /auth/me on mount and providing login/logout states to components.
  */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Valida a sessão no mount checando o cookie HttpOnly com o backend
   useEffect(() => {
-    const savedUser = localStorage.getItem('nexus_user');
-
-    if (savedUser) {
-      // Token is assumed to be in the HttpOnly cookie.
-      // If the API rejects it with 401, the interceptor will clear the user.
-      setUser(JSON.parse(savedUser));
-      setToken('http-only-cookie');
-    }
-    setIsLoading(false);
+    const checkSession = async () => {
+      try {
+        const response = await api.get('/auth/me');
+        setUser(response.data);
+      } catch {
+        // Cookie ausente, expirado ou inválido — usuário não autenticado
+        setUser(null);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkSession();
   }, []);
 
-  const login = (_newToken: string, newUser: User) => {
-    // newToken is still passed by auth service but we don't store it in localStorage
-    setToken('http-only-cookie');
+  const login = useCallback((newUser: User) => {
     setUser(newUser);
-    localStorage.setItem('nexus_user', JSON.stringify(newUser));
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       await api.post('/auth/logout');
     } catch (e) {
       console.error('Failed to logout', e);
     }
-    setToken(null);
     setUser(null);
-    localStorage.removeItem('nexus_user');
-  };
+  }, []);
 
   return (
     <AuthContext.Provider
       value={{
         user,
-        token,
         login,
         logout,
         isAuthenticated: !!user,
@@ -87,7 +83,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 };
 
 /**
- * Hook to access the AuthContext properties (current user, token, authentication methods).
+ * Hook to access the AuthContext properties (current user, authentication methods).
  * 
  * @returns The AuthContext properties.
  * @throws {Error} If used outside of an AuthProvider wrapper.

@@ -39,8 +39,9 @@ export const LoginPage: React.FC = () => {
       setError(null);
       const response = await AuthService.login(data);
 
-      // Extract user info from response or payload
-      login(response.accessToken, response.user || { id: 'default', email: data.email });
+      // O token JWT é armazenado como cookie HttpOnly pelo backend.
+      // Apenas o perfil do usuário é passado para o contexto.
+      login(response.user || { id: 'default', email: data.email });
       navigate('/');
     } catch (err) {
       setError(getErrorMessage(err));

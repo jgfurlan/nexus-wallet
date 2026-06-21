@@ -17,6 +17,10 @@ export const RefreshInputSchema = z.object({
 export const AuthResponseSchema = z.object({
   accessToken: z.string(),
   refreshToken: z.string(),
+  user: z.object({
+    id: z.string(),
+    email: z.string(),
+  }),
 });
 
 export type RegisterInput = z.infer<typeof RegisterInputSchema>;

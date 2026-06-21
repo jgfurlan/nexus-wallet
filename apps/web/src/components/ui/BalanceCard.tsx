@@ -48,16 +48,18 @@ export const BalanceCard: React.FC<BalanceCardProps> = ({
         </div>
       </div>
       
-      <div className="flex items-center gap-2 text-sm">
-        <span className="text-subtle">≈</span>
-        {isLoading ? (
-          <div className="h-4 w-16 bg-overlay animate-pulse rounded" />
-        ) : (
-          <span className="text-subtle font-medium">
-            {fiatValue}
-          </span>
-        )}
-      </div>
+      {fiatValue && (
+        <div className="flex items-center gap-2 text-sm">
+          <span className="text-subtle">≈</span>
+          {isLoading ? (
+            <div className="h-4 w-16 bg-overlay animate-pulse rounded" />
+          ) : (
+            <span className="text-subtle font-medium">
+              {fiatValue}
+            </span>
+          )}
+        </div>
+      )}
 
       {/* Decorative element */}
       <div className="absolute -right-4 -bottom-4 w-24 h-24 bg-pine/5 rounded-full blur-2xl group-hover:bg-pine/10 transition-all" />

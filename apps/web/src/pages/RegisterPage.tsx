@@ -74,11 +74,11 @@ export const RegisterPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-base flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="flex flex-col items-center mb-8">
-          <img src={logoNexus} alt="Nexus Logo" className="w-16 h-16 object-contain rounded-2xl mb-4" />
-          <h1 className="text-3xl font-bold text-primary tracking-tight">NexusWallet</h1>
+    <div className="min-h-screen bg-base flex flex-col justify-start md:justify-center items-center py-6 md:py-12 px-4 overflow-y-auto">
+      <div className="w-full max-w-md my-auto md:my-0">
+        <div className="flex flex-col items-center mb-4 md:mb-8">
+          <img src={logoNexus} alt="Nexus Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain rounded-2xl mb-2 md:mb-4" />
+          <h1 className="text-2xl md:text-3xl font-bold text-primary tracking-tight">NexusWallet</h1>
           <p className="text-subtle mt-2">Crie sua conta em segundos</p>
         </div>
 

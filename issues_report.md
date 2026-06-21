@@ -453,3 +453,60 @@ O endpoint `/wallet/history` na API não está reconhecendo o token de autentica
 ### Correção Proposta
 1. Verificar o backend (`apps/api/src/modules/wallet/history.routes.ts`) para garantir que o middleware `authenticate` está sendo aplicado corretamente.
 2. Garantir que eventuais erros no endpoint não retornem 401 a menos que o token seja efetivamente inválido.
+
+---
+
+## Issue #12 — `[BUG]` Layout da página de Login e Registro quebra/sobrepõe no mobile com teclado virtual
+
+**Prioridade:** 🔴 Alta / UX  
+**Módulo:** `LoginPage.tsx`, `RegisterPage.tsx`
+
+### Descrição
+No mobile, ao focar nos campos de entrada da tela de login ou registro e abrir o teclado virtual, os elementos da página se amassam e sobrepõem. O logo e o título são cortados no topo, enquanto o botão "Entrar" e o link "Criar conta" ficam cobertos pela barra de ferramentas do teclado e pelo próprio teclado, sem permitir que o usuário deslize a tela para visualizá-los ou interagir com eles.
+
+### Causa Raiz
+O container externo utiliza as classes `min-h-screen flex items-center justify-center p-4` sem permitir um fluxo de rolagem vertical (scrolling) adequado quando o espaço visível diminui devido à abertura do teclado na tela do smartphone. Como o conteúdo é fixo no centro, as partes superior e inferior extrapolam o limite do viewport da tela e ficam inacessíveis.
+
+### Correção Proposta
+1. Alterar o container principal das duas páginas para permitir alinhamento flexível que mude no mobile para o topo e ative o scroll do container:
+```tsx
+<div className="min-h-screen bg-base flex flex-col justify-start md:justify-center items-center py-6 md:py-12 px-4 overflow-y-auto">
+  <div className="w-full max-w-md my-auto md:my-0">
+```
+2. Tornar o cabeçalho (logo, título e descrição) mais compacto em telas pequenas para economizar espaço vertical quando o teclado estiver aberto:
+```tsx
+<div className="flex flex-col items-center mb-4 md:mb-8">
+  <img src={logoNexus} alt="Nexus Logo" className="w-12 h-12 md:w-16 md:h-16 object-contain rounded-2xl mb-2 md:mb-4" />
+  <h1 className="text-2xl md:text-3xl font-bold text-primary tracking-tight">NexusWallet</h1>
+</div>
+```
+
+---
+
+## Issue #13 — `[PERFORMANCE / INP]` Latência de INP (Interaction to Next Paint) elevada (~219ms) no Dashboard
+
+**Prioridade:** 🟡 Média  
+**Módulo:** `DrawerContext.tsx`, `ThemeContext.tsx`, `AuthContext.tsx`, `Layout.tsx`
+
+### Descrição
+O painel de "Interaction Timing" do DevTools acusa uma latência de INP de ~219.3ms, o que está acima dos limites recomendados de performance (< 200ms para uma boa experiência, idealmente < 100ms). O atraso se manifesta principalmente como "input delay" no container principal `div.max-w-5xl`.
+
+### Causa Raiz
+1. **Instanciação inline nos Providers**: Os contextos da aplicação (`DrawerContext.tsx`, `ThemeContext.tsx`, `AuthContext.tsx`) expõem objetos de valor declarados inline (ex: `value={{ theme, toggleTheme }}`). Toda vez que um render é disparado (mesmo por mudanças menores), o React gera uma nova referência de objeto para o `value`. Isso força todos os componentes que usam esses contextos (como o `Layout` inteiro e as páginas internas) a re-renderizarem desnecessariamente.
+2. **Renderização de componentes inativos**: Todos os 4 drawers (`SwapDrawer`, `HistoryDrawer`, `DepositDrawer`, `WithdrawDrawer`) estão sempre montados no DOM (ocultos apenas por classes CSS de transição). Embora a renderização direta seja leve, o React executa a lógica de reconciliação de todos os formulários e hooks internos em toda atualização de contexto, o que acumula processamento no thread principal da página.
+
+### Correção Proposta
+1. **Memoizar valores de contexto**: Utilizar `useMemo` para estabilizar a referência dos objetos de contexto e `useCallback` para as funções repassadas:
+```tsx
+// Exemplo no DrawerContext.tsx
+const openDrawer = useCallback((type: DrawerType) => setActiveDrawer(type), []);
+const closeDrawer = useCallback(() => setActiveDrawer(null), []);
+
+const value = useMemo(() => ({
+  openDrawer,
+  closeDrawer,
+  activeDrawer
+}), [activeDrawer, openDrawer, closeDrawer]);
+```
+2. **Evitar re-renders de drawers fechados**: Condicionar a renderização dos conteúdos pesados dos drawers ao seu estado `isOpen`, mantendo apenas o container externo montado para animação de slide-out, ou garantindo que os formulários desmontem inteiramente quando não visíveis.
+

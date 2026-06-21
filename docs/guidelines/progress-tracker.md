@@ -51,6 +51,7 @@
 - **GH41**: UX Revamp: Drawers Navigation, Faucet, e Fale Conosco - 2026-06-17
 - **GH43**: Separação de CI (GitHub Actions) e CD (Railway/Vercel) - 2026-06-19
 - **GH46**: Otimizar CD com Jobs Paralelos e Gate de Validação - 2026-06-19
+- **GH94**: Testes Unitários Frontend (Contextos, Hooks, Drawers) - 2026-06-20
 
 ---
 

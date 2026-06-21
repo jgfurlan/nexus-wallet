@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { RegisterInputSchema, LoginInputSchema, RefreshInputSchema, AuthResponseSchema } from './auth.schemas';
 import { AuthService } from './auth.service';
+import { authGuard } from '../../middleware/auth_guard';
 import { z } from 'zod';
 
 export const authRoutes = async (app: FastifyInstance) => {
@@ -42,17 +43,21 @@ export const authRoutes = async (app: FastifyInstance) => {
       },
     },
     async (request, reply) => {
-      const tokens = await AuthService.loginUser(app, request.body);
+      const result = await AuthService.loginUser(app, request.body);
       
-      reply.setCookie('nexus_token', tokens.accessToken, {
+      reply.setCookie('nexus_token', result.accessToken, {
         path: '/',
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV !== 'development',
         sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60, // 7 days
       });
       
-      return reply.status(200).send(tokens);
+      return reply.status(200).send({
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+        user: result.user,
+      });
     }
   );
 
@@ -69,17 +74,21 @@ export const authRoutes = async (app: FastifyInstance) => {
       },
     },
     async (request, reply) => {
-      const tokens = await AuthService.refreshSession(app, request.body.refreshToken);
+      const result = await AuthService.refreshSession(app, request.body.refreshToken);
       
-      reply.setCookie('nexus_token', tokens.accessToken, {
+      reply.setCookie('nexus_token', result.accessToken, {
         path: '/',
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV !== 'development',
         sameSite: 'lax',
         maxAge: 7 * 24 * 60 * 60, // 7 days
       });
       
-      return reply.status(200).send(tokens);
+      return reply.status(200).send({
+        accessToken: result.accessToken,
+        refreshToken: result.refreshToken,
+        user: result.user,
+      });
     }
   );
 
@@ -98,10 +107,33 @@ export const authRoutes = async (app: FastifyInstance) => {
       reply.clearCookie('nexus_token', {
         path: '/',
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV !== 'development',
         sameSite: 'lax',
       });
       return reply.status(200).send({ success: true });
+    }
+  );
+
+  typeProviderApp.get(
+    '/auth/me',
+    {
+      preHandler: [authGuard],
+      schema: {
+        description: 'Get current authenticated user from HttpOnly cookie session',
+        tags: ['Authentication'],
+        response: {
+          200: z.object({
+            id: z.string(),
+            email: z.string(),
+          }),
+        },
+      },
+    },
+    async (request, reply) => {
+      return reply.send({
+        id: request.user.sub,
+        email: request.user.email,
+      });
     }
   );
 };

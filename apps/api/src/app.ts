@@ -50,6 +50,7 @@ export const buildApp = () => {
   app.register(cors, {
     origin: [
       'http://localhost:5173',
+      'http://localhost:3001',
       'https://nexus-wallet-ashy.vercel.app',
       /https:\/\/nexus-wallet-.*\.vercel\.app$/,
     ],

@@ -60,6 +60,11 @@ export const buildApp = () => {
     strictPreflight: false,
   });
 
+  // Register Cookie plugin
+  app.register(cookie, {
+    secret: process.env.COOKIE_SECRET || 'nexus_super_secret_cookie_key',
+  });
+
   // Register JWT plugin
   app.register(fastifyJwt, {
     secret: process.env.JWT_SECRET || 'nexus_super_secret_key_1234567890_change_me_in_prod',
@@ -67,11 +72,6 @@ export const buildApp = () => {
       cookieName: 'nexus_token',
       signed: false,
     },
-  });
-
-  // Register Cookie plugin
-  app.register(cookie, {
-    secret: process.env.COOKIE_SECRET || 'nexus_super_secret_cookie_key',
   });
 
   app.register(swagger, {

@@ -1,25 +1,25 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
-/**
- * Theme options supported by the application.
- */
 type Theme = 'light' | 'dark';
 
-/**
- * ThemeContext properties explaining the active theme state and toggle callback.
- */
+/** Contexto de tema (claro/escuro) para toda a aplicação. */
 interface ThemeContextType {
-  /** The current active theme ('light' or 'dark') */
+  /** Tema atual: 'light' | 'dark' */
   theme: Theme;
-  /** Toggles the theme between light and dark modes */
+  /** Alterna entre tema claro e escuro. */
   toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 /**
- * ThemeProvider mounts the theme management context, reading the initial preference
- * from localStorage (defaulting to dark mode) and syncing changes with the DOM attribute.
+ * Provider do tema que persiste a preferência no localStorage
+ * e define o atributo `data-theme` no `<html>`.
+ *
+ * @example
+ * <ThemeProvider>
+ *   <App />
+ * </ThemeProvider>
  */
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
@@ -46,10 +46,10 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 };
 
 /**
- * Hook to access the ThemeContext properties (current theme, toggle function).
- * 
- * @returns The ThemeContext properties.
- * @throws {Error} If used outside of a ThemeProvider wrapper.
+ * Hook para acessar o tema atual e a função de alternância.
+ * Deve ser usado dentro de um <ThemeProvider>.
+ *
+ * @throws {Error} Se usado fora de um ThemeProvider.
  */
 export const useTheme = () => {
   const context = useContext(ThemeContext);

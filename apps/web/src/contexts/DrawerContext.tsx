@@ -4,29 +4,30 @@ import { HistoryDrawer } from '../components/drawers/HistoryDrawer';
 import { DepositDrawer } from '../components/drawers/DepositDrawer';
 import { WithdrawDrawer } from '../components/drawers/WithdrawDrawer';
 
-/**
- * Types of transaction drawers available in the application context.
- */
+/** Tipos de gavetas disponíveis na aplicação. */
 type DrawerType = 'deposit' | 'withdraw' | 'swap' | 'history';
 
-/**
- * DrawerContext holds the global state of the transaction drawers.
- * Provides functions to open and close specific drawer overlays from any component.
- */
+/** Contexto de controle global de gavetas (drawers) da aplicação. */
 interface DrawerContextProps {
-  /** Triggers the visibility of a drawer by its identifier */
+  /** Abre uma gaveta específica. */
   openDrawer: (type: DrawerType) => void;
-  /** Closes any open drawer currently active */
+  /** Fecha a gaveta ativa. */
   closeDrawer: () => void;
-  /** The identifier of the currently open drawer, or null if none are active */
+  /** Tipo da gaveta atualmente aberta, ou null se nenhuma. */
   activeDrawer: DrawerType | null;
 }
 
 const DrawerContext = createContext<DrawerContextProps | undefined>(undefined);
 
 /**
- * DrawerProvider houses the states for active drawers, rendering
- * the Drawer overlays and dispatching custom global transaction events.
+ * Provider que gerencia o estado global de abertura/fechamento
+ * das gavetas (depósito, saque, swap, histórico).
+ * Renderiza condicionalmente cada Drawer com base no `activeDrawer`.
+ *
+ * @example
+ * <DrawerProvider>
+ *   <App />
+ * </DrawerProvider>
  */
 export const DrawerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [activeDrawer, setActiveDrawer] = useState<DrawerType | null>(null);
@@ -50,10 +51,10 @@ export const DrawerProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 };
 
 /**
- * Hook to access the DrawerContext properties (active drawer, open/close methods).
- * 
- * @returns The DrawerContext properties.
- * @throws {Error} If used outside of a DrawerProvider wrapper.
+ * Hook para acessar o controle de gavetas (abrir, fechar, estado ativo).
+ * Deve ser usado dentro de um <DrawerProvider>.
+ *
+ * @throws {Error} Se usado fora de um DrawerProvider.
  */
 export const useDrawer = () => {
   const context = useContext(DrawerContext);

@@ -9,15 +9,13 @@ import { Input } from '../ui/Input';
 import { Label } from '../ui/Label';
 import api from '../../services/api';
 
-/**
- * Properties for the DepositDrawer component.
- */
+/** Propriedades do drawer de depósito via Faucet (sandbox). */
 interface DepositDrawerProps {
-  /** If true, the deposit drawer is displayed */
+  /** Se true, o drawer fica visível. */
   isOpen: boolean;
-  /** Callback function to close the drawer overlay */
+  /** Callback ao fechar o drawer. */
   onClose: () => void;
-  /** Optional callback triggered after a successful deposit operation */
+  /** Callback disparado após um depósito bem-sucedido. */
   onSuccess?: () => void;
 }
 
@@ -29,8 +27,15 @@ const depositSchema = z.object({
 type DepositForm = z.infer<typeof depositSchema>;
 
 /**
- * DepositDrawer provides a sandbox faucet form to request mock deposits
- * of BRL, BTC, or ETH.
+ * Drawer de depósito via Faucet (ambiente sandbox).
+ * Permite selecionar moeda (BRL/BTC/ETH) e valor para simular
+ * um depósito via endpoint `/test/faucet`.
+ *
+ * Estados:
+ * - **Formulário**: token + amount, validação com Zod.
+ * - **Carregamento**: chamada API em andamento.
+ * - **Erro**: mensagem de erro da API.
+ * - **Sucesso**: tela de confirmação com valor recebido.
  */
 export const DepositDrawer: React.FC<DepositDrawerProps> = ({ isOpen, onClose, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(false);

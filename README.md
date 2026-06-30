@@ -22,6 +22,49 @@ O **Nexus Wallet** é uma plataforma sandbox de carteira digital projetada sob o
 
 ---
 
+## 🏛️ Arquitetura do Sistema
+
+O Nexus Wallet é estruturado como um monorepo eficiente utilizando **pnpm workspaces** para isolar as responsabilidades do Frontend e do Backend, suportado por bancos de dados relacionais e cache em memória:
+
+```mermaid
+graph TD
+    subgraph Frontend [Aplicativo Web - apps/web]
+        UI[React / Vite SPA]
+        APIClient[Axios Client com withCredentials]
+    end
+
+    subgraph Backend [API REST - apps/api]
+        Router[Fastify Router & Schemas]
+        AuthGuard[Auth Guard Middleware]
+        Controllers[Controladores]
+        Services[Serviços de Negócio]
+    end
+
+    subgraph Armazenamento [Bancos de Dados & Cache]
+        DB[(PostgreSQL / Prisma)]
+        Cache[(Redis Cache / Rate Limiting)]
+    end
+
+    subgraph Externo [Integrações Externas]
+        CoinGecko[CoinGecko Price API]
+        Webhooks[Blockchain / Partners Webhook]
+    end
+
+    UI -->|Interação do Usuário| APIClient
+    APIClient -->|HTTP Requests com Cookies HttpOnly| Router
+    Router -->|Verifica Sessão| AuthGuard
+    AuthGuard -->|Payload Validado| Controllers
+    Controllers -->|Contexto HTTP| Services
+    Services -->|Operações Relacionais| DB
+    Services -->|Quotes & Rate Limits| Cache
+    Cache -->|Cache Miss / TTL 30s| CoinGecko
+    Webhooks -->|Notificação de Depósito| Router
+```
+
+Para mais detalhes sobre os fluxos internos de autenticação segura e concorrência transacional, consulte as **[Diretrizes de Arquitetura](./docs/guidelines/architecture.md)**.
+
+---
+
 ## 🛠️ Recursos & Funcionalidades
 
 | Módulo | Descrição | Status |

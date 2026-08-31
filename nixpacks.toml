@@ -1,3 +1,0 @@
-[phases.build]
-dependsOn = ["install"]
-cmds = ["pnpm --filter api db:generate", "pnpm --filter api build"]

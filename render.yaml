@@ -1,0 +1,40 @@
+# Render Blueprint — NexusWallet API
+# Docs: https://render.com/docs/blueprint-spec
+#
+# One-time setup:
+#   1. In the Render dashboard: New > Blueprint, connect this repo, apply.
+#   2. When prompted, paste values for the `sync: false` env vars:
+#        - DATABASE_URL : Neon connection string (include ?sslmode=require)
+#        - REDIS_URL    : Upstash connection string (rediss://... — TLS)
+#   3. After the first deploy, open the service > Settings > Deploy Hook,
+#      copy the URL, and store it as the GitHub Actions secret
+#      RENDER_DEPLOY_HOOK_URL (used by .github/workflows/cd.yml).
+#
+# The service name below determines the public URL:
+#   https://nexus-wallet-api.onrender.com
+# apps/web/vercel.json rewrites /api/* to that host. Keep them in sync.
+
+services:
+  - type: web
+    name: nexus-wallet-api
+    runtime: node
+    plan: free
+    region: oregon
+    rootDir: .
+    autoDeploy: false
+    buildCommand: npm i -g pnpm@9.15.9 && pnpm install --frozen-lockfile && pnpm --filter api db:generate && pnpm --filter api build
+    startCommand: pnpm --filter api exec prisma migrate deploy && pnpm --filter api start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: COOKIE_SECRET
+        generateValue: true

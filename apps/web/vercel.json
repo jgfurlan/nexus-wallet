@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://api-production-d866.up.railway.app/:path*"
+      "destination": "https://nexus-wallet-api.onrender.com/:path*"
     },
     {
       "source": "/(.*)",

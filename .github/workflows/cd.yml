@@ -44,56 +44,45 @@ jobs:
             exit 0
           }
 
-  deploy-railway:
-    name: 🚊 Deploy API (Railway)
+  deploy-render:
+    name: 🎨 Deploy API (Render)
     runs-on: ubuntu-latest
     steps:
-      - name: ⬇️ Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: 🏗️ Setup PNPM
-        uses: pnpm/action-setup@v4
-
-      - name: 🟢 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: 'pnpm'
-
-      - name: 📥 Install Dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: 🚊 Deploy API to Railway
+      - name: 🎨 Trigger Render Deploy
         run: |
-          npm i -g @railway/cli
-          railway up --service api --environment production --project bdeba599-6491-4e9a-bfc9-357dff044ccf || {
-            echo "⚠️ Railway deployment failed (likely due to invalid/expired RAILWAY_TOKEN or suspended project)."
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" ]; then
+            echo "⚠️ RENDER_DEPLOY_HOOK_URL secret is not set. Skipping API deploy."
+            echo "Bypassing failure to not block the pipeline checks."
+            exit 0
+          fi
+          curl -fsS -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}" || {
+            echo "⚠️ Render deploy trigger failed (invalid/expired deploy hook or suspended service)."
             echo "Bypassing failure to not block the pipeline checks."
             exit 0
           }
-        env:
-          RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+          echo "✅ Render deploy triggered. Build and release run on Render; the health-check job waits for it."
 
   health-check:
     name: 🩺 Post-Deploy Health Check
-    needs: [deploy-vercel, deploy-railway]
+    needs: [deploy-vercel, deploy-render]
     runs-on: ubuntu-latest
     steps:
       - name: 🩺 Post-Deploy Health Check Gate
         run: |
           echo "Starting post-deploy health check validations..."
-          API_URL="${{ secrets.RAILWAY_HEALTH_URL || 'https://api-production-d866.up.railway.app/health' }}"
+          API_URL="${{ secrets.RENDER_HEALTH_URL || 'https://nexus-wallet-api.onrender.com/health' }}"
           WEB_URL="${{ secrets.VERCEL_HEALTH_URL || 'https://nexus-wallet.vercel.app' }}"
 
+          # Render free tier builds from scratch and cold-starts, so allow ~10 min.
           echo "Checking API status at: $API_URL"
-          for i in {1..15}; do
+          for i in {1..40}; do
             if curl --silent --fail --max-time 5 "$API_URL" > /dev/null; then
               echo "✅ API is Healthy & Active!"
               break
             fi
-            echo "⏳ Waiting for API to respond (attempt $i/15)..."
-            sleep 10
-            if [ $i -eq 15 ]; then
+            echo "⏳ Waiting for API to respond (attempt $i/40)..."
+            sleep 15
+            if [ $i -eq 40 ]; then
               echo "❌ API Health Check Gate Failed. Service is not responding!"
               exit 1
             fi
